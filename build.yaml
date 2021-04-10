@@ -1,0 +1,18 @@
+builders:
+  preflight:
+    import: 'package:di_experimental/src/builder/preflight_builder.dart'
+    builder_factories:
+      - 'runPreflight'
+    build_extensions: { '.dart': [ '.preflight.dart' ] }
+    build_to: source
+    auto_apply: all_packages
+
+  buildContainer:
+    import: 'package:di_experimental/src/builder/container_builder.dart'
+    builder_factories:
+      - 'buildContainer'
+    build_extensions: { '.dart': [ '.container.dart' ] }
+    build_to: source
+    auto_apply: all_packages
+    required_inputs:
+      - '.preflight.dart'
