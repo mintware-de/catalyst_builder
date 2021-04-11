@@ -1,0 +1,8 @@
+targets:
+  $default:
+    auto_apply_builders: true
+    builders:
+      catalyst_builder|buildServiceProvider:
+        options:
+          providerClassName: 'ExampleProvider'
+          outputName: 'src/example.container.dart'

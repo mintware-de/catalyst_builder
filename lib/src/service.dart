@@ -1,6 +1,9 @@
 import 'service_lifetime.dart';
+import 'service_provider.dart';
 
+/// This class represents a service that is registered in the [ServiceProvider].
 class Service {
+
   /// The lifetime of the service
   final ServiceLifetime lifetime;
 
@@ -9,6 +12,10 @@ class Service {
   /// a concrete implementation with the type of a interface.
   final Type? exposeAs;
 
+  /// Creates a new service.
+  /// The [lifetime] describes, if the service should be stored in the service
+  /// provider after it's instantiated ([ServiceLifetime.singleton])
+  /// or if always a fresh instance is created ([ServiceLifetime.transient]).
   const Service({
     this.lifetime = ServiceLifetime.singleton,
     this.exposeAs,

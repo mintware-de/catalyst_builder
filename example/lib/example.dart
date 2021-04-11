@@ -1,12 +1,5 @@
-import 'package:di_experimental/di_experimental.dart';
-import 'package:di_experimental_example/chat_provider.dart';
-import './example.container.dart';
+library catalyst_builder_example;
 
-@ContainerRoot()
-void main(List<String> arguments) {
-  var provider = DefaultServiceProvider();
-  provider.bindings['username'] = 'Julian';
-  var chat = provider.resolve<ChatProvider>();
-  print(chat.runtimeType);
-  chat.sendChatMessage('WTF, this is really cool!');
-}
+export './src/chat_provider.dart';
+export './src/example.container.dart';
+

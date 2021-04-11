@@ -1,13 +1,18 @@
-import './service_provider.dart';
 import 'service.dart';
 
+/// This class is used for describing services in the service provider.
 class ServiceDescriptor<T> {
   final Service _service;
-  final T Function(ServiceProvider) _factory;
 
+  /// The factory to create a new instance of the [_service].
+  final T Function() _factory;
+
+  /// The [Service] that this descriptor describes.
   Service get service => _service;
 
-  T produce(ServiceProvider provider) => _factory(provider);
+  /// Invokes the [_factory] to create a new instance of the service.
+  T produce() => _factory();
 
+  /// Creats a new ServiceDescriptor
   ServiceDescriptor(this._service, this._factory);
 }

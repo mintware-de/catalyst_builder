@@ -1,3 +1,0 @@
-class ContainerRoot {
-  const ContainerRoot();
-}
