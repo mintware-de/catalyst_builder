@@ -1,9 +1,8 @@
-import 'service_lifetime.dart';
-import 'service_provider.dart';
+import '../service_lifetime.dart';
+import '../service_provider.dart';
 
 /// This class represents a service that is registered in the [ServiceProvider].
 class Service {
-
   /// The lifetime of the service
   final ServiceLifetime lifetime;
 
@@ -21,3 +20,4 @@ class Service {
     this.exposeAs,
   });
 }
+

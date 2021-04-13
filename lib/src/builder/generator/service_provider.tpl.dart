@@ -38,16 +38,13 @@ cb.Class buildServiceProviderClass(
         initVar(descriptor$, knownServices$[exposedType$]),
         IfBuilder(descriptor$.equalTo(cb.literalNull))
             .thenReturn(cb.literalNull),
-        initVar(
-          instance$,
-          descriptor$.property('produce').call([]),
-        ),
-        IfBuilder(
-          descriptor$
-              .property('service')
-              .property('lifetime')
-              .equalTo(singletonLifeTime$),
-        ).then(assign(serviceInstances$[exposedType$], instance$)).code,
+        initVar(instance$, descriptor$.property('produce').call([])),
+        IfBuilder(descriptor$
+                .property('service')
+                .property('lifetime')
+                .equalTo(singletonLifeTime$))
+            .then(assign(serviceInstances$[exposedType$], instance$))
+            .code,
         instance$.returned.statement,
       ]);
   });
@@ -64,11 +61,7 @@ cb.Class buildServiceProviderClass(
       ..body = cb.Block.of([
         initVar(resolved$, tryResolve$.call([], {}, [typeT])),
         IfBuilder(resolved$.notEqualTo(cb.literalNull)).thenReturn(resolved$),
-        cb
-            .refer('Exception')
-            .call([cb.literal('Service \$${typeT.symbol} not found.')])
-            .thrown
-            .statement,
+        serviceNotFoundExceptionT.call([typeT]).thrown.statement,
       ])
       ..returns = typeT;
   });
@@ -98,33 +91,32 @@ cb.Class buildServiceProviderClass(
       ..assignment = cb.literalMap({}, typeReference, dynamicReference).code,
   );
 
-  final bindingsTemplate = cb.Field(
+  final parametersTemplate = cb.Field(
     (f) => f
-      ..name = bindings$.symbol
+      ..annotations.add(cb.refer('override'))
+      ..name = parameters$.symbol
       ..modifier = cb.FieldModifier.final$
       ..assignment = cb.literalMap({}, stringReference, dynamicReference).code,
   );
 
-  return cb.Class(
-    (c) => c
-      ..name = config['providerClassName'] as String
-      ..extend = serviceProviderT
-      ..fields.addAll([
-        knownServicesTemplate,
-        exposeMapTemplate,
-        serviceInstancesTemplate,
-        bindingsTemplate,
-      ])
-      ..methods.addAll([
-        tryResolveTemplate,
-        resolveTemplate,
-        _tryResolveOrGetBindingTemplate(),
-        _resolveOrGetBindingTemplate(),
-      ])
-      ..constructors.add(
-        _buildProviderConstructor(services, typeReference),
-      ),
-  );
+  return cb.Class((c) => c
+    ..name = config['providerClassName'] as String
+    ..extend = serviceProviderT
+    ..fields.addAll([
+      knownServicesTemplate,
+      exposeMapTemplate,
+      serviceInstancesTemplate,
+      parametersTemplate,
+    ])
+    ..methods.addAll([
+      tryResolveTemplate,
+      resolveTemplate,
+      _tryResolveOrGetParameterTemplate(),
+      _resolveOrGetParameterTemplate(),
+    ])
+    ..constructors.add(
+      _buildProviderConstructor(services, typeReference),
+    ));
 }
 
 cb.Constructor _buildProviderConstructor(
@@ -161,51 +153,84 @@ cb.Constructor _buildProviderConstructor(
   );
 }
 
-cb.Method _resolveOrGetBindingTemplate() {
+cb.Method _resolveOrGetParameterTemplate() {
   var typeT = cb.TypeReference((b) => b..symbol = 'T');
 
-  var paramB$ = cb.refer('b');
-  var body = bindings$.property('containsKey').call([paramB$]).conditional(
-    tryResolveOrBinding$.call([paramB$], {}, [typeT]),
-    resolve$.call([], {}, [typeT]),
-  );
+  var paramParamName$ = cb.refer('param');
+  var paramBoundParameter = cb.refer('parameter');
+  var paramRequiredBy$ = cb.refer('requiredBy');
+
+  var resolved$ = cb.refer('resolved');
+  var body = cb.Block.of([
+    initVar(
+        resolved$,
+        tryResolveOrGetParameter$.call(
+          [paramBoundParameter.ifNullThen(paramParamName$)],
+          {},
+          [typeT],
+        )),
+    IfBuilder(resolved$.equalTo(cb.literalNull))
+        .then(dependencyNotFoundExceptionT.call([
+          paramRequiredBy$,
+          paramParamName$,
+          serviceNotFoundExceptionT.call([typeT])
+        ]).thrown)
+        .code,
+    resolved$.returned.statement,
+  ]);
 
   return cb.Method(
     (m) => m
-      ..name = resolveOrBinding$.symbol
-      ..lambda = true
+      ..name = resolveOrGetParameter$.symbol
       ..requiredParameters.addAll([
-        cb.Parameter(
-          (p) => p
-            ..name = paramB$.symbol
-            ..type = cb.refer('String'),
-        ),
+        cb.Parameter((p) => p
+          ..name = paramRequiredBy$.symbol
+          ..required = false
+          ..type = cb.refer('Type')),
+        cb.Parameter((p) => p
+          ..name = paramParamName$.symbol
+          ..type = cb.refer('String')),
       ])
-      ..body = body.code
+      ..optionalParameters.addAll([
+        cb.Parameter((p) => p
+          ..name = paramBoundParameter.symbol
+          ..required = false
+          ..type = cb.refer('String?')),
+      ])
+      ..body = body
       ..types.add(typeT)
       ..returns = typeT,
   );
 }
 
-cb.Method _tryResolveOrGetBindingTemplate() {
+cb.Method _tryResolveOrGetParameterTemplate() {
   var typeT = cb.TypeReference((b) => b..symbol = 'T');
+  var nullableTypeT = cb.TypeReference((b) => b
+    ..symbol = typeT.symbol
+    ..isNullable = true);
 
   var paramB$ = cb.refer('b');
-  var body = tryResolve$
-      .call([], {}, [typeT]).ifNullThen(bindings$[paramB$].asA(typeT));
+
+  var resolvedService$ = cb.refer('resolvedService');
+  var body = cb.Block.of([
+    initVar(resolvedService$, tryResolve$.call([], {}, [typeT])),
+    IfBuilder(resolvedService$.notEqualTo(cb.literalNull))
+        .thenReturn(resolvedService$),
+    IfBuilder(parameters$[paramB$].isA(typeT))
+        .thenReturn(parameters$[paramB$].asA(typeT)),
+    cb.literalNull.returned.statement,
+  ]);
 
   return cb.Method(
     (m) => m
-      ..name = tryResolveOrBinding$.symbol
+      ..name = tryResolveOrGetParameter$.symbol
       ..requiredParameters.addAll([
-        cb.Parameter(
-          (p) => p
-            ..name = paramB$.symbol
-            ..type = cb.refer('String'),
-        ),
+        cb.Parameter((p) => p
+          ..name = paramB$.symbol
+          ..type = cb.refer('String'))
       ])
-      ..body = body.code
+      ..body = body
       ..types.add(typeT)
-      ..returns = typeT,
+      ..returns = nullableTypeT,
   );
 }

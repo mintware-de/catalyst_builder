@@ -39,6 +39,78 @@ class IfBuilder {
   }
 }
 
+/// Helper class for building Try-Catch-Blocks
+cb.Expression try$(Function(_TryCatchBuilder) builder) {
+  return _TryCatchBuilder(builder)._build();
+}
+
+class _TryCatchBuilder {
+  /// The body of the Try-Block
+  cb.Code? tryBody;
+
+  /// The Catch Blocks.
+  /// Key = The condition
+  /// Value = The catch block
+  Map<cb.Code, cb.Code> catchBodies = {};
+
+  /// The body of the Finally-Block
+  cb.Code? finallyBody;
+
+  /// Creates a new
+  _TryCatchBuilder(Function(_TryCatchBuilder) builder) {
+    builder(this);
+  }
+
+  /// Build the Try-Catch-Block
+  cb.Expression _build() {
+    return cb.CodeExpression(cb.Block.of([
+      _buildTryBlock(),
+      _buildCatchBlocks(),
+      _buildFinallyBlock(),
+    ]));
+  }
+
+  cb.Block _buildTryBlock() {
+    var statements = <cb.Code>[];
+    if (tryBody != null) {
+      statements = [
+        cb.Code('try {'),
+        tryBody!,
+        cb.Code('}'),
+      ];
+    }
+    return cb.Block.of(statements);
+  }
+
+  cb.Block _buildCatchBlocks() {
+    var statements = <cb.Code>[];
+
+    for (var kvp in catchBodies.entries) {
+      statements.addAll([
+        cb.Code('catch ('),
+        kvp.key,
+        cb.Code(') {'),
+        kvp.value,
+        cb.Code('}'),
+      ]);
+    }
+
+    return cb.Block.of(statements);
+  }
+
+  cb.Block _buildFinallyBlock() {
+    var statements = <cb.Code>[];
+    if (finallyBody != null) {
+      statements = [
+        cb.Code('finally {'),
+        finallyBody!,
+        cb.Code('}'),
+      ];
+    }
+    return cb.Block.of(statements);
+  }
+}
+
 /// Helper Extensions
 extension ReferenceExtension on cb.Reference {
   /// short hand operator for the index method.

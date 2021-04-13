@@ -1,14 +1,13 @@
 import 'package:code_builder/code_builder.dart' as cb;
 
+import '../../../catalyst_builder.dart';
 import '../dto/dto.dart';
 import 'symbols.dart';
 
 /// Builds the service factory expression.
 /// () => MyService()
-cb.Expression buildServiceFactory(
-    cb.Reference? exposeAsReference,
-    cb.Reference serviceType,
-    ExtractedService svc) {
+cb.Expression buildServiceFactory(cb.Reference? exposeAsReference,
+    cb.Reference serviceType, ExtractedService svc) {
   var factory = cb.MethodBuilder();
 
   factory.returns = cb.refer('void');
@@ -19,9 +18,10 @@ cb.Expression buildServiceFactory(
 
   for (var param in svc.constructorArgs) {
     var defaultValue = '';
+    var parameterName = param.boundParameter ?? param.name;
 
     var resolveWithFallbacks =
-        tryResolveOrBinding$.call([cb.literal(param.name)]);
+        tryResolveOrGetParameter$.call([cb.literal(parameterName)]);
 
     if (param.defaultValue.isNotEmpty) {
       resolveWithFallbacks = resolveWithFallbacks
@@ -30,7 +30,11 @@ cb.Expression buildServiceFactory(
 
     var val = resolveWithFallbacks;
     if (!param.isOptional && defaultValue.isEmpty) {
-      val = resolveOrBinding$.call([cb.literal(param.name)]);
+      val = resolveOrGetParameter$.call([
+        serviceType,
+        cb.literal(param.name),
+        if (parameterName != param.name) cb.literal(parameterName),
+      ]);
     }
     if (param.isNamed) {
       namedArgs[param.name] = val;
@@ -43,7 +47,8 @@ cb.Expression buildServiceFactory(
 
   return serviceDescriptorT.call([
     cb.refer('Service', rootPackage).call([], {
-      'lifetime': cb.refer(svc.lifetime, rootPackage),
+      if (svc.lifetime != ServiceLifetime.singleton.toString())
+        'lifetime': cb.refer(svc.lifetime, rootPackage),
       if (exposeAsReference != null) 'exposeAs': exposeAsReference
     }),
     constructor,

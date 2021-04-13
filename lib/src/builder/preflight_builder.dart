@@ -15,11 +15,14 @@ class PreflightBuilder implements Builder {
     if (!await buildStep.resolver.isLibrary(buildStep.inputId)) return;
 
     final entryLib = await buildStep.inputLibrary;
-    var dataToStore = _extractAnnotations(entryLib);
 
     final preflightAsset = buildStep.inputId.changeExtension('.preflight.json');
+    var extractedAnnotations = await _extractAnnotations(entryLib);
 
-    await buildStep.writeAsString(preflightAsset, jsonEncode(dataToStore));
+    await buildStep.writeAsString(
+      preflightAsset,
+      jsonEncode(extractedAnnotations),
+    );
   }
 
   @override
@@ -27,7 +30,7 @@ class PreflightBuilder implements Builder {
         '.dart': ['.preflight.json'],
       };
 
-  PreflightPart _extractAnnotations(LibraryElement entryLib) {
+  Future<PreflightPart> _extractAnnotations(LibraryElement entryLib) async {
     var services = <ExtractedService>[];
     for (var el in entryLib.topLevelElements) {
       for (var annotation in el.metadata) {
@@ -58,7 +61,7 @@ class PreflightBuilder implements Builder {
               symbolName: el.name,
               library: el.librarySource.uri.toString(),
             ),
-            constructorArgs: _extractConstructorArgs(el),
+            constructorArgs: await _extractConstructorArgs(el),
             exposeAs: exposeAs,
           ));
         }
@@ -69,8 +72,9 @@ class PreflightBuilder implements Builder {
     );
   }
 
-  List<ConstructorArg> _extractConstructorArgs(ClassElement el) {
+  Future<List<ConstructorArg>> _extractConstructorArgs(ClassElement el) async {
     var args = <ConstructorArg>[];
+
     for (var ctor in el.constructors) {
       if (ctor.isFactory || ctor.name != '') {
         continue;
@@ -78,17 +82,35 @@ class PreflightBuilder implements Builder {
       args.clear();
 
       for (var param in ctor.parameters) {
-        args.add(ConstructorArg(
-          name: param.name,
-          isOptional: param.isOptional,
-          isPositional: param.isPositional,
-          isNamed: param.isNamed,
-          defaultValue: param.defaultValueCode ?? '',
-        ));
+        args.add(await _buildConstructorArg(param));
       }
       break;
     }
     return args;
+  }
+
+  Future<ConstructorArg> _buildConstructorArg(ParameterElement param) async {
+    String? binding;
+    for (var annotation in param.metadata) {
+      if (annotation.element?.enclosingElement?.name == 'Parameter') {
+        binding = annotation
+            .computeConstantValue()
+            ?.getField('name')
+            ?.toStringValue();
+        if (binding?.isNotEmpty == true) {
+          break;
+        }
+      }
+    }
+
+    return ConstructorArg(
+      boundParameter: binding,
+      name: param.name,
+      isOptional: param.isOptional,
+      isPositional: param.isPositional,
+      isNamed: param.isNamed,
+      defaultValue: param.defaultValueCode ?? '',
+    );
   }
 }
 

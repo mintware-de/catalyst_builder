@@ -10,3 +10,4 @@ build/
 # https://dart.dev/guides/libraries/private-files#pubspeclock.
 pubspec.lock
 **/**.preflight.json
+**/**.DS_Store

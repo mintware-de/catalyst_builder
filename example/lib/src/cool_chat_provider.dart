@@ -12,7 +12,7 @@ class CoolChatProvider implements ChatProvider {
 
   CoolChatProvider({
     required this.transport,
-    this.username = 'Julian',
+    @Parameter('sender_username') required this.username,
   });
 
   @override

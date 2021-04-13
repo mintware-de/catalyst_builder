@@ -15,6 +15,9 @@ class ConstructorArg {
   /// True if the parameter is a named parameter.
   final bool isNamed;
 
+  /// Overwrite the default parameter name
+  final String? boundParameter;
+
   /// Create a CosntructorArg.
   const ConstructorArg({
     required this.name,
@@ -22,6 +25,7 @@ class ConstructorArg {
     required this.isOptional,
     required this.isPositional,
     required this.isNamed,
+    required this.boundParameter,
   });
 
   /// Creates a new instance from the result of [toJson].
@@ -32,6 +36,7 @@ class ConstructorArg {
       isOptional: json['isOptional'],
       isPositional: json['isPositional'],
       isNamed: json['isNamed'],
+      boundParameter: json['bound_parameter'],
     );
   }
 
@@ -43,6 +48,7 @@ class ConstructorArg {
       'isNamed': isNamed,
       'isPositional': isPositional,
       'defaultValue': defaultValue,
+      'bound_parameter': boundParameter,
     };
   }
 }

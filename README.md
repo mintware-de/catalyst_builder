@@ -71,7 +71,6 @@ class TransientService {}
 | Singleton | The instance is stored in the provider. You'll always receive the same instance. | 
 | Transient | Everytime you call `resolve` or `tryResolve` you'll receive a fresh instance. |
 
-
 ### Exposing
 You can expose the service with another type in the service provider. 
 This is useful if you want to depend on an interface instead of an implementation.
@@ -114,6 +113,46 @@ void main() {
 }
 ```
 
+## Inject parameters by name
+The service provider will try to lookup values for non-existent services in the parameters map.
+By default, the lookup is done based on the name of the parameter. For example:
+```dart
+@Service()
+class MyService {
+  String username;
+  MyService(this.username);
+}
+
+void main() {
+  ServiceProvider provider;
+  provider['username'] = 'Test';
+  
+  var myService = provider.resolve<MyService>();
+  
+  print(myService.username); // Test 
+}
+```
+
+In many cases you've generic terms like 'key' or 'name'. If you've many services with the same name, 
+you'll get in trouble.
+
+You can use the `@Parameter('param name')` annotation to solve this problem:
+```dart
+@Service()
+class MyService {
+  String username;
+  MyService(@Parameter('senderUserName') this.username);
+}
+
+void main() {
+  ServiceProvider provider;
+  provider['senderUserName'] = 'Test 2';
+  
+  var myService = provider.resolve<MyService>();
+  
+  print(myService.username); // Test 2 
+}
+```
 ## Configuration
 To customize the builder, create a `build.yaml` beside your `pubsepc.yaml` with this content:
 ```yaml

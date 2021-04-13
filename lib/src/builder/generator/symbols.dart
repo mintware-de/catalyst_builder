@@ -11,6 +11,14 @@ final serviceDescriptorT = cb.refer('ServiceDescriptor', rootPackage);
 /// [ServiceProvider]
 final serviceProviderT = cb.refer('ServiceProvider', rootPackage);
 
+/// [ServiceNotFoundException]
+final serviceNotFoundExceptionT =
+    cb.refer('ServiceNotFoundException', rootPackage);
+
+/// [DependencyNotFoundException]
+final dependencyNotFoundExceptionT =
+    cb.refer('DependencyNotFoundException', rootPackage);
+
 /// [ServiceProvider.tryResolve]
 final tryResolve$ = cb.refer('tryResolve');
 
@@ -26,11 +34,11 @@ final exposeMap$ = cb.refer('_exposeMap');
 /// _serviceInstances field in the service provider
 final serviceInstances$ = cb.refer('_serviceInstances');
 
-/// bindings field in the service provider
-final bindings$ = cb.refer('bindings');
+/// parameters field in the service provider
+final parameters$ = cb.refer('parameters');
 
-/// _tryResolveOrBinding method
-final tryResolveOrBinding$ = cb.refer('_tryResolveOrBinding');
+/// _tryResolveOrGetParameter method
+final tryResolveOrGetParameter$ = cb.refer('_tryResolveOrGetParameter');
 
-/// _resolveOrBinding method
-final resolveOrBinding$ = cb.refer('_resolveOrBinding');
+/// _resolveOrGetParameter method
+final resolveOrGetParameter$ = cb.refer('_resolveOrGetParameter');

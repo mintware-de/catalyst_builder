@@ -1,4 +1,4 @@
-import 'service.dart';
+import 'annotation/annotation.dart';
 
 /// This class is used for describing services in the service provider.
 class ServiceDescriptor<T> {
