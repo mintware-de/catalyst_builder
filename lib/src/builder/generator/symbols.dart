@@ -5,6 +5,9 @@ import '../../../catalyst_builder.dart';
 /// The catalyst_builder root package.
 final rootPackage = 'package:catalyst_builder/catalyst_builder.dart';
 
+/// [Service]
+final serviceT = cb.refer('Service', rootPackage);
+
 /// [ServiceDescriptor]
 final serviceDescriptorT = cb.refer('ServiceDescriptor', rootPackage);
 

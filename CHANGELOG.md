@@ -1,3 +1,7 @@
+## 0.0.3
+
+- Packages updated to ensure null-safety
+
 ## 0.0.2
 
 - Added better exceptions

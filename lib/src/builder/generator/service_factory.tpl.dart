@@ -6,11 +6,14 @@ import 'symbols.dart';
 
 /// Builds the service factory expression.
 /// () => MyService()
-cb.Expression buildServiceFactory(cb.Reference? exposeAsReference,
-    cb.Reference serviceType, ExtractedService svc) {
+cb.Expression buildServiceFactory(
+  cb.Reference? exposeAsReference,
+  cb.Reference serviceType,
+  ExtractedService svc,
+) {
   var factory = cb.MethodBuilder();
 
-  factory.returns = cb.refer('void');
+  factory.returns = serviceType;
   factory.lambda = true;
 
   var positionalArgs = <cb.Expression>[];
@@ -46,7 +49,7 @@ cb.Expression buildServiceFactory(cb.Reference? exposeAsReference,
   var constructor = factory.build().closure;
 
   return serviceDescriptorT.call([
-    cb.refer('Service', rootPackage).call([], {
+    serviceT.call([], {
       if (svc.lifetime != ServiceLifetime.singleton.toString())
         'lifetime': cb.refer(svc.lifetime, rootPackage),
       if (exposeAsReference != null) 'exposeAs': exposeAsReference

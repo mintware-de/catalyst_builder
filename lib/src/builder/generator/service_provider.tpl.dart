@@ -184,16 +184,16 @@ cb.Method _resolveOrGetParameterTemplate() {
       ..name = resolveOrGetParameter$.symbol
       ..requiredParameters.addAll([
         cb.Parameter((p) => p
-          ..name = paramRequiredBy$.symbol
+          ..name = paramRequiredBy$.symbol!
           ..required = false
           ..type = cb.refer('Type')),
         cb.Parameter((p) => p
-          ..name = paramParamName$.symbol
+          ..name = paramParamName$.symbol!
           ..type = cb.refer('String')),
       ])
       ..optionalParameters.addAll([
         cb.Parameter((p) => p
-          ..name = paramBoundParameter.symbol
+          ..name = paramBoundParameter.symbol!
           ..required = false
           ..type = cb.refer('String?')),
       ])
@@ -226,7 +226,7 @@ cb.Method _tryResolveOrGetParameterTemplate() {
       ..name = tryResolveOrGetParameter$.symbol
       ..requiredParameters.addAll([
         cb.Parameter((p) => p
-          ..name = paramB$.symbol
+          ..name = paramB$.symbol!
           ..type = cb.refer('String'))
       ])
       ..body = body
