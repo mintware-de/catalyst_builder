@@ -1,3 +1,7 @@
+## 0.0.4
+
+- Formatting fixed
+
 ## 0.0.3
 
 - Packages updated to ensure null-safety
