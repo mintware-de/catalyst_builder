@@ -1,6 +1,7 @@
 ## 0.0.5
 
-- Formatting fixed
+- `ServiceProvider.boot()` added
+- `@Preload` annotation added
 
 ## 0.0.4
 
