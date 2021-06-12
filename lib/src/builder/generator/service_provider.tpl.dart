@@ -30,6 +30,7 @@ cb.Class buildServiceProviderClass(
       ..types.add(typeT)
       ..returns = nullableTypeT
       ..body = cb.Block.of([
+        ensureBoot$.call([]).statement,
         initVar(exposedType$, exposeMap$[typeT]),
         fallbackIfNull(exposedType$, typeT).statement,
         IfBuilder(
@@ -59,6 +60,7 @@ cb.Class buildServiceProviderClass(
       ..name = resolve$.symbol
       ..types.add(typeT)
       ..body = cb.Block.of([
+        ensureBoot$.call([]).statement,
         initVar(resolved$, tryResolve$.call([], {}, [typeT])),
         IfBuilder(resolved$.notEqualTo(cb.literalNull)).thenReturn(resolved$),
         serviceNotFoundExceptionT.call([typeT]).thrown.statement,
@@ -99,10 +101,18 @@ cb.Class buildServiceProviderClass(
       ..assignment = cb.literalMap({}, stringReference, dynamicReference).code,
   );
 
+  final bootedTemplate = cb.Field(
+    (f) => f
+      ..name = booted$.symbol
+      ..modifier = cb.FieldModifier.var$
+      ..assignment = cb.literalFalse.code,
+  );
+
   return cb.Class((c) => c
     ..name = config['providerClassName'] as String
     ..extend = serviceProviderT
     ..fields.addAll([
+      bootedTemplate,
       knownServicesTemplate,
       exposeMapTemplate,
       serviceInstancesTemplate,
@@ -113,6 +123,8 @@ cb.Class buildServiceProviderClass(
       resolveTemplate,
       _tryResolveOrGetParameterTemplate(),
       _resolveOrGetParameterTemplate(),
+      _bootTemplate(services),
+      _ensureBootedTemplate(),
     ])
     ..constructors.add(
       _buildProviderConstructor(services, typeReference),
@@ -120,7 +132,9 @@ cb.Class buildServiceProviderClass(
 }
 
 cb.Constructor _buildProviderConstructor(
-    List<ExtractedService> services, cb.Reference typeReference) {
+  List<ExtractedService> services,
+  cb.Reference typeReference,
+) {
   var serviceFactories = {};
   var exposeAsData = {};
 
@@ -148,7 +162,7 @@ cb.Constructor _buildProviderConstructor(
       ]).statement,
       exposeMap$.property('addAll').call([
         cb.literalMap(exposeAsData, typeReference, typeReference),
-      ]).statement
+      ]).statement,
     ]),
   );
 }
@@ -232,5 +246,54 @@ cb.Method _tryResolveOrGetParameterTemplate() {
       ..body = body
       ..types.add(typeT)
       ..returns = nullableTypeT,
+  );
+}
+
+cb.Method _bootTemplate(
+  List<ExtractedService> services,
+) {
+  var preloadServices = <cb.Code>[];
+
+  for (var svc in services) {
+    var serviceType = cb.refer(svc.service.symbolName, svc.service.library);
+
+    var exposeAs = svc.exposeAs;
+    cb.Reference? exposeAsReference;
+
+    if (exposeAs != null) {
+      exposeAsReference = cb.refer(exposeAs.symbolName, exposeAs.library);
+    }
+    if (svc.preload) {
+      preloadServices.add(
+        resolve$.call([], {}, [exposeAsReference ?? serviceType]).statement,
+      );
+    }
+  }
+
+  return cb.Method(
+    (m) => m
+      ..name = boot$.symbol
+      ..returns = voidT
+      ..annotations.add(cb.refer('override'))
+      ..body = cb.Block.of([
+        IfBuilder(booted$)
+            .then(providerAlreadyBootedExceptionT.call([]).thrown)
+            .code,
+        assign(booted$, cb.literalTrue).statement,
+        ...preloadServices
+      ]),
+  );
+}
+
+cb.Method _ensureBootedTemplate() {
+  return cb.Method(
+    (m) => m
+      ..name = ensureBoot$.symbol
+      ..returns = voidT
+      ..body = cb.Block.of([
+        IfBuilder(booted$.equalTo(cb.literalFalse))
+            .then(providerNotBootedExceptionT.call([]).thrown)
+            .code,
+      ]),
   );
 }

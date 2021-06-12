@@ -45,3 +45,23 @@ final tryResolveOrGetParameter$ = cb.refer('_tryResolveOrGetParameter');
 
 /// _resolveOrGetParameter method
 final resolveOrGetParameter$ = cb.refer('_resolveOrGetParameter');
+
+/// [ProviderNotBootedException]
+final providerNotBootedExceptionT =
+    cb.refer('ProviderNotBootedException', rootPackage);
+
+/// [ProviderAlreadyBootedException]
+final providerAlreadyBootedExceptionT =
+    cb.refer('ProviderAlreadyBootedException', rootPackage);
+
+/// _booted field in the service provider
+final booted$ = cb.refer('_booted');
+
+/// [ServiceProvider.boot] method
+final boot$ = cb.refer('boot');
+
+/// ensureBoot method
+final ensureBoot$ = cb.refer('_ensureBoot');
+
+/// void type
+final voidT = cb.refer('void');

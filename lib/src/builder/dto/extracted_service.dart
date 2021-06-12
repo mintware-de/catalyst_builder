@@ -15,12 +15,16 @@ class ExtractedService {
   /// The arguments of the default constructor.
   final List<ConstructorArg> constructorArgs;
 
+  /// True if the service should be preloaded
+  final bool preload;
+
   /// Create a new instance.
   const ExtractedService({
     required this.lifetime,
     required this.service,
     required this.exposeAs,
     required this.constructorArgs,
+    required this.preload,
   });
 
   /// Creates a new instance from the result of [toJson].
@@ -28,12 +32,13 @@ class ExtractedService {
     return ExtractedService(
       lifetime: json['lifetime'],
       service: SymbolReference.fromJson(json['service']),
-      constructorArgs: (json['constructorArgs'] as List)
-          .map((m) => ConstructorArg.fromJson(m))
-          .toList(),
       exposeAs: json['exposeAs'] != null
           ? SymbolReference.fromJson(json['exposeAs'])
           : null,
+      constructorArgs: (json['constructorArgs'] as List)
+          .map((m) => ConstructorArg.fromJson(m))
+          .toList(),
+      preload: json['preload'],
     );
   }
 
@@ -44,6 +49,7 @@ class ExtractedService {
       'service': service.toJson(),
       'constructorArgs': constructorArgs.map((e) => e.toJson()).toList(),
       'exposeAs': exposeAs?.toJson(),
+      'preload': preload,
     };
   }
 }

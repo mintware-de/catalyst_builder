@@ -33,9 +33,10 @@ class PreflightBuilder implements Builder {
   Future<PreflightPart> _extractAnnotations(LibraryElement entryLib) async {
     var services = <ExtractedService>[];
     for (var el in entryLib.topLevelElements) {
+      var isPreloaded =
+          el.metadata.any((a) => _isLibraryAnnotation(a, 'Preload'));
       for (var annotation in el.metadata) {
-        var annotationName = annotation.element?.enclosingElement?.name;
-        if (annotationName == 'Service' && el is ClassElement) {
+        if (_isLibraryAnnotation(annotation, 'Service') && el is ClassElement) {
           var serviceAnnotation = annotation.computeConstantValue();
 
           var lifetimeIndex = serviceAnnotation
@@ -55,14 +56,16 @@ class PreflightBuilder implements Builder {
             );
           }
 
+          var lifetime = ServiceLifetime.values[lifetimeIndex];
           services.add(ExtractedService(
-            lifetime: ServiceLifetime.values[lifetimeIndex].toString(),
+            lifetime: lifetime.toString(),
             service: SymbolReference(
               symbolName: el.name,
               library: el.librarySource.uri.toString(),
             ),
             constructorArgs: await _extractConstructorArgs(el),
             exposeAs: exposeAs,
+            preload: isPreloaded && lifetime == ServiceLifetime.singleton,
           ));
         }
       }
@@ -92,7 +95,7 @@ class PreflightBuilder implements Builder {
   Future<ConstructorArg> _buildConstructorArg(ParameterElement param) async {
     String? binding;
     for (var annotation in param.metadata) {
-      if (annotation.element?.enclosingElement?.name == 'Parameter') {
+      if (_isLibraryAnnotation(annotation, 'Parameter')) {
         binding = annotation
             .computeConstantValue()
             ?.getField('name')
@@ -111,6 +114,15 @@ class PreflightBuilder implements Builder {
       isNamed: param.isNamed,
       defaultValue: param.defaultValueCode ?? '',
     );
+  }
+
+  bool _isLibraryAnnotation(ElementAnnotation annotation, String name) {
+    return annotation.element != null &&
+        (annotation.element!.library?.source.uri
+                .toString()
+                .startsWith('package:catalyst_builder/src/annotation/') ??
+            false) &&
+        annotation.element?.enclosingElement?.name == name;
   }
 }
 

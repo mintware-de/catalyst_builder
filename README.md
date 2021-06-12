@@ -33,7 +33,7 @@ class MyService {}
 Then run `pub run build_runner build` or `flutter pub run build_runner build`. <br>
 You can also run `pub run build_runner watch` or `flutter pub run build_runner watch` to update the provider automatically as you perform changes.
 
-After the build is completed, you should see a new file `service_provider.dart`. Import it to use the service provider.
+You should see a new file `service_provider.dart` after the build. Import it to use the service provider.
 
 ```dart
 import 'default_service_provider.dart';
@@ -41,6 +41,7 @@ import 'default_service_provider.dart';
 void main()
 {
   var provider = DefaultServiceProvider();
+  provider.boot();
   
   var myService1 = provider.resolve<MyService>();
   
@@ -113,6 +114,29 @@ void main() {
 }
 ```
 
+### Preloading services
+By default, a service will be instantiated when it's requested.
+In some cases you need to create an instance after booting the service provider.
+For example a database connection or a background service that checks the connectivity.
+
+To preload services you can use the `@Preload` annotation. This annotation is only available for singleton services.
+Example:
+```dart
+@Service()
+@Preload()
+class MyService {
+  MyService(){
+    print('Service was created');
+  }
+}
+
+void main() {
+  ServiceProvider provider;
+  provider.boot(); // prints "Service was created" 
+  provider.resolve<MyService>(); // Nothing printed
+}
+```
+
 ## Inject parameters by name
 The service provider will try to lookup values for non-existent services in the parameters map.
 By default, the lookup is done based on the name of the parameter. For example:
@@ -126,6 +150,7 @@ class MyService {
 void main() {
   ServiceProvider provider;
   provider['username'] = 'Test';
+  provider.boot();
   
   var myService = provider.resolve<MyService>();
   
@@ -147,12 +172,14 @@ class MyService {
 void main() {
   ServiceProvider provider;
   provider['senderUserName'] = 'Test 2';
+  provider.boot();
   
   var myService = provider.resolve<MyService>();
   
   print(myService.username); // Test 2 
 }
 ```
+
 ## Configuration
 To customize the builder, create a `build.yaml` beside your `pubsepc.yaml` with this content:
 ```yaml
