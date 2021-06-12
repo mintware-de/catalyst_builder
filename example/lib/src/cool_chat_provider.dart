@@ -1,5 +1,5 @@
 import 'package:catalyst_builder/catalyst_builder.dart';
-import 'package:catalyst_builder_example/src/transport.dart';
+import './transport.dart';
 
 import 'chat_provider.dart';
 

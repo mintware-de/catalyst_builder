@@ -18,7 +18,7 @@ class ConstructorArg {
   /// Overwrite the default parameter name
   final String? boundParameter;
 
-  /// Create a CosntructorArg.
+  /// Create a ConstructorArg.
   const ConstructorArg({
     required this.name,
     required this.defaultValue,
@@ -36,7 +36,7 @@ class ConstructorArg {
       isOptional: json['isOptional'],
       isPositional: json['isPositional'],
       isNamed: json['isNamed'],
-      boundParameter: json['bound_parameter'],
+      boundParameter: json['boundParameter'],
     );
   }
 
@@ -48,7 +48,7 @@ class ConstructorArg {
       'isNamed': isNamed,
       'isPositional': isPositional,
       'defaultValue': defaultValue,
-      'bound_parameter': boundParameter,
+      'boundParameter': boundParameter,
     };
   }
 }

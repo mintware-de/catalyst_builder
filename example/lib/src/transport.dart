@@ -12,3 +12,4 @@ class ConsoleTransport implements Transport {
     print(data);
   }
 }
+
