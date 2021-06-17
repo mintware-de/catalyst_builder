@@ -1,3 +1,7 @@
+## 0.0.6
+
+- Added unit and integration tests
+
 ## 0.0.5
 
 - `ServiceProvider.boot()` added

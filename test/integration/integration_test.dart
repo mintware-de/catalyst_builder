@@ -6,27 +6,79 @@ import '../../example/lib/example.dart';
 
 void main() {
   late ServiceProvider serviceProvider;
-  setUp(() {
-    serviceProvider = ExampleProvider();
-    serviceProvider.parameters['sender_username'] = 'Julian';
 
+  resetServiceProvider() {
+    serviceProvider = ExampleProvider();
+    serviceProvider.parameters['sender_username'] = 'XYZ';
+  }
+
+  setUp(() {
+    resetServiceProvider();
+    serviceProvider.boot();
   });
 
   test('try/Resolve should throw when the provider is not booted', () {
+    resetServiceProvider();
     expect(
       () => serviceProvider.resolve<ChatProvider>(),
       throwsA(TypeMatcher<ProviderNotBootedException>()),
-    );    expect(
+    );
+    expect(
       () => serviceProvider.tryResolve<ChatProvider>(),
       throwsA(TypeMatcher<ProviderNotBootedException>()),
     );
   });
 
   test('double boot should throw an exception', () {
-    serviceProvider.boot();
     expect(
       () => serviceProvider.boot(),
       throwsA(TypeMatcher<ProviderAlreadyBootedException>()),
     );
+  });
+
+  test('tryResolve should not throw if a service was not found', () {
+    var result = serviceProvider.tryResolve<String>();
+    expect(result, isNull);
+  });
+
+  test('resolve should throw if a service was not found', () {
+    expect(
+      () => serviceProvider.resolve<String>(),
+      throwsA(TypeMatcher<ServiceNotFoundException>()),
+    );
+  });
+
+  test('try/Resolve should inject parameters for non existing services', () {
+    expect(serviceProvider.resolve<ChatProvider>().username, 'XYZ');
+    expect(serviceProvider.tryResolve<ChatProvider>()?.username, 'XYZ');
+  });
+
+  test('Services can be exposed as a specific type', () {
+    var provider = serviceProvider.resolve<ChatProvider>();
+    expect(provider, TypeMatcher<CoolChatProvider>());
+  });
+
+  test('PreLoaded services should be loaded on boot', () {
+    expect(PreloadService.shouldPreload, isFalse);
+    expect(PreloadService.wasPreloaded, isFalse);
+    resetServiceProvider();
+    PreloadService.shouldPreload = true;
+    expect(PreloadService.wasPreloaded, isFalse);
+    serviceProvider.boot();
+    expect(PreloadService.wasPreloaded, isTrue);
+  });
+
+  test('Singleton Service Lifetime', () {
+    var instance1 = serviceProvider.resolve<MySingletonService>();
+    var instance2 = serviceProvider.resolve<MySingletonService>();
+
+    expect(instance1, same(instance2));
+  });
+
+  test('Transient Service Lifetime', () {
+    var instance1 = serviceProvider.resolve<MyTransientService>();
+    var instance2 = serviceProvider.resolve<MyTransientService>();
+
+    expect(instance1, isNot(same(instance2)));
   });
 }
