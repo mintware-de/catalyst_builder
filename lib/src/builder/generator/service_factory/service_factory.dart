@@ -1,8 +1,8 @@
 import 'package:code_builder/code_builder.dart' as cb;
 
-import '../../../catalyst_builder.dart';
-import '../dto/dto.dart';
-import 'symbols.dart';
+import '../../../../catalyst_builder.dart';
+import '../../dto/dto.dart';
+import '../symbols.dart';
 
 /// Builds the service factory expression.
 /// () => MyService()

@@ -8,7 +8,7 @@ import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 
 import 'dto/dto.dart';
-import 'generator/service_provider.tpl.dart';
+import 'generator/service_provider/service_provider.dart';
 
 /// The ServiceProviderBuilder creates a service provider from the resulting
 /// .preflight.json files.

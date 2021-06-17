@@ -65,3 +65,12 @@ final ensureBoot$ = cb.refer('_ensureBoot');
 
 /// void type
 final voidT = cb.refer('void');
+
+/// Type type
+final typeT = cb.refer('Type');
+
+/// String type
+final stringT = cb.refer('String');
+
+/// dynamic type
+final dynamicT = cb.refer('dynamic');

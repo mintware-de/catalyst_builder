@@ -1,3 +1,9 @@
+## 1.0.0
+
+**First stable release** 🎉
+
+- Code generator organized
+
 ## 0.0.6
 
 - Added unit and integration tests
