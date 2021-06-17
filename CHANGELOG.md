@@ -1,6 +1,7 @@
 ## 0.0.6
 
 - Added unit and integration tests
+- Formatting fixed
 
 ## 0.0.5
 
