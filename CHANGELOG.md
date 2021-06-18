@@ -1,3 +1,7 @@
+## 1.0.1
+
+Publisher fixed
+
 ## 1.0.0
 
 **First stable release** 🎉
