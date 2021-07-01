@@ -12,7 +12,9 @@ import 'dto/dto.dart';
 class PreflightBuilder implements Builder {
   @override
   FutureOr<void> build(BuildStep buildStep) async {
-    if (!await buildStep.resolver.isLibrary(buildStep.inputId)) return;
+    if (!await buildStep.resolver.isLibrary(buildStep.inputId)) {
+      return;
+    }
 
     final entryLib = await buildStep.inputLibrary;
 
@@ -27,6 +29,7 @@ class PreflightBuilder implements Builder {
 
   @override
   Map<String, List<String>> get buildExtensions => const {
+        r'$lib$': [],
         '.dart': ['.preflight.json'],
       };
 

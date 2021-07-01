@@ -3,6 +3,8 @@ import 'package:test/test.dart';
 
 // ignore: avoid_relative_lib_imports
 import '../../example/lib/example.dart';
+// ignore: avoid_relative_lib_imports
+import '../third_party_dependency/lib/third_party_dependency.dart';
 
 void main() {
   late ServiceProvider serviceProvider;
@@ -80,5 +82,11 @@ void main() {
     var instance2 = serviceProvider.resolve<MyTransientService>();
 
     expect(instance1, isNot(same(instance2)));
+  });
+
+  test('Third party services', () {
+    var svc = serviceProvider.resolve<ThirdPartyService>();
+
+    expect(svc, TypeMatcher<ThirdPartyService>());
   });
 }

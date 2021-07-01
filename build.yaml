@@ -20,3 +20,4 @@ builders:
       options:
         providerClassName: 'DefaultServiceProvider'
         outputName: 'default_service_provider.dart'
+        includePackageDependencies: false

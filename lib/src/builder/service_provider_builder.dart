@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:build/build.dart';
+import 'package:build_runner_core/build_runner_core.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:glob/glob.dart';
@@ -28,12 +29,18 @@ class ServiceProviderBuilder implements Builder {
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
-    var preflightFiles = Glob('**/*.preflight.json');
+    var preflightFiles = Glob('**/*.preflight.json', recursive: true);
     final parts = <PreflightPart>[];
     final services = <ExtractedService>[];
-    await for (final input in buildStep.findAssets(preflightFiles)) {
+
+    AssetReader assetReader = buildStep;
+    if (config['includePackageDependencies']) {
+      assetReader = FileBasedAssetReader(await PackageGraph.forThisPackage());
+    }
+
+    await for (final input in assetReader.findAssets(preflightFiles)) {
       log.info('Read json from ${input.path}');
-      var jsonContent = await buildStep.readAsString(input);
+      var jsonContent = await assetReader.readAsString(input);
       var part = PreflightPart.fromJson(
         jsonDecode(jsonContent),
       );

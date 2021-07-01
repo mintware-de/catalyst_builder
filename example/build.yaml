@@ -6,3 +6,4 @@ targets:
         options:
           providerClassName: 'ExampleProvider'
           outputName: 'src/example.container.dart'
+          includePackageDependencies: true

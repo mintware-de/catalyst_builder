@@ -1,3 +1,11 @@
+## 1.1.0
+
+Added a `includePackageDependencies` option to the build.yaml.
+
+## 1.0.2
+
+Dependencies downgraded
+
 ## 1.0.1
 
 Publisher fixed

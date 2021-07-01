@@ -191,5 +191,5 @@ targets:
         options:
             providerClassName: 'DefaultServiceProvider' # class name of the provider
             outputName: 'default_service_provider.dart' # file name of the provider. (Can also contain /)
-
+            includePackageDependencies: false # True if services from dependencies should be added to your service provider
 ```
