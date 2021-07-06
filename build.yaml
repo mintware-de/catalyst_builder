@@ -3,9 +3,12 @@ builders:
     import: 'package:catalyst_builder/src/builder/preflight_builder.dart'
     builder_factories:
       - 'runPreflight'
-    build_extensions: { '.dart': [ '.preflight.json' ] }
+    build_extensions: { '.dart': [ '.catalyst_builder.preflight.json' ] }
     build_to: cache
     auto_apply: dependents
+    defaults:
+      options:
+        preflightExtension: '.catalyst_builder.preflight.json'
 
   buildServiceProvider:
     import: 'package:catalyst_builder/src/builder/service_provider_builder.dart'
@@ -15,9 +18,10 @@ builders:
     build_to: source
     auto_apply: dependents
     required_inputs:
-      - '.preflight.json'
+      - '.catalyst_builder.preflight.json'
     defaults:
       options:
         providerClassName: 'DefaultServiceProvider'
         outputName: 'default_service_provider.dart'
         includePackageDependencies: false
+        preflightExtension: '.catalyst_builder.preflight.json'

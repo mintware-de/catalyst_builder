@@ -12,5 +12,3 @@ void main(List<String> arguments) {
   print(chat.runtimeType);
   chat.sendChatMessage('WTF, this is really cool!');
 }
-
-//

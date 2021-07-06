@@ -30,14 +30,13 @@ cb.Constructor buildProviderConstructor(
       );
     }
 
-    ctor
-      ..body = cb.Block.of([
-        knownServices$.property('addAll').call([
-          cb.literalMap(serviceFactories, typeReference, serviceDescriptorT),
-        ]).statement,
-        exposeMap$.property('addAll').call([
-          cb.literalMap(exposeAsData, typeReference, typeReference),
-        ]).statement,
-      ]);
+    ctor.body = cb.Block.of([
+      knownServices$.property('addAll').call([
+        cb.literalMap(serviceFactories, typeReference, serviceDescriptorT),
+      ]).statement,
+      exposeMap$.property('addAll').call([
+        cb.literalMap(exposeAsData, typeReference, typeReference),
+      ]).statement,
+    ]);
   });
 }

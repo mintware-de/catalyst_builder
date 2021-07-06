@@ -12,7 +12,7 @@ import 'dto/dto.dart';
 import 'generator/service_provider/service_provider.dart';
 
 /// The ServiceProviderBuilder creates a service provider from the resulting
-/// .preflight.json files.
+/// preflight .json files.
 class ServiceProviderBuilder implements Builder {
   /// The builder configuration.
   final Map<String, dynamic> config;
@@ -29,7 +29,11 @@ class ServiceProviderBuilder implements Builder {
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
-    var preflightFiles = Glob('**/*.preflight.json', recursive: true);
+    var preflightFiles = Glob(
+      '**/*${config['preflightExtension']}',
+      recursive: true,
+    );
+
     final parts = <PreflightPart>[];
     final services = <ExtractedService>[];
 

@@ -1,3 +1,7 @@
+## 1.1.1
+
+Changed the preflight output extension to avoid conflicting outputs.
+
 ## 1.1.0
 
 Added a `includePackageDependencies` option to the build.yaml.

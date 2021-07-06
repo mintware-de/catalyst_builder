@@ -8,8 +8,13 @@ import '../../catalyst_builder.dart';
 import 'dto/dto.dart';
 
 /// The PreflightBuilder scans the files for @Service annotations.
-/// The result is stored in *.preflight.json files.
+/// The result is stored in preflight.json files.
 class PreflightBuilder implements Builder {
+  final Map<String, dynamic> _config;
+
+  /// PreflightBuilder constructor
+  PreflightBuilder(this._config);
+
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     if (!await buildStep.resolver.isLibrary(buildStep.inputId)) {
@@ -18,7 +23,8 @@ class PreflightBuilder implements Builder {
 
     final entryLib = await buildStep.inputLibrary;
 
-    final preflightAsset = buildStep.inputId.changeExtension('.preflight.json');
+    final preflightAsset =
+        buildStep.inputId.changeExtension(_config['preflightExtension']);
     var extractedAnnotations = await _extractAnnotations(entryLib);
 
     await buildStep.writeAsString(
@@ -28,9 +34,9 @@ class PreflightBuilder implements Builder {
   }
 
   @override
-  Map<String, List<String>> get buildExtensions => const {
+  Map<String, List<String>> get buildExtensions => {
         r'$lib$': [],
-        '.dart': ['.preflight.json'],
+        '.dart': [_config['preflightExtension']],
       };
 
   Future<PreflightPart> _extractAnnotations(LibraryElement entryLib) async {
@@ -130,4 +136,5 @@ class PreflightBuilder implements Builder {
 }
 
 /// Runs the preflight builder
-Builder runPreflight(BuilderOptions options) => PreflightBuilder();
+Builder runPreflight(BuilderOptions options) =>
+    PreflightBuilder(options.config);
