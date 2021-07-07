@@ -3,6 +3,7 @@ import 'package:test/test.dart';
 
 // ignore: avoid_relative_lib_imports
 import '../../example/lib/example.dart';
+
 // ignore: avoid_relative_lib_imports
 import '../third_party_dependency/lib/third_party_dependency.dart';
 
@@ -88,5 +89,18 @@ void main() {
     var svc = serviceProvider.resolve<ThirdPartyService>();
 
     expect(svc, TypeMatcher<ThirdPartyService>());
+  });
+
+  test('Manually wired services', () {
+    expect(ManuallyWiredServiceImplementation.shouldPreload, isFalse);
+    expect(ManuallyWiredServiceImplementation.wasPreloaded, isFalse);
+    resetServiceProvider();
+    ManuallyWiredServiceImplementation.shouldPreload = true;
+    expect(ManuallyWiredServiceImplementation.wasPreloaded, isFalse);
+    serviceProvider.boot();
+    expect(ManuallyWiredServiceImplementation.wasPreloaded, isTrue);
+
+    var svc = serviceProvider.resolve<ManuallyWiredService>();
+    expect(svc, TypeMatcher<ManuallyWiredService>());
   });
 }

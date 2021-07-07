@@ -1,3 +1,7 @@
+## 1.2.0
+
+Added a `@ServiceMap` annotation.
+
 ## 1.1.1
 
 Changed the preflight output extension to avoid conflicting outputs.

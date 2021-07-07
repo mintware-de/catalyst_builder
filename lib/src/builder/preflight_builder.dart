@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 
@@ -45,36 +46,30 @@ class PreflightBuilder implements Builder {
       var isPreloaded =
           el.metadata.any((a) => _isLibraryAnnotation(a, 'Preload'));
       for (var annotation in el.metadata) {
+        if (_isLibraryAnnotation(annotation, 'ServiceMap')) {
+          var serviceMapAnnotation = annotation.computeConstantValue();
+
+          var serviceMap =
+              serviceMapAnnotation?.getField('services')?.toMapValue() ?? {};
+          for (var kvp in serviceMap.entries) {
+            var keyElement = kvp.key?.toTypeValue()?.element;
+            if (keyElement == null || !(keyElement is ClassElement)) {
+              continue;
+            }
+
+            services.add(await _mapToExtractedService(
+              keyElement,
+              kvp.value,
+              isPreloaded,
+            ));
+          }
+        }
         if (_isLibraryAnnotation(annotation, 'Service') && el is ClassElement) {
           var serviceAnnotation = annotation.computeConstantValue();
-
-          var lifetimeIndex = serviceAnnotation
-                  ?.getField('lifetime')
-                  ?.getField('index')
-                  ?.toIntValue() ??
-              1;
-
-          var exposeAsElement =
-              serviceAnnotation?.getField('exposeAs')?.toTypeValue()?.element;
-
-          SymbolReference? exposeAs;
-          if (exposeAsElement != null) {
-            exposeAs = SymbolReference(
-              symbolName: exposeAsElement.name!,
-              library: exposeAsElement.librarySource?.uri.toString(),
-            );
-          }
-
-          var lifetime = ServiceLifetime.values[lifetimeIndex];
-          services.add(ExtractedService(
-            lifetime: lifetime.toString(),
-            service: SymbolReference(
-              symbolName: el.name,
-              library: el.librarySource.uri.toString(),
-            ),
-            constructorArgs: await _extractConstructorArgs(el),
-            exposeAs: exposeAs,
-            preload: isPreloaded && lifetime == ServiceLifetime.singleton,
+          services.add(await _mapToExtractedService(
+            el,
+            serviceAnnotation,
+            isPreloaded,
           ));
         }
       }
@@ -82,6 +77,53 @@ class PreflightBuilder implements Builder {
     return PreflightPart(
       services: services,
     );
+  }
+
+  Future<ExtractedService> _mapToExtractedService(
+    ClassElement serviceClass,
+    DartObject? serviceAnnotation,
+    bool isPreloaded,
+  ) async {
+    var serviceReference = SymbolReference(
+      symbolName: serviceClass.name,
+      library: serviceClass.librarySource.uri.toString(),
+    );
+
+    var lifetime = _getLifetimeFromAnnotation(serviceAnnotation);
+    var exposeAs = _getExposeAs(serviceAnnotation);
+
+    var extractedService = ExtractedService(
+      lifetime: lifetime.toString(),
+      service: serviceReference,
+      constructorArgs: await _extractConstructorArgs(serviceClass),
+      exposeAs: exposeAs,
+      preload: isPreloaded && lifetime == ServiceLifetime.singleton,
+    );
+    return extractedService;
+  }
+
+  SymbolReference? _getExposeAs(DartObject? serviceAnnotation) {
+    var exposeAsElement =
+        serviceAnnotation?.getField('exposeAs')?.toTypeValue()?.element;
+
+    SymbolReference? exposeAs;
+    if (exposeAsElement != null) {
+      exposeAs = SymbolReference(
+        symbolName: exposeAsElement.name!,
+        library: exposeAsElement.librarySource?.uri.toString(),
+      );
+    }
+    return exposeAs;
+  }
+
+  ServiceLifetime _getLifetimeFromAnnotation(DartObject? serviceAnnotation) {
+    var lifetimeIndex = serviceAnnotation
+            ?.getField('lifetime')
+            ?.getField('index')
+            ?.toIntValue() ??
+        1;
+    var lifetime = ServiceLifetime.values[lifetimeIndex];
+    return lifetime;
   }
 
   Future<List<ConstructorArg>> _extractConstructorArgs(ClassElement el) async {
