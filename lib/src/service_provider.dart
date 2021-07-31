@@ -16,6 +16,9 @@ abstract class ServiceProvider {
   /// If the service does not exist, null is returned.
   T? tryResolve<T>();
 
+  /// Checks if a with the [T] or [t] is registered.
+  bool has<T>([Type? t]);
+
   /// Boot the service container.
   /// While booting the service provider, preloaded services are instantiated.
   void boot();

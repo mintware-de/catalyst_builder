@@ -28,6 +28,9 @@ final tryResolve$ = cb.refer('tryResolve');
 /// [ServiceProvider.resolve]
 final resolve$ = cb.refer('resolve');
 
+/// [ServiceProvider.has]
+final has$ = cb.refer('has');
+
 /// _knownServices field in the service provider
 final knownServices$ = cb.refer('_knownServices');
 
@@ -69,8 +72,14 @@ final voidT = cb.refer('void');
 /// Type type
 final typeT = cb.refer('Type');
 
+/// Boolean type
+final boolT = cb.refer('bool');
+
 /// String type
 final stringT = cb.refer('String');
 
 /// dynamic type
 final dynamicT = cb.refer('dynamic');
+
+/// Make the reference nullable
+cb.Reference nullable(cb.Reference ref) => cb.refer("${ref.symbol}?", ref.url);

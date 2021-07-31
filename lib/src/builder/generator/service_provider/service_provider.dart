@@ -27,6 +27,7 @@ cb.Class buildServiceProviderClass(
       resolveOrGetParameterTemplate,
       bootTemplate(services),
       ensureBootedTemplate,
+      hasTemplate,
     ])
     ..constructors.add(
       buildProviderConstructor(services, typeT),

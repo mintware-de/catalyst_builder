@@ -103,4 +103,11 @@ void main() {
     var svc = serviceProvider.resolve<ManuallyWiredService>();
     expect(svc, TypeMatcher<ManuallyWiredService>());
   });
+
+  test('hasService', () {
+    expect(serviceProvider.has<MySingletonService>(), isTrue);
+    expect(serviceProvider.has(MySingletonService), isTrue);
+    expect(serviceProvider.has<ChatProvider>(), isTrue);
+    expect(serviceProvider.has(ChatProvider), isTrue);
+  });
 }
