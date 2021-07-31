@@ -1,6 +1,6 @@
-import '../../helper.dart';
 import 'package:code_builder/code_builder.dart' as cb;
 
+import '../../helper.dart';
 import '../../symbols.dart';
 
 /// Template for has<T>([Type t = null])
