@@ -9,9 +9,6 @@ final hasTemplate = cb.Method((m) {
 
   var typeP = cb.Reference('type');
 
-  /// var lookupType = type ?? T;
-  /// return _knownServices.containsKey(_exposeMap[lookupType] ?? lookupType);
-
   var lookupType$ = cb.refer('lookupType');
 
   m

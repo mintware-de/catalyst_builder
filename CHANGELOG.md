@@ -1,3 +1,15 @@
+## 1.3.0
+
+Features:
+- Added `ServiceProvider.has<T>([Type? t])` to check if a service is known.
+
+Changes
+- Updated the dependencies
+  - code_builder `^4.0.0` -> `^4.1.0`
+  - build `^2.0.1` -> `^2.1.0`
+  - analyzer `^1.7.1` -> `^2.2.0`
+  - build_runner_core `^7.0.0` -> `^7.1.0`
+
 ## 1.2.0
 
 Added a `@ServiceMap` annotation.
