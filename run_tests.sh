@@ -1,7 +1,5 @@
 #!/bin/bash
 
-exit 1;
-
 cd ./example
 pub get
 rm lib/src/example.container.dart
