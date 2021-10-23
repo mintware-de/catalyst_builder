@@ -1,3 +1,6 @@
+[![GitHub license](https://img.shields.io/github/license/mintware-de/catalyst_builder.svg)](https://github.com/mintware-de/catalyst_builder/blob/master/LICENSE)
+[![Pub](https://img.shields.io/pub/v/catalyst_builder.svg)](https://pub.dartlang.org/packages/catalyst_builder)
+
 # Catalyst Builder
 
 A dependency injection provider builder for dart.

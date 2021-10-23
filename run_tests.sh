@@ -9,3 +9,13 @@ sed -i '' "s+package\:third_party_dependency\/+\.\.\/\.\.\/\.\.\/test\/third_par
 cd ..
 
 dart test
+
+# Install dart_coveralls; gather and send coverage data.
+if [ "$REPO_TOKEN" ]; then
+  pub global activate dart_coveralls
+  pub global run dart_coveralls report \
+    --token $REPO_TOKEN \
+    --retry 2 \
+    --exclude-test-files \
+    test/coveralls.dart
+fi
