@@ -9,6 +9,8 @@ sed -i'' "s+package\:catalyst_builder_example\/src\/++g" "lib/src/example.contai
 sed -i'' "s+package\:third_party_dependency\/+\.\.\/\.\.\/\.\.\/test\/third_party_dependency\/lib\/+g" "lib/src/example.container.dart"
 cd ..
 
+dart test
+
 REPO_TOKEN=$1
 if [ "$REPO_TOKEN" ]; then
   pub global activate dart_coveralls
@@ -18,5 +20,3 @@ if [ "$REPO_TOKEN" ]; then
     --exclude-test-files \
     test/coveralls.dart
 fi
-
-dart test

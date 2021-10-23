@@ -1,4 +1,3 @@
-import './integration/integration_test.dart' as integration_test;
 import './unit/annotation/parameter_test.dart' as parameter_test;
 import './unit/annotation/preload_test.dart' as preload_test;
 import './unit/annotation/service_test.dart' as service_test;
@@ -16,5 +15,4 @@ void main() {
   symbol_reference_test.main();
   constructor_arg_test.main();
   extracted_service_test.main();
-  integration_test.main();
 }
