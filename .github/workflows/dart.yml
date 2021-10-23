@@ -28,4 +28,4 @@ jobs:
         run: chmod +x run_tests.sh
 
       - name: Run tests
-        run: ./run_tests.sh
+        run: ./run_tests.sh ${{ secrets.REPO_TOKEN }}
