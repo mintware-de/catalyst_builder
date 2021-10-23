@@ -24,5 +24,8 @@ jobs:
       - name: Analyze project source
         run: dart analyze lib
 
+      - name: Set permissions
+        run: chmod +x run_tests.sh
+
       - name: Run tests
-        run: chmod +x run_tests.sh; ./run_tests.sh
+        run: ./run_tests.sh
