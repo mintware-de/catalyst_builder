@@ -52,7 +52,7 @@ void main() {
   });
 
   test('try/Resolve should inject parameters for non existing services', () {
-    expect(serviceProvider.resolve<ChatProvider>().username, 'XYZ');
+    expect(serviceProvider.resolve<ChatProvider>().username, 'XYxZ');
     expect(serviceProvider.tryResolve<ChatProvider>()?.username, 'XYZ');
   });
 

@@ -25,4 +25,4 @@ jobs:
         run: dart analyze lib
 
       - name: Run tests
-        run: chmod +x run_tests.sh && ./run_tests.sh
+        run: chmod +x run_tests.sh; ./run_tests.sh
