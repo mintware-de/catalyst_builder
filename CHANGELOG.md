@@ -1,3 +1,7 @@
+## 1.3.1
+
+Project code moved to GitHub. Updated the pubspec.yaml
+
 ## 1.3.0
 
 Features:
