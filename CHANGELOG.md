@@ -1,3 +1,7 @@
+## 1.3.3
+
+Downgraded the `analyzer` package to ensure compatibility to the `test` package.
+
 ## 1.3.2
 
 Fixed pub.dev score issues.
