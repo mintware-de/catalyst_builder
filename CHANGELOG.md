@@ -2,7 +2,7 @@
 
 Fixed pub.dev score issues.
 
-- removed the `analyzer` package
+- upgraded the `analyzer` package
 - removed the `pedantic` dev-package
 - removed an unused import in the `extracted_service.dart`
 
