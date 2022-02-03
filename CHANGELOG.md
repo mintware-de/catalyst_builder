@@ -1,3 +1,11 @@
+## 1.3.2
+
+Fixed pub.dev score issues.
+
+- removed the `analyzer` package
+- removed the `pedantic` dev-package
+- removed an unused import in the `extracted_service.dart`
+
 ## 1.3.1
 
 Project code moved to GitHub. Updated the pubspec.yaml

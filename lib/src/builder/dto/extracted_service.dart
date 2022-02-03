@@ -1,5 +1,4 @@
 import 'dto.dart';
-import 'symbol_reference.dart';
 
 /// Represents a class that was decorated with [Service].
 class ExtractedService {
