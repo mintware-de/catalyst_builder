@@ -1,3 +1,7 @@
+## 2.0.0
+
+Upgraded the `analyzer` and the `test` package to support Flutter 2.10.
+
 ## 1.3.3
 
 Downgraded the `analyzer` package to ensure compatibility to the `test` package.
