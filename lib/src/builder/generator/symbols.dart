@@ -14,6 +14,9 @@ final serviceDescriptorT = cb.refer('ServiceDescriptor', rootPackage);
 /// [ServiceProvider]
 final serviceProviderT = cb.refer('ServiceProvider', rootPackage);
 
+/// [ServiceRegistry]
+final serviceRegistryT = cb.refer('ServiceRegistry', rootPackage);
+
 /// [ServiceNotFoundException]
 final serviceNotFoundExceptionT =
     cb.refer('ServiceNotFoundException', rootPackage);
@@ -30,6 +33,12 @@ final resolve$ = cb.refer('resolve');
 
 /// [ServiceProvider.has]
 final has$ = cb.refer('has');
+
+/// [ServiceRegistry.register]
+final register$ = cb.refer('register');
+
+/// this
+final this$ = cb.refer('this');
 
 /// _knownServices field in the service provider
 final knownServices$ = cb.refer('_knownServices');
