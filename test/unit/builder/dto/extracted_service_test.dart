@@ -29,7 +29,10 @@ void main() {
     expect(extractedService.lifetime, 'ServiceLifetime.singleton');
     expect(extractedService.preload, isTrue);
     expect(extractedService.constructorArgs, isNotEmpty);
-    expect(extractedService.constructorArgs[0], const TypeMatcher<ConstructorArg>());
+    expect(
+      extractedService.constructorArgs[0],
+      const TypeMatcher<ConstructorArg>(),
+    );
     expect(extractedService.service.library, 'baz');
     expect(extractedService.service.symbolName, 'foobar');
   });

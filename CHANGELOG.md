@@ -1,4 +1,8 @@
-## next
+## 2.1.0
+
+Features
+- Added the `ServiceRegistry` class and implemented it in the generated ServiceProvider.
+  This class allows you to register services at runtime. [PR#4](https://github.com/mintware-de/catalyst_builder/pull/4)
 
 Changes:
 - Optimized the code generation [PR#3](https://github.com/mintware-de/catalyst_builder/pull/3)

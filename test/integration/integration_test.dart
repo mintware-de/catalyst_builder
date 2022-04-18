@@ -110,4 +110,16 @@ void main() {
     expect(serviceProvider.has<ChatProvider>(), isTrue);
     expect(serviceProvider.has(ChatProvider), isTrue);
   });
+
+  test('service registration', () {
+    if (serviceProvider is! ServiceRegistry) {
+      fail('Service provider is not a ServiceRegistry');
+    }
+    expect(serviceProvider.has<SelfRegisteredService>(), isFalse);
+    (serviceProvider as ServiceRegistry).register(
+      (provider) => MySelfRegisteredService(provider.resolve()),
+      const Service(exposeAs: SelfRegisteredService),
+    );
+    expect(serviceProvider.has<SelfRegisteredService>(), isTrue);
+  });
 }
