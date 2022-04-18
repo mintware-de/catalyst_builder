@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 void main() {
   late ExtractedService extractedService;
   setUp(() {
-    extractedService = ExtractedService(
+    extractedService = const ExtractedService(
       exposeAs: SymbolReference(symbolName: 'foo', library: 'bar'),
       lifetime: 'ServiceLifetime.singleton',
       preload: true,
@@ -23,13 +23,13 @@ void main() {
   });
 
   test('ExtractedService Constructor', () {
-    expect(extractedService, TypeMatcher<ExtractedService>());
+    expect(extractedService, const TypeMatcher<ExtractedService>());
     expect(extractedService.exposeAs?.library, 'bar');
     expect(extractedService.exposeAs?.symbolName, 'foo');
     expect(extractedService.lifetime, 'ServiceLifetime.singleton');
     expect(extractedService.preload, isTrue);
     expect(extractedService.constructorArgs, isNotEmpty);
-    expect(extractedService.constructorArgs[0], TypeMatcher<ConstructorArg>());
+    expect(extractedService.constructorArgs[0], const TypeMatcher<ConstructorArg>());
     expect(extractedService.service.library, 'baz');
     expect(extractedService.service.symbolName, 'foobar');
   });

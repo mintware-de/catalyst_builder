@@ -4,14 +4,14 @@ import 'package:test/test.dart';
 void main() {
   late SymbolReference symbolReference;
   setUp(() {
-    symbolReference = SymbolReference(
+    symbolReference = const SymbolReference(
       library: 'foo',
       symbolName: 'bar',
     );
   });
 
   test('SymbolReference Constructor', () {
-    expect(symbolReference, TypeMatcher<SymbolReference>());
+    expect(symbolReference, const TypeMatcher<SymbolReference>());
     expect(symbolReference.library, 'foo');
     expect(symbolReference.symbolName, 'bar');
   });

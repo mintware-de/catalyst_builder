@@ -33,7 +33,7 @@ cb.Method bootTemplate(
       ..annotations.add(cb.refer('override'))
       ..body = cb.Block.of([
         IfBuilder(booted$)
-            .then(providerAlreadyBootedExceptionT.call([]).thrown)
+            .then(providerAlreadyBootedExceptionT.constInstance([]).thrown)
             .code,
         assign(booted$, cb.literalTrue).statement,
         ...preloadServices

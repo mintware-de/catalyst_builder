@@ -7,7 +7,7 @@ import '../../symbols.dart';
 final hasTemplate = cb.Method((m) {
   var typeTP = cb.TypeReference((b) => b..symbol = 'T');
 
-  var typeP = cb.Reference('type');
+  var typeP = const cb.Reference('type');
 
   var lookupType$ = cb.refer('lookupType');
 

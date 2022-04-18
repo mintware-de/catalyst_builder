@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 void main() {
   late ConstructorArg constructorArg;
   setUp(() {
-    constructorArg = ConstructorArg(
+    constructorArg = const ConstructorArg(
       name: 'nullArg',
       defaultValue: 'null',
       isOptional: true,
@@ -15,7 +15,7 @@ void main() {
   });
 
   test('ConstructorArg Constructor', () {
-    expect(constructorArg, TypeMatcher<ConstructorArg>());
+    expect(constructorArg, const TypeMatcher<ConstructorArg>());
     expect(constructorArg.name, 'nullArg');
     expect(constructorArg.defaultValue, 'null');
     expect(constructorArg.isOptional, isTrue);

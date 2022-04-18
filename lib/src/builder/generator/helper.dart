@@ -30,11 +30,11 @@ class IfBuilder {
   /// Executes the [body] in the if body.
   cb.Expression then(cb.Expression body) {
     return cb.CodeExpression(cb.Block.of([
-      cb.Code('if ('),
+      const cb.Code('if ('),
       _condition.code,
-      cb.Code(') {'),
+      const cb.Code(') {'),
       body.statement,
-      cb.Code('}'),
+      const cb.Code('}'),
     ]));
   }
 }
@@ -74,9 +74,9 @@ class _TryCatchBuilder {
     var statements = <cb.Code>[];
     if (tryBody != null) {
       statements = [
-        cb.Code('try {'),
+        const cb.Code('try {'),
         tryBody!,
-        cb.Code('}'),
+        const cb.Code('}'),
       ];
     }
     return cb.Block.of(statements);
@@ -87,11 +87,11 @@ class _TryCatchBuilder {
 
     for (var kvp in catchBodies.entries) {
       statements.addAll([
-        cb.Code('catch ('),
+        const cb.Code('catch ('),
         kvp.key,
-        cb.Code(') {'),
+        const cb.Code(') {'),
         kvp.value,
-        cb.Code('}'),
+        const cb.Code('}'),
       ]);
     }
 
@@ -102,9 +102,9 @@ class _TryCatchBuilder {
     var statements = <cb.Code>[];
     if (finallyBody != null) {
       statements = [
-        cb.Code('finally {'),
+        const cb.Code('finally {'),
         finallyBody!,
-        cb.Code('}'),
+        const cb.Code('}'),
       ];
     }
     return cb.Block.of(statements);

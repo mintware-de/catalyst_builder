@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 void main() {
   test('Parameter constructor', () {
     const parameter = Parameter('test');
-    expect(parameter, TypeMatcher<Parameter>());
+    expect(parameter, const TypeMatcher<Parameter>());
     expect(parameter.name, 'test');
 
     const parameter2 = Parameter('test2');

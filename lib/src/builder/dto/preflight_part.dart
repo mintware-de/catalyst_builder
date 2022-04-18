@@ -15,7 +15,8 @@ class PreflightPart {
   factory PreflightPart.fromJson(Map<String, dynamic> json) {
     return PreflightPart(
       services: (json['services'] as List)
-          .map((m) => ExtractedService.fromJson(m))
+          .cast<Map<String, dynamic>>()
+          .map(ExtractedService.fromJson)
           .toList(),
     );
   }

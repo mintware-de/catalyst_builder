@@ -35,7 +35,8 @@ class ExtractedService {
           ? SymbolReference.fromJson(json['exposeAs'])
           : null,
       constructorArgs: (json['constructorArgs'] as List)
-          .map((m) => ConstructorArg.fromJson(m))
+          .cast<Map<String, dynamic>>()
+          .map(ConstructorArg.fromJson)
           .toList(),
       preload: json['preload'],
     );
