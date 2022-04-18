@@ -13,6 +13,7 @@ cb.Class buildServiceProviderClass(
   return cb.Class((c) => c
     ..name = config['providerClassName'] as String
     ..extend = serviceProviderT
+    ..implements.addAll([serviceRegistryT])
     ..fields.addAll([
       bootedTemplate,
       knownServicesTemplate,
@@ -27,6 +28,7 @@ cb.Class buildServiceProviderClass(
       bootTemplate(services),
       ensureBootedTemplate,
       hasTemplate,
+      registerTemplate,
     ])
     ..constructors.add(
       buildProviderConstructor(services, typeT),

@@ -11,4 +11,11 @@ void main(List<String> arguments) {
   var chat = provider.resolve<ChatProvider>();
   print(chat.runtimeType);
   chat.sendChatMessage('WTF, this is really cool!');
+
+  provider.register(
+    (provider) => MySelfRegisteredService(provider.resolve()),
+  );
+
+  var selfRegistered = provider.resolve<MySelfRegisteredService>();
+  selfRegistered.sayHello();
 }

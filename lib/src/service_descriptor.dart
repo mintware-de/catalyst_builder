@@ -13,6 +13,6 @@ class ServiceDescriptor<T> {
   /// Invokes the [_factory] to create a new instance of the service.
   T produce() => _factory();
 
-  /// Creats a new ServiceDescriptor
+  /// Creates a new ServiceDescriptor
   ServiceDescriptor(this._service, this._factory);
 }
