@@ -5,7 +5,7 @@ void main() {
   late PreflightPart preflightPart;
   setUp(() {
     preflightPart = PreflightPart(services: [
-      ExtractedService(
+      const ExtractedService(
         exposeAs: SymbolReference(symbolName: 'foo', library: 'bar'),
         lifetime: 'ServiceLifetime.singleton',
         preload: true,
@@ -25,9 +25,9 @@ void main() {
   });
 
   test('PreflightPart Constructor', () {
-    expect(preflightPart, TypeMatcher<PreflightPart>());
+    expect(preflightPart, const TypeMatcher<PreflightPart>());
     expect(preflightPart.services, isNotEmpty);
-    expect(preflightPart.services[0], TypeMatcher<ExtractedService>());
+    expect(preflightPart.services[0], const TypeMatcher<ExtractedService>());
   });
 
   test('toJson fromJson', () {

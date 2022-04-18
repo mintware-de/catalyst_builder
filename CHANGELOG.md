@@ -1,3 +1,8 @@
+## next
+
+Changes:
+- Optimized the code generation [PR#3](https://github.com/mintware-de/catalyst_builder/pull/3)
+
 ## 2.0.0
 
 Upgraded the `analyzer` and the `test` package to support Flutter 2.10.

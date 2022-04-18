@@ -24,18 +24,18 @@ void main() {
     resetServiceProvider();
     expect(
       () => serviceProvider.resolve<ChatProvider>(),
-      throwsA(TypeMatcher<ProviderNotBootedException>()),
+      throwsA(const TypeMatcher<ProviderNotBootedException>()),
     );
     expect(
       () => serviceProvider.tryResolve<ChatProvider>(),
-      throwsA(TypeMatcher<ProviderNotBootedException>()),
+      throwsA(const TypeMatcher<ProviderNotBootedException>()),
     );
   });
 
   test('double boot should throw an exception', () {
     expect(
       () => serviceProvider.boot(),
-      throwsA(TypeMatcher<ProviderAlreadyBootedException>()),
+      throwsA(const TypeMatcher<ProviderAlreadyBootedException>()),
     );
   });
 
@@ -47,7 +47,7 @@ void main() {
   test('resolve should throw if a service was not found', () {
     expect(
       () => serviceProvider.resolve<String>(),
-      throwsA(TypeMatcher<ServiceNotFoundException>()),
+      throwsA(const TypeMatcher<ServiceNotFoundException>()),
     );
   });
 
@@ -58,7 +58,7 @@ void main() {
 
   test('Services can be exposed as a specific type', () {
     var provider = serviceProvider.resolve<ChatProvider>();
-    expect(provider, TypeMatcher<CoolChatProvider>());
+    expect(provider, const TypeMatcher<CoolChatProvider>());
   });
 
   test('PreLoaded services should be loaded on boot', () {
@@ -88,7 +88,7 @@ void main() {
   test('Third party services', () {
     var svc = serviceProvider.resolve<ThirdPartyService>();
 
-    expect(svc, TypeMatcher<ThirdPartyService>());
+    expect(svc, const TypeMatcher<ThirdPartyService>());
   });
 
   test('Manually wired services', () {
@@ -101,7 +101,7 @@ void main() {
     expect(ManuallyWiredServiceImplementation.wasPreloaded, isTrue);
 
     var svc = serviceProvider.resolve<ManuallyWiredService>();
-    expect(svc, TypeMatcher<ManuallyWiredService>());
+    expect(svc, const TypeMatcher<ManuallyWiredService>());
   });
 
   test('hasService', () {

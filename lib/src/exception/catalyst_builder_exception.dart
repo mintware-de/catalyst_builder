@@ -16,6 +16,7 @@ abstract class CatalystBuilderException implements Exception {
               '${inner!._fullMessage(level + 1)}'
           : '');
 
+  @override
   String toString() {
     return "CatalystBuilderException: ${_fullMessage()}";
   }

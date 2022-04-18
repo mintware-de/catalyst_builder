@@ -10,7 +10,7 @@ final ensureBootedTemplate = cb.Method((m) {
     ..returns = voidT
     ..body = cb.Block.of([
       IfBuilder(booted$.equalTo(cb.literalFalse))
-          .then(providerNotBootedExceptionT.call([]).thrown)
+          .then(providerNotBootedExceptionT.constInstance([]).thrown)
           .code,
     ]);
 });

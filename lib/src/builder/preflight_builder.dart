@@ -53,7 +53,7 @@ class PreflightBuilder implements Builder {
               serviceMapAnnotation?.getField('services')?.toMapValue() ?? {};
           for (var kvp in serviceMap.entries) {
             var keyElement = kvp.key?.toTypeValue()?.element;
-            if (keyElement == null || !(keyElement is ClassElement)) {
+            if (keyElement == null || keyElement is! ClassElement) {
               continue;
             }
 

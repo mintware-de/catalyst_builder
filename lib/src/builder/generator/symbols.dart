@@ -3,7 +3,7 @@ import 'package:code_builder/code_builder.dart' as cb;
 import '../../../catalyst_builder.dart';
 
 /// The catalyst_builder root package.
-final rootPackage = 'package:catalyst_builder/catalyst_builder.dart';
+const rootPackage = 'package:catalyst_builder/catalyst_builder.dart';
 
 /// [Service]
 final serviceT = cb.refer('Service', rootPackage);

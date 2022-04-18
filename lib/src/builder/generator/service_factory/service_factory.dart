@@ -49,7 +49,7 @@ cb.Expression buildServiceFactory(
   var constructor = factory.build().closure;
 
   return serviceDescriptorT.call([
-    serviceT.call([], {
+    serviceT.constInstance([], {
       if (svc.lifetime != ServiceLifetime.singleton.toString())
         'lifetime': cb.refer(svc.lifetime, rootPackage),
       if (exposeAsReference != null) 'exposeAs': exposeAsReference
