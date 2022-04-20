@@ -1,3 +1,5 @@
+import 'package:catalyst_builder/catalyst_builder.dart';
+
 /// Describes a simple ServiceProvider
 abstract class ServiceProvider {
   /// Additional provider parameters.

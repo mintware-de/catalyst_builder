@@ -212,6 +212,49 @@ For this, there is a `@ServiceMap` annotation, that accepts a map of services.
 void main() {}
 ```
 
+## Registering services at runtime  (v2.1.0+)
+
+Sometimes you need to register services at runtime. For this, you can use the `register` method:
+```dart
+void main() {
+  var provider = ExampleProvider();
+
+  provider.register(
+        (provider) => MySelfRegisteredService(provider.resolve()),
+  );
+
+  var selfRegistered = provider.resolve<MySelfRegisteredService>();
+  selfRegistered.sayHello();
+}
+```
+
+## Create a sub-provider with additional services / parameters  (v2.2.0+)
+In some cases, you want to register services or parameters only for a specific service.
+The services or parameters should not be placed inside the global service provider. 
+To solve this problem, you can use the `enhance` method, which accepts an array of additional services and 
+a map of additional parameters. These are only available in the returned ServiceProvider. 
+
+```dart
+void main() {
+  var provider = ExampleProvider();
+
+  var newProvider = provider.enhance(
+    parameters: {
+      'foo': 'overwritten',
+    },
+    services: [
+      LazyServiceDescriptor(
+            (p) => MySelfRegisteredService(p.resolve(), p.parameters['foo']),
+        const Service(exposeAs: SelfRegisteredService),
+      ),
+    ],
+  );
+
+  var mySvc = newProvider.resolve<SelfRegisteredService>();
+  expect(mySvc.foo, equals('overwritten'));
+}
+```
+
 ## Configuration
 
 To customize the builder, create a `build.yaml` beside your `pubsepc.yaml` with this content:

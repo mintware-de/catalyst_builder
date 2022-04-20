@@ -1,3 +1,9 @@
+## 2.2.0
+
+Features
+- Added the `EnhanceableProvider` class and implemented it in the generated ServiceProvider.
+  This class allows you to create sub-providers. [PR#5](https://github.com/mintware-de/catalyst_builder/pull/5)
+
 ## 2.1.0
 
 Features
