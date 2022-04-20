@@ -43,7 +43,7 @@ final has$ = cb.refer('has');
 /// [ServiceRegistry.register]
 final register$ = cb.refer('register');
 
-/// [ServiceRegistry.enhance]
+/// [EnhanceableProvider.enhance]
 final enhance$ = cb.refer('enhance');
 
 /// this
