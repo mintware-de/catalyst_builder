@@ -17,6 +17,12 @@ final serviceProviderT = cb.refer('ServiceProvider', rootPackage);
 /// [ServiceRegistry]
 final serviceRegistryT = cb.refer('ServiceRegistry', rootPackage);
 
+/// [EnhanceableProvider]
+final enhanceableProviderT = cb.refer('EnhanceableProvider', rootPackage);
+
+/// [LazyServiceDescriptor]
+final lazyServiceDescriptorT = cb.refer('LazyServiceDescriptor', rootPackage);
+
 /// [ServiceNotFoundException]
 final serviceNotFoundExceptionT =
     cb.refer('ServiceNotFoundException', rootPackage);
@@ -36,6 +42,9 @@ final has$ = cb.refer('has');
 
 /// [ServiceRegistry.register]
 final register$ = cb.refer('register');
+
+/// [ServiceRegistry.enhance]
+final enhance$ = cb.refer('enhance');
 
 /// this
 final this$ = cb.refer('this');

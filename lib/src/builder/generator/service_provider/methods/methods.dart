@@ -1,5 +1,6 @@
 export 'boot.dart';
 export 'constructor.dart';
+export 'enhance.dart';
 export 'ensure_booted.dart';
 export 'has.dart';
 export 'register.dart';

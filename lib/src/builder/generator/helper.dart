@@ -39,6 +39,27 @@ class IfBuilder {
   }
 }
 
+class ForEachBuilder {
+  final cb.Expression _collection;
+  final cb.Expression _var;
+
+  /// Creates an [ForEachBuilder] with the given [_collection].
+  ForEachBuilder(this._collection, this._var);
+
+  /// Executes the [body] in the if body.
+  cb.Expression finalize(cb.Expression body) {
+    return cb.CodeExpression(cb.Block.of([
+      const cb.Code('for (var '),
+      _var.code,
+      const cb.Code(' in '),
+      _collection.code,
+      const cb.Code(') {'),
+      body.statement,
+      const cb.Code('}'),
+    ]));
+  }
+}
+
 /// Helper class for building Try-Catch-Blocks
 cb.Expression try$(Function(_TryCatchBuilder) builder) {
   return _TryCatchBuilder(builder)._build();

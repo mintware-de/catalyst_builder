@@ -1,4 +1,5 @@
 import 'package:catalyst_builder/catalyst_builder.dart';
+import 'package:catalyst_builder/src/enhanceable_provider.dart';
 import 'package:test/test.dart';
 
 // ignore: avoid_relative_lib_imports
@@ -121,5 +122,48 @@ void main() {
       const Service(exposeAs: SelfRegisteredService),
     );
     expect(serviceProvider.has<SelfRegisteredService>(), isTrue);
+  });
+
+  test('enhance', () {
+    if (serviceProvider is! EnhanceableProvider) {
+      fail('Service provider is not a EnhanceableProvider');
+    }
+    expect(serviceProvider.has<SelfRegisteredService>(), isFalse);
+
+    var newProvider =
+        (serviceProvider as EnhanceableProvider).enhance(services: [
+      LazyServiceDescriptor(
+        (p) => MySelfRegisteredService(p.resolve()),
+        const Service(exposeAs: SelfRegisteredService),
+      )
+    ]);
+
+    expect(newProvider.has<SelfRegisteredService>(), isTrue);
+    expect(serviceProvider.has<SelfRegisteredService>(), isFalse);
+
+    var mySvc = newProvider.resolve<SelfRegisteredService>();
+    expect(mySvc.foo, equals('bar'));
+  });
+
+  test('enhance with parameter', () {
+    if (serviceProvider is! EnhanceableProvider) {
+      fail('Service provider is not a EnhanceableProvider');
+    }
+    expect(serviceProvider.has<SelfRegisteredService>(), isFalse);
+
+    var newProvider = (serviceProvider as EnhanceableProvider).enhance(
+      parameters: {
+        'foo': 'overwritten',
+      },
+      services: [
+        LazyServiceDescriptor(
+          (p) => MySelfRegisteredService(p.resolve(), p.parameters['foo']),
+          const Service(exposeAs: SelfRegisteredService),
+        ),
+      ],
+    );
+
+    var mySvc = newProvider.resolve<SelfRegisteredService>();
+    expect(mySvc.foo, equals('overwritten'));
   });
 }
