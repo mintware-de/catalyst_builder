@@ -6,7 +6,7 @@ class LazyServiceDescriptor<T> {
   final Service service;
 
   /// The factory to produce the service.
-  final T Function(ServiceProvider) factory;
+  final ServiceFactory factory;
 
   /// Creates a new [LazyServiceDescriptor] which produces a [T]
   /// using the [factory].
