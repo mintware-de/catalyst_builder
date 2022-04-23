@@ -1,5 +1,4 @@
 import 'package:catalyst_builder/catalyst_builder.dart';
-import 'package:catalyst_builder/src/enhanceable_provider.dart';
 import 'package:test/test.dart';
 
 // ignore: avoid_relative_lib_imports

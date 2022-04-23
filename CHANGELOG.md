@@ -1,3 +1,11 @@
+## 2.2.1
+
+Changes:
+- Dependencies updated
+  - `analyzer`: `^3.2.0` -> `>=3.2.0 <5.0.0` 
+  - `test`: `^1.20.1` -> `any´
+  - `source_gen` -> removed
+
 ## 2.2.0
 
 Features
