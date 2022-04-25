@@ -17,14 +17,12 @@ will create a service provider for you.
 
 ## Installation
 
-**Warning, I am offering this package at an early stage. It may not perform as expected.**
+Follow the steps described on this Page:
+https://pub.dev/packages/catalyst_builder/install
 
 Add this to your pubspec.yaml and run `pub get` or `flutter pub get`:
 
 ```yaml
-dependencies:
-  catalyst_builder: ^1.0.0
-
 dev_dependencies:
   build_runner: ^2.0.1
 ```
