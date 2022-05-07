@@ -1,5 +1,9 @@
 ## 2.2.3
 
+Changes:
+- Added shields to the README.md
+- Added more unit tests and increased the code coverage. [PR#8](https://github.com/mintware-de/catalyst_builder/pull/8)
+
 Bugfixes:
 - Add the parameters of the parent service provider to the enhanced service provider.
   [PR#7](https://github.com/mintware-de/catalyst_builder/pull/7)
