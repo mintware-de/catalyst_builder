@@ -1,3 +1,8 @@
+## 2.2.3
+
+Bugfixes:
+- Add the parameters of the parent service provider to the enhanced service provider.
+
 ## 2.2.2
 
 Changes:

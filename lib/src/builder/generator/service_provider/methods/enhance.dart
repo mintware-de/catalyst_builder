@@ -57,6 +57,10 @@ cb.Method enhanceTemplate(String providerClassName) {
         enhancedV
             .property(parameters$.symbol!)
             .property('addAll')
+            .call([this$.property(parameters$.symbol!)]).statement,
+        enhancedV
+            .property(parameters$.symbol!)
+            .property('addAll')
             .call([parameters$]).statement,
         enhancedV.property(booted$.symbol!).assign(cb.literalTrue).statement,
         enhancedV.returned.statement,
