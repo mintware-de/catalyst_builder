@@ -7,8 +7,6 @@ class ServiceNotFoundException extends CatalystBuilderException {
   final Type service;
 
   /// Creates a new [ServiceNotFoundException] object.
-  const ServiceNotFoundException(
-    this.service, [
-    CatalystBuilderException? inner,
-  ]) : super('Service $service not found.', inner);
+  const ServiceNotFoundException(this.service)
+      : super('Service $service not found.');
 }
