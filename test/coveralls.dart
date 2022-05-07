@@ -8,6 +8,18 @@ import './unit/builder/dto/extracted_service_test.dart'
 import './unit/builder/dto/preflight_part_test.dart' as preflight_part_test;
 import './unit/builder/dto/symbol_reference_test.dart' as symbol_reference_test;
 import './unit/service_descriptor_test.dart' as service_descriptor_test;
+import './unit/exception/catalyst_builder_exception_test.dart'
+    as catalyst_builder_exception_test;
+import './unit/exception/dependency_not_found_exception_test.dart'
+    as dependency_not_found_exception_test;
+import './unit/exception/provider_already_booted_exception_test.dart'
+    as provider_already_booted_exception_test;
+import './unit/exception/provider_not_booted_exception_test.dart'
+    as provider_not_booted_exception_test;
+import './unit/exception/service_not_found_exception_test.dart'
+    as service_not_found_exception_test;
+import './unit/lazy_service_descriptor_test.dart'
+    as lazy_service_descriptor_test;
 
 void main() {
   service_test.main();
@@ -19,4 +31,10 @@ void main() {
   extracted_service_test.main();
   service_map_test.main();
   service_descriptor_test.main();
+  catalyst_builder_exception_test.main();
+  dependency_not_found_exception_test.main();
+  provider_already_booted_exception_test.main();
+  provider_not_booted_exception_test.main();
+  service_not_found_exception_test.main();
+  lazy_service_descriptor_test.main();
 }

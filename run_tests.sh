@@ -5,8 +5,9 @@ cd ./example
 dart pub get
 rm -f lib/src/example.container.dart
 dart run build_runner build --delete-conflicting-outputs
-sed -i'' "s+package\:catalyst_builder_example\/src\/++g" "lib/src/example.container.dart"
-sed -i'' "s+package\:third_party_dependency\/+\.\.\/\.\.\/\.\.\/test\/third_party_dependency\/lib\/+g" "lib/src/example.container.dart"
+cat "lib/src/example.container.dart" \
+    | sed -e "s+package\:catalyst_builder_example\/src\/++g;" \
+    | sed -e "s+package\:third_party_dependency\/+\.\.\/\.\.\/\.\.\/test\/third_party_dependency\/lib\/+g;w lib/src/example.container.dart"
 cd ..
 
 dart run test
