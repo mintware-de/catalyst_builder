@@ -148,6 +148,8 @@ void main() {
     if (serviceProvider is! EnhanceableProvider) {
       fail('Service provider is not a EnhanceableProvider');
     }
+    serviceProvider.parameters['foo'] = 'bar';
+    serviceProvider.parameters['bar'] = 'baz';
     expect(serviceProvider.has<SelfRegisteredService>(), isFalse);
 
     var newProvider = (serviceProvider as EnhanceableProvider).enhance(
@@ -164,5 +166,6 @@ void main() {
 
     var mySvc = newProvider.resolve<SelfRegisteredService>();
     expect(mySvc.foo, equals('overwritten'));
+    expect(newProvider.parameters.containsKey('bar'), isTrue);
   });
 }
