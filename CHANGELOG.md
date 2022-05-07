@@ -2,6 +2,7 @@
 
 Bugfixes:
 - Add the parameters of the parent service provider to the enhanced service provider.
+  [PR#7](https://github.com/mintware-de/catalyst_builder/pull/7)
 
 ## 2.2.2
 
