@@ -1,5 +1,9 @@
 [![GitHub license](https://img.shields.io/github/license/mintware-de/catalyst_builder.svg)](https://github.com/mintware-de/catalyst_builder/blob/master/LICENSE)
 [![Pub](https://img.shields.io/pub/v/catalyst_builder.svg)](https://pub.dartlang.org/packages/catalyst_builder)
+![Coveralls](https://img.shields.io/coveralls/github/mintware-de/catalyst_builder)
+![GitHub issues](https://img.shields.io/github/issues/mintware-de/catalyst_builder)
+![Pub Publisher](https://img.shields.io/pub/publisher/catalyst_builder)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mintware-de/catalyst_builder/Dart)
 
 # Catalyst Builder
 
