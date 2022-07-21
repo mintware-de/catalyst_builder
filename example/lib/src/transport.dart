@@ -4,7 +4,10 @@ abstract class Transport {
   void transferData(String data);
 }
 
-@Service(exposeAs: Transport)
+@Service(
+  exposeAs: Transport,
+  tags: [#chat, #transport],
+)
 class ConsoleTransport implements Transport {
   @override
   void transferData(String data) {

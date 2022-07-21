@@ -13,6 +13,9 @@ abstract class ServiceProvider {
   /// If the service does not exist, an [Exception] is thrown.
   T resolve<T>();
 
+  /// Resolves all registered services with the given [tag].
+  List<dynamic> resolveByTag(Symbol tag);
+
   /// Try to resolve a [Service] of the given [T]ype.
   ///
   /// If the service does not exist, null is returned.

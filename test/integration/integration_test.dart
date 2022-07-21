@@ -168,4 +168,9 @@ void main() {
     expect(mySvc.foo, equals('overwritten'));
     expect(newProvider.parameters.containsKey('bar'), isTrue);
   });
+
+  test('resolveByTag', () {
+    var services = serviceProvider.resolveByTag(#chat);
+    expect(services, isNotEmpty);
+  });
 }

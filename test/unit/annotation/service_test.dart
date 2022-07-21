@@ -12,13 +12,16 @@ void main() {
     const serviceWithLifetime = Service(lifetime: ServiceLifetime.transient);
     expect(serviceWithLifetime.exposeAs, isNull);
     expect(serviceWithLifetime.lifetime, ServiceLifetime.transient);
+    expect(serviceWithLifetime.tags, isEmpty);
 
-    const serviceWithLifetimeAndExposeAs = Service(
+    const serviceWithAdditionalProperties = Service(
       lifetime: ServiceLifetime.transient,
       exposeAs: String,
+      tags: [#tag1, #tag2]
     );
-    expect(serviceWithLifetimeAndExposeAs.exposeAs, const TypeMatcher<Type>());
-    expect(serviceWithLifetimeAndExposeAs.exposeAs, equals(String));
-    expect(serviceWithLifetimeAndExposeAs.lifetime, ServiceLifetime.transient);
+    expect(serviceWithAdditionalProperties.exposeAs, const TypeMatcher<Type>());
+    expect(serviceWithAdditionalProperties.exposeAs, equals(String));
+    expect(serviceWithAdditionalProperties.lifetime, ServiceLifetime.transient);
+    expect(serviceWithAdditionalProperties.tags, equals([#tag1, #tag2]));
   });
 }

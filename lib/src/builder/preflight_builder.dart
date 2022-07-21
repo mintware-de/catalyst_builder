@@ -91,6 +91,7 @@ class PreflightBuilder implements Builder {
 
     var lifetime = _getLifetimeFromAnnotation(serviceAnnotation);
     var exposeAs = _getExposeAs(serviceAnnotation);
+    var tags = _getTags(serviceAnnotation);
 
     var extractedService = ExtractedService(
       lifetime: lifetime.toString(),
@@ -98,6 +99,7 @@ class PreflightBuilder implements Builder {
       constructorArgs: await _extractConstructorArgs(serviceClass),
       exposeAs: exposeAs,
       preload: isPreloaded && lifetime == ServiceLifetime.singleton,
+      tags: tags,
     );
     return extractedService;
   }
@@ -174,6 +176,21 @@ class PreflightBuilder implements Builder {
                 .startsWith('package:catalyst_builder/src/annotation/') ??
             false) &&
         annotation.element?.enclosingElement?.name == name;
+  }
+
+  List<String> _getTags(DartObject? serviceAnnotation) {
+    var tags = <String>[];
+
+    var tagsElement = serviceAnnotation?.getField('tags')?.toListValue();
+    if (tagsElement != null) {
+      for (var tag in tagsElement.toList()) {
+        var stringValue = tag.toSymbolValue();
+        if (stringValue != null) {
+          tags.add(stringValue);
+        }
+      }
+    }
+    return tags;
   }
 }
 

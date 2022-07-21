@@ -2,7 +2,7 @@
 set -e
 
 cd ./example
-dart pub get
+#dart pub get
 rm -f lib/src/example.container.dart
 dart run build_runner build --delete-conflicting-outputs
 cat "lib/src/example.container.dart" \

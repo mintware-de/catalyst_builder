@@ -11,6 +11,10 @@ class Service {
   /// a concrete implementation with the type of a interface.
   final Type? exposeAs;
 
+  /// Tags for this service. Tags can be used to group services together and
+  /// receive all services in a specific groups from the ServiceProvider.
+  final List<Symbol> tags;
+
   /// Creates a new service.
   /// The [lifetime] describes, if the service should be stored in the service
   /// provider after it's instantiated ([ServiceLifetime.singleton])
@@ -18,5 +22,6 @@ class Service {
   const Service({
     this.lifetime = ServiceLifetime.singleton,
     this.exposeAs,
+    this.tags = const <Symbol>[],
   });
 }

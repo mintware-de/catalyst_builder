@@ -18,4 +18,10 @@ void main(List<String> arguments) {
 
   var selfRegistered = provider.resolve<MySelfRegisteredService>();
   selfRegistered.sayHello();
+
+  // Contains CoolChatProvider and ConsoleTransport
+  var servicesByTag = provider.resolveByTag(#chat);
+  for (var svc in servicesByTag) {
+    print(svc);
+  }
 }
