@@ -17,6 +17,9 @@ class ExtractedService {
   /// True if the service should be preloaded
   final bool preload;
 
+  /// The tags of the service
+  final List<String> tags;
+
   /// Create a new instance.
   const ExtractedService({
     required this.lifetime,
@@ -24,6 +27,7 @@ class ExtractedService {
     required this.exposeAs,
     required this.constructorArgs,
     required this.preload,
+    required this.tags,
   });
 
   /// Creates a new instance from the result of [toJson].
@@ -39,6 +43,9 @@ class ExtractedService {
           .map(ConstructorArg.fromJson)
           .toList(),
       preload: json['preload'],
+      tags: json['tags'] != null
+          ? (json['tags'] as List).cast<String>().toList()
+          : [],
     );
   }
 
@@ -50,6 +57,7 @@ class ExtractedService {
       'constructorArgs': constructorArgs.map((e) => e.toJson()).toList(),
       'exposeAs': exposeAs?.toJson(),
       'preload': preload,
+      'tags': tags,
     };
   }
 }

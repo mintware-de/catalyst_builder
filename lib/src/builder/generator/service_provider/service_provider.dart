@@ -19,10 +19,13 @@ cb.Class buildServiceProviderClass(
       knownServicesTemplate,
       exposeMapTemplate,
       serviceInstancesTemplate,
+      servicesByTagTemplate,
     ])
     ..methods.addAll([
       tryResolveTemplate,
+      tryResolveInternalTemplate,
       resolveTemplate,
+      resolveByTagTemplate,
       tryResolveOrGetParameterTemplate,
       resolveOrGetParameterTemplate,
       bootTemplate(services),

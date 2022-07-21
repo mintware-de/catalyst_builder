@@ -34,8 +34,13 @@ final dependencyNotFoundExceptionT =
 /// [ServiceProvider.tryResolve]
 final tryResolve$ = cb.refer('tryResolve');
 
+final tryResolveInternal$ = cb.refer('_tryResolveInternal');
+
 /// [ServiceProvider.resolve]
 final resolve$ = cb.refer('resolve');
+
+/// [ServiceProvider.resolveByTag]
+final resolveByTag$ = cb.refer('resolveByTag');
 
 /// [ServiceProvider.has]
 final has$ = cb.refer('has');
@@ -57,6 +62,9 @@ final exposeMap$ = cb.refer('_exposeMap');
 
 /// _serviceInstances field in the service provider
 final serviceInstances$ = cb.refer('_serviceInstances');
+
+/// _servicesByTag field in the service provider
+final servicesByTag$ = cb.refer('_servicesByTag');
 
 /// parameters field in the service provider
 final parameters$ = cb.refer('parameters');
@@ -98,6 +106,14 @@ final stringT = cb.refer('String');
 
 /// dynamic type
 final dynamicT = cb.refer('dynamic');
+
+/// Symbol type
+final symbolT = cb.refer('Symbol');
+
+cb.Reference listOfT(cb.Reference T) => (cb.TypeReferenceBuilder()
+      ..symbol = 'List'
+      ..types.add(T))
+    .build();
 
 /// Make the reference nullable
 cb.Reference nullable(cb.Reference ref) => cb.refer("${ref.symbol}?", ref.url);

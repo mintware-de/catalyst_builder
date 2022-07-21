@@ -12,7 +12,8 @@ cb.Constructor buildProviderConstructor(
   return cb.Constructor((ctor) {
     var serviceFactories = {};
     var exposeAsData = {};
-
+    var servicesBySymbol = {};
+    var knownTags = <String, cb.Code>{};
     for (var svc in services) {
       var serviceType = cb.refer(svc.service.symbolName, svc.service.library);
 
@@ -23,6 +24,18 @@ cb.Constructor buildProviderConstructor(
         exposeAsReference = cb.refer(exposeAs.symbolName, exposeAs.library);
         exposeAsData[exposeAsReference] = serviceType;
       }
+
+      for (var tag in svc.tags) {
+        if (!knownTags.containsKey(tag)) {
+          knownTags[tag] = cb.Code('#$tag');
+        }
+        var s = knownTags[tag];
+        if (!servicesBySymbol.containsKey(s)) {
+          servicesBySymbol[s] = [];
+        }
+        servicesBySymbol[s].add(serviceType);
+      }
+
       serviceFactories[serviceType] = buildServiceFactory(
         exposeAsReference,
         serviceType,
@@ -36,6 +49,9 @@ cb.Constructor buildProviderConstructor(
       ]).statement,
       exposeMap$.property('addAll').call([
         cb.literalMap(exposeAsData, typeReference, typeReference),
+      ]).statement,
+      servicesByTag$.property('addAll').call([
+        cb.literalMap(servicesBySymbol, symbolT, listOfT(typeT)),
       ]).statement,
     ]);
   });

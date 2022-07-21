@@ -19,6 +19,7 @@ void main() {
         )
       ],
       service: SymbolReference(symbolName: 'foobar', library: 'baz'),
+      tags: ['testing', 'another'],
     );
   });
 
@@ -35,6 +36,7 @@ void main() {
     );
     expect(extractedService.service.library, 'baz');
     expect(extractedService.service.symbolName, 'foobar');
+    expect(extractedService.tags, equals(['testing', 'another']));
   });
 
   test('toJson fromJson', () {
@@ -47,6 +49,7 @@ void main() {
         'constructorArgs': [anything],
         'exposeAs': anything,
         'preload': true,
+        'tags': ['testing', 'another']
       }),
     );
 

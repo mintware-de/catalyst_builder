@@ -1,6 +1,5 @@
 [![GitHub license](https://img.shields.io/github/license/mintware-de/catalyst_builder.svg)](https://github.com/mintware-de/catalyst_builder/blob/master/LICENSE)
 [![Pub](https://img.shields.io/pub/v/catalyst_builder.svg)](https://pub.dartlang.org/packages/catalyst_builder)
-![Coveralls](https://img.shields.io/coveralls/github/mintware-de/catalyst_builder)
 ![GitHub issues](https://img.shields.io/github/issues/mintware-de/catalyst_builder)
 ![Pub Publisher](https://img.shields.io/pub/publisher/catalyst_builder)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mintware-de/catalyst_builder/Dart)
@@ -255,6 +254,35 @@ void main() {
   var mySvc = newProvider.resolve<SelfRegisteredService>();
   expect(mySvc.foo, equals('overwritten'));
 }
+```
+
+## Tagged services (v2.3.0+)
+You can tag services using the `tags` property on the `Service` annotation. This is useful if you need to group services
+and load all services with a certain tag at once.
+```dart
+@Service(tags: [#groupTag, #anotherTag])
+class MyService1 {}
+
+@Service(tags: [#groupTag, #anotherDifferentTag])
+class MyService2 {}
+
+void main() {
+  var provider = ExampleProvider();
+  provider.boot();
+
+  var groupTagServices = provider.resolveByTag(#groupTag);
+  // groupTagServices = [MyService1, MyService2]
+
+  var anotherTagServices = provider.resolveByTag(#anotherTag);
+  // anotherTagServices = [MyService1]
+
+  var anotherDifferentTagServices = provider.resolveByTag(#anotherDifferentTag);
+  // anotherDifferentTag = [MyService2]
+
+  var nonExistingTagServices = provider.resolveByTag(#nonExistingTag);
+  // servicesWithUnknownTag = []
+}
+
 ```
 
 ## Configuration

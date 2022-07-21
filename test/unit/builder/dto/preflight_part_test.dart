@@ -20,6 +20,7 @@ void main() {
           )
         ],
         service: SymbolReference(symbolName: 'foobar', library: 'baz'),
+        tags: ['testing', 'another'],
       )
     ]);
   });

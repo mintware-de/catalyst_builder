@@ -5,6 +5,7 @@ import 'chat_provider.dart';
 
 @Service(
   exposeAs: ChatProvider,
+  tags: [#chat, #chat_provider],
 )
 class CoolChatProvider implements ChatProvider {
   Transport transport;
