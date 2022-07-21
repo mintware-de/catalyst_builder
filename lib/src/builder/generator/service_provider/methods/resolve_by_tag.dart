@@ -22,11 +22,13 @@ final resolveByTagTemplate = cb.Method((m) {
       initVar(servicesV, cb.literalList([], dynamicT)),
       IfBuilder(servicesByTag$.property('containsKey').call([tagP]).negate())
           .thenReturn(servicesV),
-      ForEachBuilder(servicesByTag$[tagP].nullChecked, svcV).finalize(
-        servicesV.property('add').call([
-          tryResolveInternal$.call([svcV])
-        ]),
-      ).code,
+      ForEachBuilder(servicesByTag$[tagP].nullChecked, svcV)
+          .finalize(
+            servicesV.property('add').call([
+              tryResolveInternal$.call([svcV])
+            ]),
+          )
+          .code,
       servicesV.returned.statement
     ])
     ..returns = listOfT(dynamicT);

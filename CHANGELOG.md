@@ -1,3 +1,19 @@
+## 2.3.0
+Features:
+- Added `tags` to the `Service` annotation 
+- Added `ServiceProvider.resolveByTag(#tag)` to resolve a list of services by a tag.
+
+Take a look in the [README.md](./README.md) for example usage.
+
+Changes:
+- Dependencies updated
+  - glob: `^2.0.1` -> `^2.1.0`
+- Dev Dependencies updated
+  - lints: `^1.0.1` -> `^2.0.0`
+
+Internal:
+- `TryCatchBuilder` removed.
+
 ## 2.2.3
 
 Changes:

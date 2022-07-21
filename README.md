@@ -257,6 +257,35 @@ void main() {
 }
 ```
 
+## Tagged services (v2.3.0+)
+You can tag services using the `tags` property on the `Service` annotation. This is useful if you need to group services
+and load all services with a certain tag at once.
+```dart
+@Service(tags: [#groupTag, #anotherTag])
+class MyService1 {}
+
+@Service(tags: [#groupTag, #anotherDifferentTag])
+class MyService2 {}
+
+void main() {
+  var provider = ExampleProvider();
+  provider.boot();
+
+  var groupTagServices = provider.resolveByTag(#groupTag);
+  // groupTagServices = [MyService1, MyService2]
+
+  var anotherTagServices = provider.resolveByTag(#anotherTag);
+  // anotherTagServices = [MyService1]
+
+  var anotherDifferentTagServices = provider.resolveByTag(#anotherDifferentTag);
+  // anotherDifferentTag = [MyService2]
+
+  var nonExistingTagServices = provider.resolveByTag(#nonExistingTag);
+  // servicesWithUnknownTag = []
+}
+
+```
+
 ## Configuration
 
 To customize the builder, create a `build.yaml` beside your `pubsepc.yaml` with this content:
