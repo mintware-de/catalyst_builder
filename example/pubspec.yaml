@@ -14,5 +14,5 @@ dependencies:
     path: ../test/third_party_dependency
 
 dev_dependencies:
-  lints: ^1.0.1
+  lints: ^2.0.0
   build_runner: ^2.0.1
