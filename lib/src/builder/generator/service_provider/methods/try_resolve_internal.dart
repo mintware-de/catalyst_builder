@@ -15,7 +15,7 @@ final tryResolveInternalTemplate = cb.Method((m) {
     ..symbol = typeT.symbol
     ..isNullable = true);
 
-  var exposedType$ = cb.refer('_exposedType');
+  var exposedType$ = cb.refer('exposedType');
   var instance$ = cb.refer('instance');
 
   var typeP = cb.refer('t');

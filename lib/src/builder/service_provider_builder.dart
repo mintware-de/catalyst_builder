@@ -61,7 +61,7 @@ class ServiceProviderBuilder implements Builder {
           buildServiceProviderClass(config, services),
         ])).accept(emitter).toString();
     final content = DartFormatter().format('''
-// ignore_for_file: prefer_relative_imports, public_member_api_docs
+// ignore_for_file: prefer_relative_imports, public_member_api_docs, implementation_imports, no_leading_underscores_for_library_prefixes
 $rawOutput
 ''');
     await buildStep.writeAsString(_outputAsset(buildStep), content);

@@ -175,7 +175,7 @@ class PreflightBuilder implements Builder {
                 .toString()
                 .startsWith('package:catalyst_builder/src/annotation/') ??
             false) &&
-        annotation.element?.enclosingElement?.name == name;
+        annotation.element?.enclosingElement2?.name == name;
   }
 
   List<String> _getTags(DartObject? serviceAnnotation) {
