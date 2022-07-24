@@ -1,3 +1,14 @@
+## 2.3.1
+
+Changes:
+- Dependencies updated
+  - `analyzer`: `>=3.2.0 <5.0.0` -> `>=4.3.0 <5.0.0`
+  - `build_runner`: `^2.0.4` -> `^2.2.0` 
+- Using `enclosingElement2` instead of `enclosingElement` (pub.dev score)
+- Added ignore rules for generated files
+  - `implementation_imports`
+  - `no_leading_underscores_for_library_prefixes`
+
 ## 2.3.0
 Features:
 - Added `tags` to the `Service` annotation 
@@ -34,7 +45,7 @@ Changes:
 Changes:
 - Dependencies updated
   - `analyzer`: `^3.2.0` -> `>=3.2.0 <5.0.0`
-  - `test`: `^1.20.1` -> `any´
+  - `test`: `^1.20.1` -> `any`
   - `source_gen` -> removed
 
 ## 2.2.0
