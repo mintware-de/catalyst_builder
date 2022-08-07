@@ -1,3 +1,17 @@
+## 3.0.0
+
+Features:
+- Added the `GenerateServiceProvider` annotation
+
+Changes:
+- Updated the minimum Dart SDK version to `2.17.0`
+
+Breaking Changes:
+- `build.yaml`
+  - Removed the option `outputName`
+    This change was necessary since the build_runner does not recognize changes correctly with runtime file names.
+  - Removed the option `preflightExtension`.
+
 ## 2.3.1
 
 Changes:

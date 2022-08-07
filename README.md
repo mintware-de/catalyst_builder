@@ -39,19 +39,39 @@ Decorate your services with `@Service`:
 class MyService {}
 ```
 
+Decorate in your entry point file any top level symbol with `@GenerateServiceProvider`:
+```dart
+// my_entrypoint.dart
+
+import 'package:catalyst_builder/catalyst_builder.dart';
+
+@GenerateServiceProvider()
+void main() {
+  // ...
+}
+```
+
 Then run `pub run build_runner build` or `flutter pub run build_runner build`. <br>
 You can also run `pub run build_runner watch` or `flutter pub run build_runner watch` to update the provider
 automatically as you perform changes.
 
-You should see a new file `service_provider.dart` after the build. Import it to use the service provider.
+You should see a new file `*.catalyst_builder.g.dart` after the build. Import it to use the service provider.
 
 ```dart
-import 'default_service_provider.dart';
+// my_entrypoint.dart
 
+// Import the service provider 
+import 'my_entrypoint.catalyst_builder.g.dart';
+
+@GenerateServiceProvider()
 void main() {
+  // Create a new instance of the service provider
   var provider = DefaultServiceProvider();
+  
+  // Boot it to wire services
   provider.boot();
 
+  // Resolve a service.
   var myService1 = provider.resolve<MyService>();
 
   // Inferred types are also supported
@@ -297,6 +317,5 @@ targets:
       catalyst_builder|buildServiceProvider:
         options:
           providerClassName: 'DefaultServiceProvider' # class name of the provider
-          outputName: 'default_service_provider.dart' # file name of the provider. (Can also contain /)
           includePackageDependencies: false # True if services from dependencies should be added to your service provider (v1.1.0+)
 ```
