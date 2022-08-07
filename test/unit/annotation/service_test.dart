@@ -17,7 +17,7 @@ void main() {
     const serviceWithAdditionalProperties = Service(
       lifetime: ServiceLifetime.transient,
       exposeAs: String,
-      tags: [#tag1, #tag2]
+      tags: [#tag1, #tag2],
     );
     expect(serviceWithAdditionalProperties.exposeAs, const TypeMatcher<Type>());
     expect(serviceWithAdditionalProperties.exposeAs, equals(String));

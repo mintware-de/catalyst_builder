@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 
 import '../../catalyst_builder.dart';
@@ -11,11 +12,6 @@ import 'dto/dto.dart';
 /// The PreflightBuilder scans the files for @Service annotations.
 /// The result is stored in preflight.json files.
 class PreflightBuilder implements Builder {
-  final Map<String, dynamic> _config;
-
-  /// PreflightBuilder constructor
-  PreflightBuilder(this._config);
-
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     if (!await buildStep.resolver.isLibrary(buildStep.inputId)) {
@@ -25,7 +21,7 @@ class PreflightBuilder implements Builder {
     final entryLib = await buildStep.inputLibrary;
 
     final preflightAsset =
-        buildStep.inputId.changeExtension(_config['preflightExtension']);
+        buildStep.inputId.changeExtension('.catalyst_builder.preflight.json');
     var extractedAnnotations = await _extractAnnotations(entryLib);
 
     await buildStep.writeAsString(
@@ -37,7 +33,7 @@ class PreflightBuilder implements Builder {
   @override
   Map<String, List<String>> get buildExtensions => {
         r'$lib$': [],
-        '.dart': [_config['preflightExtension']],
+        '.dart': ['.catalyst_builder.preflight.json'],
       };
 
   Future<PreflightPart> _extractAnnotations(LibraryElement entryLib) async {
@@ -52,8 +48,13 @@ class PreflightBuilder implements Builder {
           var serviceMap =
               serviceMapAnnotation?.getField('services')?.toMapValue() ?? {};
           for (var kvp in serviceMap.entries) {
-            var keyElement = kvp.key?.toTypeValue()?.element;
-            if (keyElement == null || keyElement is! ClassElement) {
+            var typed = kvp.key?.toTypeValue();
+            if (typed is! InterfaceType) {
+              continue;
+            }
+
+            var keyElement = typed.element2;
+            if (keyElement is! ClassElement) {
               continue;
             }
 
@@ -105,17 +106,17 @@ class PreflightBuilder implements Builder {
   }
 
   SymbolReference? _getExposeAs(DartObject? serviceAnnotation) {
-    var exposeAsElement =
-        serviceAnnotation?.getField('exposeAs')?.toTypeValue()?.element;
-
-    SymbolReference? exposeAs;
-    if (exposeAsElement != null) {
-      exposeAs = SymbolReference(
-        symbolName: exposeAsElement.name!,
-        library: exposeAsElement.librarySource?.uri.toString(),
-      );
+    var typed = serviceAnnotation?.getField('exposeAs')?.toTypeValue();
+    if (typed is! InterfaceType) {
+      return null;
     }
-    return exposeAs;
+
+    var exposeAsElement = typed.element2;
+
+    return SymbolReference(
+      symbolName: exposeAsElement.name,
+      library: exposeAsElement.librarySource.uri.toString(),
+    );
   }
 
   ServiceLifetime _getLifetimeFromAnnotation(DartObject? serviceAnnotation) {
@@ -175,7 +176,7 @@ class PreflightBuilder implements Builder {
                 .toString()
                 .startsWith('package:catalyst_builder/src/annotation/') ??
             false) &&
-        annotation.element?.enclosingElement2?.name == name;
+        annotation.element?.enclosingElement3?.name == name;
   }
 
   List<String> _getTags(DartObject? serviceAnnotation) {
@@ -195,5 +196,4 @@ class PreflightBuilder implements Builder {
 }
 
 /// Runs the preflight builder
-Builder runPreflight(BuilderOptions options) =>
-    PreflightBuilder(options.config);
+Builder runPreflight(BuilderOptions options) => PreflightBuilder();

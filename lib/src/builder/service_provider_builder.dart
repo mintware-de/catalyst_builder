@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:build_runner_core/build_runner_core.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:glob/glob.dart';
-import 'package:path/path.dart' as p;
 
 import 'dto/dto.dart';
 import 'generator/service_provider/service_provider.dart';
@@ -21,16 +21,38 @@ class ServiceProviderBuilder implements Builder {
   ServiceProviderBuilder(this.config);
 
   AssetId _outputAsset(BuildStep buildStep) {
-    return AssetId(
-      buildStep.inputId.package,
-      p.join('lib', config['outputName']),
-    );
+    return buildStep.inputId.changeExtension('.catalyst_builder.g.dart');
+  }
+
+  bool _isLibraryAnnotation(ElementAnnotation annotation, String name) {
+    return annotation.element != null &&
+        (annotation.element!.library?.source.uri
+                .toString()
+                .startsWith('package:catalyst_builder/src/annotation/') ??
+            false) &&
+        annotation.element?.enclosingElement3?.name == name;
   }
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
+    var isEntryPoint = false;
+    for (var el in (await buildStep.inputLibrary).topLevelElements) {
+      for (var annotation in el.metadata) {
+        if (_isLibraryAnnotation(annotation, 'GenerateServiceProvider')) {
+          isEntryPoint = true;
+          break;
+        }
+      }
+      if (isEntryPoint) {
+        break;
+      }
+    }
+    if (!isEntryPoint) {
+      return;
+    }
+
     var preflightFiles = Glob(
-      '**/*${config['preflightExtension']}',
+      '**/*.catalyst_builder.preflight.json',
       recursive: true,
     );
 
@@ -61,7 +83,7 @@ class ServiceProviderBuilder implements Builder {
           buildServiceProviderClass(config, services),
         ])).accept(emitter).toString();
     final content = DartFormatter().format('''
-// ignore_for_file: prefer_relative_imports, public_member_api_docs, implementation_imports, no_leading_underscores_for_library_prefixes
+// ignore_for_file: prefer_relative_imports, public_member_api_docs, implementation_imports
 $rawOutput
 ''');
     await buildStep.writeAsString(_outputAsset(buildStep), content);
@@ -69,7 +91,8 @@ $rawOutput
 
   @override
   Map<String, List<String>> get buildExtensions => {
-        r'$lib$': [config['outputName']],
+        r'$lib$': [],
+        r'.dart': ['.catalyst_builder.g.dart'],
       };
 }
 
