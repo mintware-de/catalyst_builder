@@ -106,12 +106,12 @@ class PreflightBuilder implements Builder {
   }
 
   SymbolReference? _getExposeAs(DartObject? serviceAnnotation) {
-    var typeValue = serviceAnnotation?.getField('exposeAs')?.toTypeValue();
-    if (typeValue is! InterfaceType) {
+    var typed = serviceAnnotation?.getField('exposeAs')?.toTypeValue();
+    if (typed is! InterfaceType) {
       return null;
     }
 
-    var exposeAsElement = typeValue.element2;
+    var exposeAsElement = typed.element2;
 
     return SymbolReference(
       symbolName: exposeAsElement.name,
