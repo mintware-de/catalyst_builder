@@ -21,12 +21,13 @@ void main() {
     var ex = _Tmp('foo', inner2);
     expect(inner.toString(), equals('CatalystBuilderException: bar'));
     expect(
-        ex.toString(),
-        equals('''
+      ex.toString(),
+      equals('''
 CatalystBuilderException: foo
 \tInner Exception: baz
 \t\tInner Exception: bar
 '''
-            .trim()));
+          .trim()),
+    );
   });
 }
