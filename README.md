@@ -27,7 +27,7 @@ Add this to your pubspec.yaml and run `pub get` or `flutter pub get`:
 
 ```yaml
 dev_dependencies:
-  build_runner: ^2.0.1
+  build_runner: ^2.2.0
 ```
 
 ## Usage
