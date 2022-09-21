@@ -1,3 +1,9 @@
+## 3.1.0
+
+Maintenance Release
+
+- Replaced a deprecated function call (assignVar)
+
 ## 3.0.0
 
 Features:

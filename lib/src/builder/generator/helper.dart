@@ -2,7 +2,7 @@ import 'package:code_builder/code_builder.dart' as cb;
 
 /// Short hand method for assignVar.
 cb.Code initVar(cb.Reference var$, cb.Expression value$) {
-  return value$.assignVar(var$.symbol!).statement;
+  return cb.declareVar(var$.symbol!).assign(value$).statement;
 }
 
 /// Short hand method for assignNullAware.
