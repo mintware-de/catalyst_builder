@@ -1,3 +1,8 @@
+## 3.2.0
+
+Changes:
+- Updated the minimum `analyzer` version to `^5.0.0`
+
 ## 3.1.0
 
 Maintenance Release
