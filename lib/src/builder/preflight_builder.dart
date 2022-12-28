@@ -130,35 +130,28 @@ class PreflightBuilder implements Builder {
   }
 
   List<ConstructorArg> _extractConstructorArgs(ClassElement el) {
-    var args = <ConstructorArg>[];
-
-    for (var ctor in el.constructors) {
-      if (ctor.isFactory || ctor.name != '') {
-        continue;
-      }
-      args.clear();
-
-      for (var param in ctor.parameters) {
-        args.add(_buildConstructorArg(param));
-      }
-      break;
-    }
-    return args;
+    return el.constructors
+            .cast<ConstructorElement?>()
+            .firstWhere(
+              (ctor) => ctor != null && !ctor.isFactory && ctor.name == '',
+              orElse: () => null,
+            )
+            ?.parameters
+            .map(_buildConstructorArg)
+            .toList() ??
+        [];
   }
 
   ConstructorArg _buildConstructorArg(ParameterElement param) {
-    String? binding;
-    for (var annotation in param.metadata) {
-      if (_isLibraryAnnotation(annotation, 'Parameter')) {
-        binding = annotation
-            .computeConstantValue()
-            ?.getField('name')
-            ?.toStringValue();
-        if (binding?.isNotEmpty == true) {
-          break;
-        }
-      }
-    }
+    var binding = param.metadata
+        .cast<ElementAnnotation?>()
+        .firstWhere(
+          (a) => _isLibraryAnnotation(a!, 'Parameter'),
+          orElse: () => null,
+        )
+        ?.computeConstantValue()
+        ?.getField('name')
+        ?.toStringValue();
 
     return ConstructorArg(
       boundParameter: binding,
