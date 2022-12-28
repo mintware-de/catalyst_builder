@@ -173,18 +173,15 @@ class PreflightBuilder implements Builder {
   }
 
   List<String> _getTags(DartObject? serviceAnnotation) {
-    var tags = <String>[];
-
-    var tagsElement = serviceAnnotation?.getField('tags')?.toListValue();
-    if (tagsElement != null) {
-      for (var tag in tagsElement.toList()) {
-        var stringValue = tag.toSymbolValue();
-        if (stringValue != null) {
-          tags.add(stringValue);
-        }
-      }
-    }
-    return tags;
+    return serviceAnnotation
+            ?.getField('tags')
+            ?.toListValue()
+            ?.toList()
+            .map((e) => e.toSymbolValue())
+            .where((e) => e != null)
+            .cast<String>()
+            .toList() ??
+        [];
   }
 }
 
