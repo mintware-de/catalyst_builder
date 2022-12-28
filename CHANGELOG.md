@@ -2,6 +2,9 @@
 
 Changes:
 - Updated the minimum `analyzer` version to `^5.0.0`
+- Updated the usages of deprecated properties. Using
+  - `element` instead of `element2`
+  - `enclosingElement` instead of `enclosingElement3`
 
 ## 3.1.0
 

@@ -53,7 +53,7 @@ class PreflightBuilder implements Builder {
               continue;
             }
 
-            var keyElement = typed.element2;
+            var keyElement = typed.element;
             if (keyElement is! ClassElement) {
               continue;
             }
@@ -111,7 +111,7 @@ class PreflightBuilder implements Builder {
       return null;
     }
 
-    var exposeAsElement = typed.element2;
+    var exposeAsElement = typed.element;
 
     return SymbolReference(
       symbolName: exposeAsElement.name,
@@ -176,7 +176,7 @@ class PreflightBuilder implements Builder {
                 .toString()
                 .startsWith('package:catalyst_builder/src/annotation/') ??
             false) &&
-        annotation.element?.enclosingElement3?.name == name;
+        annotation.element?.enclosingElement?.name == name;
   }
 
   List<String> _getTags(DartObject? serviceAnnotation) {

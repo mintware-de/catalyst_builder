@@ -30,7 +30,7 @@ class ServiceProviderBuilder implements Builder {
                 .toString()
                 .startsWith('package:catalyst_builder/src/annotation/') ??
             false) &&
-        annotation.element?.enclosingElement3?.name == name;
+        annotation.element?.enclosingElement?.name == name;
   }
 
   @override
