@@ -22,7 +22,7 @@ class PreflightBuilder implements Builder {
 
     final preflightAsset =
         buildStep.inputId.changeExtension('.catalyst_builder.preflight.json');
-    var extractedAnnotations = await _extractAnnotations(entryLib);
+    var extractedAnnotations = _extractAnnotations(entryLib);
 
     await buildStep.writeAsString(
       preflightAsset,
@@ -36,7 +36,7 @@ class PreflightBuilder implements Builder {
         '.dart': ['.catalyst_builder.preflight.json'],
       };
 
-  Future<PreflightPart> _extractAnnotations(LibraryElement entryLib) async {
+  PreflightPart _extractAnnotations(LibraryElement entryLib) {
     var services = <ExtractedService>[];
     for (var el in entryLib.topLevelElements) {
       var isPreloaded =
@@ -58,7 +58,7 @@ class PreflightBuilder implements Builder {
               continue;
             }
 
-            services.add(await _mapToExtractedService(
+            services.add(_mapToExtractedService(
               keyElement,
               kvp.value,
               isPreloaded,
@@ -67,7 +67,7 @@ class PreflightBuilder implements Builder {
         }
         if (_isLibraryAnnotation(annotation, 'Service') && el is ClassElement) {
           var serviceAnnotation = annotation.computeConstantValue();
-          services.add(await _mapToExtractedService(
+          services.add(_mapToExtractedService(
             el,
             serviceAnnotation,
             isPreloaded,
@@ -80,11 +80,11 @@ class PreflightBuilder implements Builder {
     );
   }
 
-  Future<ExtractedService> _mapToExtractedService(
+  ExtractedService _mapToExtractedService(
     ClassElement serviceClass,
     DartObject? serviceAnnotation,
     bool isPreloaded,
-  ) async {
+  ) {
     var serviceReference = SymbolReference(
       symbolName: serviceClass.name,
       library: serviceClass.librarySource.uri.toString(),
@@ -97,7 +97,7 @@ class PreflightBuilder implements Builder {
     var extractedService = ExtractedService(
       lifetime: lifetime.toString(),
       service: serviceReference,
-      constructorArgs: await _extractConstructorArgs(serviceClass),
+      constructorArgs: _extractConstructorArgs(serviceClass),
       exposeAs: exposeAs,
       preload: isPreloaded && lifetime == ServiceLifetime.singleton,
       tags: tags,
@@ -129,7 +129,7 @@ class PreflightBuilder implements Builder {
     return lifetime;
   }
 
-  Future<List<ConstructorArg>> _extractConstructorArgs(ClassElement el) async {
+  List<ConstructorArg> _extractConstructorArgs(ClassElement el) {
     var args = <ConstructorArg>[];
 
     for (var ctor in el.constructors) {
@@ -139,14 +139,14 @@ class PreflightBuilder implements Builder {
       args.clear();
 
       for (var param in ctor.parameters) {
-        args.add(await _buildConstructorArg(param));
+        args.add(_buildConstructorArg(param));
       }
       break;
     }
     return args;
   }
 
-  Future<ConstructorArg> _buildConstructorArg(ParameterElement param) async {
+  ConstructorArg _buildConstructorArg(ParameterElement param) {
     String? binding;
     for (var annotation in param.metadata) {
       if (_isLibraryAnnotation(annotation, 'Parameter')) {
