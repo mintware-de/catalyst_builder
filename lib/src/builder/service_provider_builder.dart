@@ -35,18 +35,12 @@ class ServiceProviderBuilder implements Builder {
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
-    var isEntryPoint = false;
-    for (var el in (await buildStep.inputLibrary).topLevelElements) {
-      for (var annotation in el.metadata) {
-        if (_isLibraryAnnotation(annotation, 'GenerateServiceProvider')) {
-          isEntryPoint = true;
-          break;
-        }
-      }
-      if (isEntryPoint) {
-        break;
-      }
-    }
+    var isEntryPoint = (await buildStep.inputLibrary).topLevelElements.any(
+          (el) => el.metadata.any(
+            (a) => _isLibraryAnnotation(a, 'GenerateServiceProvider'),
+          ),
+        );
+
     if (!isEntryPoint) {
       return;
     }
