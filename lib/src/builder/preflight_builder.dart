@@ -85,24 +85,19 @@ class PreflightBuilder implements Builder {
     DartObject? serviceAnnotation,
     bool isPreloaded,
   ) {
-    var serviceReference = SymbolReference(
-      symbolName: serviceClass.name,
-      library: serviceClass.librarySource.uri.toString(),
-    );
-
     var lifetime = _getLifetimeFromAnnotation(serviceAnnotation);
-    var exposeAs = _getExposeAs(serviceAnnotation);
-    var tags = _getTags(serviceAnnotation);
 
-    var extractedService = ExtractedService(
+    return ExtractedService(
       lifetime: lifetime.toString(),
-      service: serviceReference,
+      service: SymbolReference(
+        symbolName: serviceClass.name,
+        library: serviceClass.librarySource.uri.toString(),
+      ),
       constructorArgs: _extractConstructorArgs(serviceClass),
-      exposeAs: exposeAs,
+      exposeAs: _getExposeAs(serviceAnnotation),
       preload: isPreloaded && lifetime == ServiceLifetime.singleton,
-      tags: tags,
+      tags: _getTags(serviceAnnotation),
     );
-    return extractedService;
   }
 
   SymbolReference? _getExposeAs(DartObject? serviceAnnotation) {
