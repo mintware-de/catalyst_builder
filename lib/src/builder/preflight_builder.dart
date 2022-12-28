@@ -121,12 +121,10 @@ class PreflightBuilder implements Builder {
 
   ServiceLifetime _getLifetimeFromAnnotation(DartObject? serviceAnnotation) {
     var lifetimeIndex = serviceAnnotation
-            ?.getField('lifetime')
-            ?.getField('index')
-            ?.toIntValue() ??
-        1;
-    var lifetime = ServiceLifetime.values[lifetimeIndex];
-    return lifetime;
+        ?.getField('lifetime')
+        ?.getField('index')
+        ?.toIntValue();
+    return ServiceLifetime.values[lifetimeIndex ?? 1];
   }
 
   List<ConstructorArg> _extractConstructorArgs(ClassElement el) {
