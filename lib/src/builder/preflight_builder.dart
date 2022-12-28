@@ -124,15 +124,10 @@ class PreflightBuilder implements Builder {
 
   List<ConstructorArg> _extractConstructorArgs(ClassElement el) {
     return el.constructors
-            .cast<ConstructorElement?>()
-            .firstWhere(
-              (ctor) => ctor != null && !ctor.isFactory && ctor.name == '',
-              orElse: () => null,
-            )
-            ?.parameters
+            .firstWhere((ctor) => !ctor.isFactory && ctor.name == '')
+            .parameters
             .map(_buildConstructorArg)
-            .toList() ??
-        [];
+            .toList();
   }
 
   ConstructorArg _buildConstructorArg(ParameterElement param) {
