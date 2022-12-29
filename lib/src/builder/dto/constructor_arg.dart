@@ -1,3 +1,5 @@
+import 'inject_annotation.dart';
+
 /// Represents an argument in the constructor
 class ConstructorArg {
   /// The name of the argument
@@ -18,6 +20,8 @@ class ConstructorArg {
   /// Overwrite the default parameter name
   final String? boundParameter;
 
+  final InjectAnnotation? inject;
+
   /// Create a ConstructorArg.
   const ConstructorArg({
     required this.name,
@@ -26,6 +30,7 @@ class ConstructorArg {
     required this.isPositional,
     required this.isNamed,
     required this.boundParameter,
+    required this.inject,
   });
 
   /// Creates a new instance from the result of [toJson].
@@ -37,6 +42,9 @@ class ConstructorArg {
       isPositional: json['isPositional'],
       isNamed: json['isNamed'],
       boundParameter: json['boundParameter'],
+      inject: json['inject'] != null
+          ? InjectAnnotation.fromJson(json['inject'])
+          : null,
     );
   }
 
@@ -49,6 +57,7 @@ class ConstructorArg {
       'isPositional': isPositional,
       'defaultValue': defaultValue,
       'boundParameter': boundParameter,
+      'inject': inject?.toJson(),
     };
   }
 }
