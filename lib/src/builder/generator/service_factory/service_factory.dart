@@ -32,7 +32,13 @@ cb.Expression buildServiceFactory(
     }
 
     var val = resolveWithFallbacks;
-    if (!param.isOptional && defaultValue.isEmpty) {
+    var tag = param.inject?.tag;
+    if (tag != null) {
+      val = resolveByTag$
+          .call([cb.refer('#$tag')])
+          .property('cast')
+          .call([]);
+    } else if (!param.isOptional && defaultValue.isEmpty) {
       val = resolveOrGetParameter$.call([
         serviceType,
         cb.literal(param.name),

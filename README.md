@@ -308,6 +308,29 @@ void main() {
 
 ```
 
+## Inject tagged services (v3.2.0+)
+
+The `@Inject` annotation allows you to inject a list of services tagged with a certain tag.
+```dart
+abstract class MyServiceBase {}
+
+@Service(tags: [#groupTag, #anotherTag])
+class MyService1 extends MyServiceBase {}
+
+@Service(tags: [#groupTag, #anotherDifferentTag])
+class MyService2 extends MyServiceBase {}
+
+@Service()
+class ServiceWithDeps {
+  
+  ServiceWithDeps(
+      @Inject(tag: #groupTag) List<MyServiceBase> services,
+  ) {
+    // services includes MyService1 and MyService2
+  }
+}
+
+```
 
 ## Configuration
 

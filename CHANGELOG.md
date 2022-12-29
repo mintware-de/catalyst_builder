@@ -2,7 +2,8 @@
 
 Features:
 - Introducing the new `@Inject` annotation. This annotation works like the `@Parameter` Annotation but is more flexible.
-  You can use it to inject a list of tagged services and also to inject parameters.
+  You can use it to inject a list of tagged services and also to inject parameters. The example code contains a
+  example for this feature.
 
 Deprecations:
 - The `@Parameter` annotation was marked as deprecated and will be removed in the next major release.  
