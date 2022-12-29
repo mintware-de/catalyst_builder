@@ -24,4 +24,7 @@ void main(List<String> arguments) {
   for (var svc in servicesByTag) {
     print(svc);
   }
+
+  var broadcaster = provider.resolve<Broadcaster>();
+  broadcaster.sendChatMessage('Hello Broadcast using injection tag.');
 }

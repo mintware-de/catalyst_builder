@@ -173,4 +173,9 @@ void main() {
     var services = serviceProvider.resolveByTag(#chat);
     expect(services, isNotEmpty);
   });
+
+  test('inject tagged services', () {
+    var service = serviceProvider.resolve<Broadcaster>();
+    expect(service.transports.length, equals(2));
+  });
 }

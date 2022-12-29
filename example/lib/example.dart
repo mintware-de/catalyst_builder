@@ -12,6 +12,7 @@ export './src/singleton_service.dart';
 export './src/transient_service.dart';
 export './src/transport.dart';
 export './src/self_registered_service.dart';
+export './src/broadcaster.dart';
 
 export 'example.catalyst_builder.g.dart';
 

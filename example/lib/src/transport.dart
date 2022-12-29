@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:catalyst_builder/catalyst_builder.dart';
 
 abstract class Transport {
@@ -13,5 +15,17 @@ class ConsoleTransport implements Transport {
   void transferData(String data) {
     print('**Sending through console**');
     print(data);
+  }
+}
+
+
+@Service(
+  tags: [#chat, #transport],
+)
+class HttpTransport implements Transport {
+  @override
+  void transferData(String data) {
+    print('**Sending over http**');
+    print(base64Encode(data.codeUnits));
   }
 }
