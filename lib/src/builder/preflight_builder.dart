@@ -183,10 +183,11 @@ class PreflightBuilder implements Builder {
 
     var constantValue = injectAnnotation?.computeConstantValue();
     var tag = constantValue?.getField('tag')?.toSymbolValue();
+    var parameter = constantValue?.getField('parameter')?.toStringValue();
 
     return InjectAnnotation(
       tag: tag,
-      parameter: binding
+      parameter: binding ?? parameter,
     );
   }
 

@@ -15,7 +15,7 @@ class CoolChatProvider implements ChatProvider {
 
   CoolChatProvider({
     required this.transport,
-    @Parameter('sender_username') required this.username,
+    @Inject(parameter: 'sender_username') required this.username,
   });
 
   @override
