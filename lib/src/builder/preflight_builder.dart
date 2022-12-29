@@ -159,7 +159,6 @@ class PreflightBuilder implements Builder {
         ?.toStringValue();
 
     return ConstructorArg(
-      boundParameter: binding,
       name: param.name,
       isOptional: param.isOptional,
       isPositional: param.isPositional,
@@ -178,15 +177,16 @@ class PreflightBuilder implements Builder {
       orElse: () => null,
     );
 
-    if (injectAnnotation == null) {
+    if (injectAnnotation == null && binding == null) {
       return null;
     }
 
-    var constantValue = injectAnnotation.computeConstantValue();
+    var constantValue = injectAnnotation?.computeConstantValue();
     var tag = constantValue?.getField('tag')?.toSymbolValue();
 
     return InjectAnnotation(
       tag: tag,
+      parameter: binding
     );
   }
 

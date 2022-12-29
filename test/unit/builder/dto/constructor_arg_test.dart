@@ -10,7 +10,6 @@ void main() {
       isOptional: true,
       isPositional: false,
       isNamed: true,
-      boundParameter: 'nullArg',
       inject: InjectAnnotation(tag: 'foo'),
     );
   });
@@ -22,7 +21,6 @@ void main() {
     expect(constructorArg.isOptional, isTrue);
     expect(constructorArg.isPositional, isFalse);
     expect(constructorArg.isNamed, isTrue);
-    expect(constructorArg.boundParameter, 'nullArg');
     expect(constructorArg.inject, isNotNull);
   });
 
@@ -36,7 +34,6 @@ void main() {
         'isNamed': true,
         'isPositional': false,
         'defaultValue': 'null',
-        'boundParameter': 'nullArg',
         'inject': containsPair('tag', 'foo'),
       }),
     );

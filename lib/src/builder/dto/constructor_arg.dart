@@ -17,9 +17,7 @@ class ConstructorArg {
   /// True if the parameter is a named parameter.
   final bool isNamed;
 
-  /// Overwrite the default parameter name
-  final String? boundParameter;
-
+  /// The extracted Inject annotation.
   final InjectAnnotation? inject;
 
   /// Create a ConstructorArg.
@@ -29,7 +27,6 @@ class ConstructorArg {
     required this.isOptional,
     required this.isPositional,
     required this.isNamed,
-    required this.boundParameter,
     required this.inject,
   });
 
@@ -41,7 +38,6 @@ class ConstructorArg {
       isOptional: json['isOptional'],
       isPositional: json['isPositional'],
       isNamed: json['isNamed'],
-      boundParameter: json['boundParameter'],
       inject: json['inject'] != null
           ? InjectAnnotation.fromJson(json['inject'])
           : null,
@@ -56,7 +52,6 @@ class ConstructorArg {
       'isNamed': isNamed,
       'isPositional': isPositional,
       'defaultValue': defaultValue,
-      'boundParameter': boundParameter,
       'inject': inject?.toJson(),
     };
   }

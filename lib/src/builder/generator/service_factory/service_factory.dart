@@ -21,7 +21,7 @@ cb.Expression buildServiceFactory(
 
   for (var param in svc.constructorArgs) {
     var defaultValue = '';
-    var parameterName = param.boundParameter ?? param.name;
+    var parameterName = param.inject?.parameter ?? param.name;
 
     var resolveWithFallbacks =
         tryResolveOrGetParameter$.call([cb.literal(parameterName)]);

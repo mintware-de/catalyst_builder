@@ -16,8 +16,7 @@ void main() {
             isOptional: true,
             isPositional: false,
             isNamed: true,
-            boundParameter: 'nullArg',
-            inject: null,
+            inject: InjectAnnotation(parameter: 'nullArg'),
           )
         ],
         service: SymbolReference(symbolName: 'foobar', library: 'baz'),
