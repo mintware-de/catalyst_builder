@@ -218,6 +218,9 @@ void main() {
 }
 ```
 
+> The `@Parameter` annotation is deprecated since v3.2.0 and will be removed in v4. Use `@Inject(parameter: 'name')` instead.  
+
+
 ## Service Maps (v1.2.0+)
 
 If you depend on a third party package, you can not easily add the `@Service` to classes inside the package.
@@ -304,6 +307,7 @@ void main() {
 }
 
 ```
+
 
 ## Configuration
 

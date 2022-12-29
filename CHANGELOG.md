@@ -1,5 +1,13 @@
 ## 3.2.0
 
+Features:
+- Introducing the new `@Inject` annotation. This annotation works like the `@Parameter` Annotation but is more flexible.
+  You can use it to inject a list of tagged services and also to inject parameters.
+
+Deprecations:
+- The `@Parameter` annotation was marked as deprecated and will be removed in the next major release.  
+  See [UPGRADE.md](UPGRADE.md) for upgrade instructions.
+
 Changes:
 - Updated the minimum `analyzer` version to `^5.0.0`
 

@@ -1,3 +1,10 @@
+# Upgrade from v3 to v4
+
+## @Parameter annotation removed
+The `@Parameter('name')` annotation was removed. You can use `@Inject(parameter: 'name')` instead.
+
+A simple replace-all `@Parameter(` with `@Inject(parameter: ` should fix your code.
+
 # Upgrade from v2 to v3
 
 ## Changes in `build.yaml`
