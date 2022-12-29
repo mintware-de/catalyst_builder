@@ -18,7 +18,6 @@ class ConsoleTransport implements Transport {
   }
 }
 
-
 @Service(
   tags: [#chat, #transport],
 )
