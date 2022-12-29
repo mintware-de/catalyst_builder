@@ -37,47 +37,64 @@ class PreflightBuilder implements Builder {
       };
 
   PreflightPart _extractAnnotations(LibraryElement entryLib) {
-    var services = <ExtractedService>[];
-    for (var el in entryLib.topLevelElements) {
-      var isPreloaded =
-          el.metadata.any((a) => _isLibraryAnnotation(a, 'Preload'));
-      for (var annotation in el.metadata) {
-        if (_isLibraryAnnotation(annotation, 'ServiceMap')) {
-          var serviceMapAnnotation = annotation.computeConstantValue();
+    var services = entryLib.topLevelElements
+        .map((e) => _extractFromTopLevelElement(e))
+        .reduce((value, element) => [...value, ...element]);
 
-          var serviceMap =
-              serviceMapAnnotation?.getField('services')?.toMapValue() ?? {};
-          for (var kvp in serviceMap.entries) {
-            var typed = kvp.key?.toTypeValue();
-            if (typed is! InterfaceType) {
-              continue;
-            }
-
-            var keyElement = typed.element;
-            if (keyElement is! ClassElement) {
-              continue;
-            }
-
-            services.add(_mapToExtractedService(
-              keyElement,
-              kvp.value,
-              isPreloaded,
-            ));
-          }
-        }
-        if (_isLibraryAnnotation(annotation, 'Service') && el is ClassElement) {
-          var serviceAnnotation = annotation.computeConstantValue();
-          services.add(_mapToExtractedService(
-            el,
-            serviceAnnotation,
-            isPreloaded,
-          ));
-        }
-      }
-    }
     return PreflightPart(
       services: services,
     );
+  }
+
+  List<ExtractedService> _extractFromTopLevelElement(Element el) {
+    var services = <ExtractedService>[];
+    var isPreloaded =
+        el.metadata.any((a) => _isLibraryAnnotation(a, 'Preload'));
+
+    for (var annotation in el.metadata) {
+      if (_isLibraryAnnotation(annotation, 'ServiceMap')) {
+        services.addAll(
+          _extractServicesFromServiceMap(annotation, isPreloaded),
+        );
+      }
+      if (_isLibraryAnnotation(annotation, 'Service') && el is ClassElement) {
+        var serviceAnnotation = annotation.computeConstantValue();
+        services.add(_mapToExtractedService(
+          el,
+          serviceAnnotation,
+          isPreloaded,
+        ));
+      }
+    }
+    return services;
+  }
+
+  List<ExtractedService> _extractServicesFromServiceMap(
+    ElementAnnotation annotation,
+    bool isPreloaded,
+  ) {
+    var serviceMapServices = <ExtractedService>[];
+
+    var serviceMapAnnotation = annotation.computeConstantValue();
+    var map = serviceMapAnnotation?.getField('services')?.toMapValue() ?? {};
+    for (var kvp in map.entries) {
+      var typed = kvp.key?.toTypeValue();
+      if (typed is! InterfaceType) {
+        continue;
+      }
+
+      var keyElement = typed.element;
+      if (keyElement is! ClassElement) {
+        continue;
+      }
+
+      serviceMapServices.add(_mapToExtractedService(
+        keyElement,
+        kvp.value,
+        isPreloaded,
+      ));
+    }
+    return serviceMapServices;
   }
 
   ExtractedService _mapToExtractedService(
@@ -124,10 +141,10 @@ class PreflightBuilder implements Builder {
 
   List<ConstructorArg> _extractConstructorArgs(ClassElement el) {
     return el.constructors
-            .firstWhere((ctor) => !ctor.isFactory && ctor.name == '')
-            .parameters
-            .map(_buildConstructorArg)
-            .toList();
+        .firstWhere((ctor) => !ctor.isFactory && ctor.name == '')
+        .parameters
+        .map(_buildConstructorArg)
+        .toList();
   }
 
   ConstructorArg _buildConstructorArg(ParameterElement param) {
