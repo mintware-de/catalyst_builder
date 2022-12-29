@@ -37,7 +37,7 @@ void main() {
         'isPositional': false,
         'defaultValue': 'null',
         'boundParameter': 'nullArg',
-        'inject': {'tag': 'foo'},
+        'inject': containsPair('tag', 'foo'),
       }),
     );
 

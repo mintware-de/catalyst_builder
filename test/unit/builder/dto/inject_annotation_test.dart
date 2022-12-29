@@ -6,12 +6,14 @@ void main() {
 
   setUp(() {
     annotation = InjectAnnotation(
-      tag: 'foo'
+      tag: 'foo',
+      parameter: 'bar'
     );
   });
 
   test('InjectAnnotation constructor', () {
     expect(annotation.tag, equals('foo'));
+    expect(annotation.parameter, equals('bar'));
   });
 
   test('toJson fromJson', () {
@@ -20,6 +22,7 @@ void main() {
       map,
       equals({
         'tag': 'foo',
+        'parameter': 'bar',
       }),
     );
 

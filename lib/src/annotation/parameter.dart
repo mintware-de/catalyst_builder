@@ -1,4 +1,4 @@
-import '../../catalyst_builder.dart';
+import '../service_provider.dart';
 
 /// Provide an alternative parameter binding
 class Parameter {
