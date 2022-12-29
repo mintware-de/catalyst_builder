@@ -1,4 +1,4 @@
-import 'package:catalyst_builder/src/builder/dto/constructor_arg.dart';
+import 'package:catalyst_builder/src/builder/dto/dto.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -11,6 +11,7 @@ void main() {
       isPositional: false,
       isNamed: true,
       boundParameter: 'nullArg',
+      inject: InjectAnnotation(tag: 'foo'),
     );
   });
 
@@ -22,6 +23,7 @@ void main() {
     expect(constructorArg.isPositional, isFalse);
     expect(constructorArg.isNamed, isTrue);
     expect(constructorArg.boundParameter, 'nullArg');
+    expect(constructorArg.inject, isNotNull);
   });
 
   test('toJson fromJson', () {
@@ -35,6 +37,7 @@ void main() {
         'isPositional': false,
         'defaultValue': 'null',
         'boundParameter': 'nullArg',
+        'inject': {'tag': 'foo'},
       }),
     );
 

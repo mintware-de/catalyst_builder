@@ -16,6 +16,7 @@ void main() {
           isPositional: false,
           isNamed: true,
           boundParameter: 'nullArg',
+          inject: null,
         )
       ],
       service: SymbolReference(symbolName: 'foobar', library: 'baz'),

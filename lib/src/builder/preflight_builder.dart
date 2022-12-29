@@ -148,8 +148,8 @@ class PreflightBuilder implements Builder {
   }
 
   ConstructorArg _buildConstructorArg(ParameterElement param) {
-    var binding = param.metadata
-        .cast<ElementAnnotation?>()
+    var annotations = param.metadata.cast<ElementAnnotation?>();
+    var binding = annotations
         .firstWhere(
           (a) => _isLibraryAnnotation(a!, 'Parameter'),
           orElse: () => null,
@@ -165,6 +165,28 @@ class PreflightBuilder implements Builder {
       isPositional: param.isPositional,
       isNamed: param.isNamed,
       defaultValue: param.defaultValueCode ?? '',
+      inject: _extractInjectAnnotation(annotations, binding),
+    );
+  }
+
+  InjectAnnotation? _extractInjectAnnotation(
+    List<ElementAnnotation?> annotations,
+    String? binding,
+  ) {
+    var injectAnnotation = annotations.firstWhere(
+      (a) => _isLibraryAnnotation(a!, 'Inject'),
+      orElse: () => null,
+    );
+
+    if (injectAnnotation == null) {
+      return null;
+    }
+
+    var constantValue = injectAnnotation.computeConstantValue();
+    var tag = constantValue?.getField('tag')?.toSymbolValue();
+
+    return InjectAnnotation(
+      tag: tag,
     );
   }
 
