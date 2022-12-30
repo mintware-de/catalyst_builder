@@ -8,5 +8,6 @@ void main() {
     var lazyServiceDescriptor = LazyServiceDescriptor(factory, service);
     expect(lazyServiceDescriptor.factory, equals(factory));
     expect(lazyServiceDescriptor.service, equals(service));
+    expect(lazyServiceDescriptor.returnType, equals(String));
   });
 }
