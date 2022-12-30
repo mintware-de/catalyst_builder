@@ -1,4 +1,4 @@
-import 'package:catalyst_builder/catalyst_builder.dart';
+part of '../example.dart';
 
 @Service(lifetime: ServiceLifetime.singleton)
 class MySingletonService {}

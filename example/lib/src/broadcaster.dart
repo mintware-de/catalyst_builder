@@ -1,7 +1,4 @@
-import 'package:catalyst_builder/catalyst_builder.dart';
-
-import './transport.dart';
-import 'chat_provider.dart';
+part of '../example.dart';
 
 @Service()
 class Broadcaster implements ChatProvider {

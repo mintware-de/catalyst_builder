@@ -1,20 +1,29 @@
 library catalyst_builder_example;
 
+import 'dart:convert';
+
 import 'package:catalyst_builder/catalyst_builder.dart';
 
 import './src/manually_wired_service.dart';
 
-export './src/chat_provider.dart';
-export './src/cool_chat_provider.dart';
 export './src/manually_wired_service.dart';
-export './src/preload_service.dart';
-export './src/singleton_service.dart';
-export './src/transient_service.dart';
-export './src/transport.dart';
-export './src/self_registered_service.dart';
-export './src/broadcaster.dart';
-
 export 'example.catalyst_builder.g.dart';
+
+part './src/chat_provider.dart';
+
+part './src/cool_chat_provider.dart';
+
+part './src/preload_service.dart';
+
+part './src/singleton_service.dart';
+
+part './src/transient_service.dart';
+
+part './src/transport.dart';
+
+part './src/self_registered_service.dart';
+
+part './src/broadcaster.dart';
 
 @Preload()
 @GenerateServiceProvider()

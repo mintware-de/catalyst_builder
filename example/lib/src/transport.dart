@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:catalyst_builder/catalyst_builder.dart';
+part of '../example.dart';
 
 abstract class Transport {
   void transferData(String data);

@@ -1,4 +1,4 @@
-import './transport.dart';
+part of '../example.dart';
 
 abstract class SelfRegisteredService {
   String get foo;

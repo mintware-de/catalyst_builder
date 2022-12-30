@@ -1,3 +1,9 @@
+## Next
+
+Fixes:
+- Fixed the generation for libraries (working with `part` and `part of`).
+
+
 ## 3.2.0
 
 Features:
