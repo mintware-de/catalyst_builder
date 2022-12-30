@@ -48,6 +48,8 @@ final has$ = cb.refer('has');
 /// [ServiceRegistry.register]
 final register$ = cb.refer('register');
 
+final registerInternal$ = cb.refer('_registerInternal');
+
 /// [EnhanceableProvider.enhance]
 final enhance$ = cb.refer('enhance');
 

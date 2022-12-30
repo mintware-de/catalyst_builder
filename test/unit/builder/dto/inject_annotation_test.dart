@@ -5,10 +5,7 @@ void main() {
   late InjectAnnotation annotation;
 
   setUp(() {
-    annotation = InjectAnnotation(
-      tag: 'foo',
-      parameter: 'bar'
-    );
+    annotation = InjectAnnotation(tag: 'foo', parameter: 'bar');
   });
 
   test('InjectAnnotation constructor', () {

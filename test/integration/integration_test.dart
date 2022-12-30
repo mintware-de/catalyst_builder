@@ -169,6 +169,33 @@ void main() {
     expect(newProvider.parameters.containsKey('bar'), isTrue);
   });
 
+  test('enhance with multiple descriptors', () {
+    if (serviceProvider is! EnhanceableProvider) {
+      fail('Service provider is not a EnhanceableProvider');
+    }
+    expect(serviceProvider.has<SelfRegisteredService>(), isFalse);
+    expect(serviceProvider.has<String>(), isFalse);
+
+    var newProvider = (serviceProvider as EnhanceableProvider).enhance(
+      services: [
+        LazyServiceDescriptor<MySelfRegisteredService>(
+          (p) => MySelfRegisteredService(p.resolve()),
+          const Service(exposeAs: SelfRegisteredService),
+        ),
+        LazyServiceDescriptor<String>(
+          (p) => 'This should also work',
+          const Service(exposeAs: String),
+        ),
+      ],
+    );
+
+    expect(newProvider.has<dynamic>(), isFalse);
+    expect(newProvider.has<SelfRegisteredService>(), isTrue);
+    expect(newProvider.has<String>(), isTrue);
+    expect(newProvider.resolve<SelfRegisteredService>(), isNotNull);
+    expect(newProvider.resolve<String>(), 'This should also work');
+  });
+
   test('resolveByTag', () {
     var services = serviceProvider.resolveByTag(#chat);
     expect(services, isNotEmpty);

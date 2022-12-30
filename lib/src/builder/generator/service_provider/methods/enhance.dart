@@ -49,7 +49,8 @@ cb.Method enhanceTemplate(String providerClassName) {
             .property('addAll')
             .call([serviceInstances$]).statement,
         ForEachBuilder(servicesP, serviceV)
-            .finalize(enhancedV.property(register$.symbol!).call([
+            .finalize(enhancedV.property(registerInternal$.symbol!).call([
+              serviceV.property('returnType'),
               serviceV.property('factory'),
               serviceV.property('service'),
             ]))

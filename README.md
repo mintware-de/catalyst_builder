@@ -270,7 +270,9 @@ void main() {
       'foo': 'overwritten',
     },
     services: [
-      LazyServiceDescriptor(
+      // Important: Specify the type explicitly or cast the outer array to dynamic. Otherwise dart can not infer the
+      // correct return type!
+      LazyServiceDescriptor<MySelfRegisteredService>( 
             (p) => MySelfRegisteredService(p.resolve(), p.parameters['foo']),
         const Service(exposeAs: SelfRegisteredService),
       ),
