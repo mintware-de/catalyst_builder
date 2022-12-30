@@ -1,3 +1,8 @@
+## next
+
+Fixes:
+- Fixed the type inference when enhancing the ServiceProvider.
+
 ## 3.2.1
 
 Fixes:

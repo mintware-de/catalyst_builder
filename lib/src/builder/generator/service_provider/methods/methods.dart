@@ -4,6 +4,7 @@ export 'enhance.dart';
 export 'ensure_booted.dart';
 export 'has.dart';
 export 'register.dart';
+export 'register_internal.dart';
 export 'resolve.dart';
 export 'resolve_by_tag.dart';
 export 'resolve_or_get_parameter.dart';
