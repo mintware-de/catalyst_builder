@@ -6,12 +6,15 @@ class LazyServiceDescriptor<T> {
   final Service service;
 
   /// The factory to produce the service.
-  final ServiceFactory factory;
+  final ServiceFactory<T> factory;
+
+  /// The return type of the factory.
+  final Type returnType;
 
   /// Creates a new [LazyServiceDescriptor] which produces a [T]
   /// using the [factory].
   LazyServiceDescriptor(
     this.factory, [
     this.service = const Service(),
-  ]);
+  ]) : returnType = T;
 }
