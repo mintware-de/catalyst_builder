@@ -37,9 +37,11 @@ class PreflightBuilder implements Builder {
       };
 
   PreflightPart _extractAnnotations(LibraryElement entryLib) {
-    var services = entryLib.topLevelElements
-        .map((e) => _extractFromTopLevelElement(e))
-        .reduce((value, element) => [...value, ...element]);
+    var services = <ExtractedService>[];
+
+    for (var lib in entryLib.topLevelElements) {
+      services.addAll(_extractFromTopLevelElement(lib));
+    }
 
     return PreflightPart(
       services: services,

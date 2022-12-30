@@ -2,7 +2,7 @@
 
 Fixes:
 - Fixed the generation for libraries (working with `part` and `part of`).
-
+- Fixed the extraction of services for packages without the `GenerateServiceProvider` annotation.
 
 ## 3.2.0
 
