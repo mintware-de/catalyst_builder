@@ -1,4 +1,4 @@
-## Next
+## 3.2.1
 
 Fixes:
 - Fixed the generation for libraries (working with `part` and `part of`).
