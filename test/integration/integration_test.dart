@@ -196,6 +196,39 @@ void main() {
     expect(newProvider.resolve<String>(), 'This should also work');
   });
 
+  test('enhance should contain previous manual registered services', () {
+    if (serviceProvider is! EnhanceableProvider) {
+      fail('Service provider is not a EnhanceableProvider');
+    }
+    expect(serviceProvider.has<SelfRegisteredService>(), isFalse);
+    expect(serviceProvider.has<String>(), isFalse);
+
+    var newProvider = (serviceProvider as EnhanceableProvider).enhance(
+      services: [
+        LazyServiceDescriptor<MySelfRegisteredService>(
+          (p) => MySelfRegisteredService(p.resolve()),
+          const Service(exposeAs: SelfRegisteredService),
+        ),
+      ],
+    );
+
+    expect(newProvider.has<SelfRegisteredService>(), isTrue);
+    expect(newProvider.has<String>(), isFalse);
+
+    var newProvider2 = (newProvider as EnhanceableProvider).enhance(
+      services: [
+        LazyServiceDescriptor<String>(
+          (p) => 'This should also work',
+          const Service(exposeAs: String),
+        ),
+      ],
+    );
+
+    expect(newProvider2.has<SelfRegisteredService>(), isTrue);
+    expect(newProvider2.has<String>(), isTrue);
+
+  });
+
   test('resolveByTag', () {
     var services = serviceProvider.resolveByTag(#chat);
     expect(services, isNotEmpty);

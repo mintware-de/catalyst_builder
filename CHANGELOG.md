@@ -1,3 +1,8 @@
+## 3.2.3
+
+Fixes:
+- Fixed the enhance method and overtake the expose map and the known services map.
+
 ## 3.2.2
 
 Fixes:
