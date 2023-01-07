@@ -48,10 +48,7 @@ cb.Method enhanceTemplate(String providerClassName) {
             .property(serviceInstances$.symbol!)
             .property('addAll')
             .call([serviceInstances$]).statement,
-        enhancedV
-            .property(knownServices$.symbol!)
-            .property('addAll')
-            .call([knownServices$]).statement,
+        _addKnownServices(enhancedV),
         enhancedV
             .property(exposeMap$.symbol!)
             .property('addAll')
@@ -75,4 +72,28 @@ cb.Method enhanceTemplate(String providerClassName) {
         enhancedV.returned.statement,
       ]);
   });
+}
+
+/// Adds missing _knownServices to the enhanced provider _knownServices map.
+cb.Code _addKnownServices(cb.Reference enhancedV) {
+  var elV = const cb.Reference('el');
+
+  return enhancedV.property(knownServices$.symbol!).property('addAll').call([
+    cb.refer('Map').property('fromEntries').call([
+      knownServices$.property('entries').property('where').call([
+        (cb.MethodBuilder()
+              ..lambda = true
+              ..requiredParameters.addAll([
+                cb.Parameter((b) => b..name = elV.symbol!),
+              ])
+              ..body = enhancedV
+                  .negate()
+                  .property(knownServices$.symbol!)
+                  .property('containsKey')
+                  .call([elV.property('key')]).code)
+            .build()
+            .closure
+      ])
+    ])
+  ]).statement;
 }

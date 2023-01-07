@@ -1,3 +1,8 @@
+## 3.3.1
+
+Fixes:
+- Fixed the enhance method. [PR#16](https://github.com/mintware-de/catalyst_builder/pull/16)
+
 ## 3.3.0
 
 Features:
