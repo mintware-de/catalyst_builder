@@ -25,7 +25,7 @@ final resolveByTagTemplate = cb.Method((m) {
       ForEachBuilder(servicesByTag$[tagP].nullChecked, svcV)
           .finalize(
             servicesV.property('add').call([
-              tryResolveInternal$.call([svcV])
+              tryResolveInternal$.call([svcV]).asA(dynamicT)
             ]),
           )
           .code,
