@@ -33,7 +33,7 @@ cb.Class buildServiceProviderClass(
       hasTemplate,
       registerTemplate,
       registerInternalTemplate,
-      enhanceTemplate(config['providerClassName']),
+      enhanceTemplate(config['providerClassName'].toString()),
     ])
     ..constructors.add(
       buildProviderConstructor(services, typeT),

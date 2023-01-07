@@ -15,8 +15,8 @@ class SymbolReference {
   /// Creates a new instance from the result of [toJson].
   factory SymbolReference.fromJson(Map<String, dynamic> json) {
     return SymbolReference(
-      symbolName: json['symbolName'],
-      library: json['library'],
+      symbolName: json['symbolName'].toString(),
+      library: json['library']?.toString(),
     );
   }
 

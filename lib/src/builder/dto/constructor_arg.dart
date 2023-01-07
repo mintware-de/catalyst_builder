@@ -33,13 +33,13 @@ class ConstructorArg {
   /// Creates a new instance from the result of [toJson].
   factory ConstructorArg.fromJson(Map<String, dynamic> json) {
     return ConstructorArg(
-      name: json['name'],
-      defaultValue: json['defaultValue'],
-      isOptional: json['isOptional'],
-      isPositional: json['isPositional'],
-      isNamed: json['isNamed'],
+      name: json['name'].toString(),
+      defaultValue: json['defaultValue'].toString(),
+      isOptional: json['isOptional'] == true,
+      isPositional: json['isPositional'] == true,
+      isNamed: json['isNamed'] == true,
       inject: json['inject'] != null
-          ? InjectAnnotation.fromJson(json['inject'])
+          ? InjectAnnotation.fromJson(json['inject'] as Map<String, dynamic>)
           : null,
     );
   }

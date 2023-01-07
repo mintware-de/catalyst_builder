@@ -14,8 +14,8 @@ class InjectAnnotation {
   /// Creates a new instance from the result of [toJson].
   factory InjectAnnotation.fromJson(Map<String, dynamic> json) {
     return InjectAnnotation(
-      tag: json['tag'],
-      parameter: json['parameter'],
+      tag: json['tag']?.toString(),
+      parameter: json['parameter']?.toString(),
     );
   }
 
