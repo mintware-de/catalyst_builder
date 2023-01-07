@@ -1,3 +1,9 @@
+## 3.3.0
+
+Features:
+- Added stricter rules to analysis_options.yaml
+  - Added type castings to the generated service provider.
+
 ## 3.2.3
 
 Fixes:
