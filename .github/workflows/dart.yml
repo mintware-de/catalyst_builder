@@ -24,6 +24,9 @@ jobs:
       - name: Analyze project source
         run: dart analyze lib
 
+      - name: Analyze generated container
+        run: cd example && dart run build_runner build --delete-conflicting-outputs && cd .. &&  dart analyze example
+
       - name: Set permissions
         run: chmod +x run_tests.sh
 
