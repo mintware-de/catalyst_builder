@@ -158,7 +158,8 @@ void main() {
       },
       services: [
         LazyServiceDescriptor(
-          (p) => MySelfRegisteredService(p.resolve(), p.parameters['foo']),
+          (p) => MySelfRegisteredService(
+              p.resolve(), p.parameters['foo'] as String),
           const Service(exposeAs: SelfRegisteredService),
         ),
       ],
@@ -226,7 +227,6 @@ void main() {
 
     expect(newProvider2.has<SelfRegisteredService>(), isTrue);
     expect(newProvider2.has<String>(), isTrue);
-
   });
 
   test('resolveByTag', () {

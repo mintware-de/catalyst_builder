@@ -58,7 +58,7 @@ class ServiceProviderBuilder implements Builder {
     final services = <ExtractedService>[];
 
     AssetReader assetReader = buildStep;
-    if (config['includePackageDependencies']) {
+    if (config['includePackageDependencies'] == true) {
       assetReader = FileBasedAssetReader(await PackageGraph.forThisPackage());
     }
 
@@ -66,7 +66,7 @@ class ServiceProviderBuilder implements Builder {
       log.info('Read json from ${input.path}');
       var jsonContent = await assetReader.readAsString(input);
       var part = PreflightPart.fromJson(
-        jsonDecode(jsonContent),
+        jsonDecode(jsonContent) as Map<String, dynamic>,
       );
       parts.add(part);
       services.addAll(part.services);

@@ -33,16 +33,17 @@ class ExtractedService {
   /// Creates a new instance from the result of [toJson].
   factory ExtractedService.fromJson(Map<String, dynamic> json) {
     return ExtractedService(
-      lifetime: json['lifetime'],
-      service: SymbolReference.fromJson(json['service']),
+      lifetime: json['lifetime'].toString(),
+      service:
+          SymbolReference.fromJson(json['service'] as Map<String, dynamic>),
       exposeAs: json['exposeAs'] != null
-          ? SymbolReference.fromJson(json['exposeAs'])
+          ? SymbolReference.fromJson(json['exposeAs'] as Map<String, dynamic>)
           : null,
       constructorArgs: (json['constructorArgs'] as List)
           .cast<Map<String, dynamic>>()
           .map(ConstructorArg.fromJson)
           .toList(),
-      preload: json['preload'],
+      preload: json['preload'] == true,
       tags: json['tags'] != null
           ? (json['tags'] as List).cast<String>().toList()
           : [],
