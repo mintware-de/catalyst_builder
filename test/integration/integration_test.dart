@@ -238,4 +238,29 @@ void main() {
     var service = serviceProvider.resolve<Broadcaster>();
     expect(service.transports.length, equals(2));
   });
+
+  test('enhance should not override default descriptors', () {
+    if (serviceProvider is! EnhanceableProvider) {
+      fail('Service provider is not a EnhanceableProvider');
+    }
+    expect(serviceProvider.has<ServiceThatDependOnEnhancedService>(), isTrue);
+    expect(
+      () => serviceProvider.resolve<ServiceThatDependOnEnhancedService>(),
+      throwsA(const TypeMatcher<DependencyNotFoundException>()),
+    );
+
+    var enhanced = (serviceProvider as EnhanceableProvider).enhance(
+      services: [
+        LazyServiceDescriptor<ServiceOnlyProvidedInEnhanced>(
+          (p) => ServiceOnlyProvidedInEnhanced(),
+          const Service(exposeAs: ServiceOnlyProvidedInEnhanced),
+        )
+      ],
+    );
+
+    expect(enhanced.has<ServiceThatDependOnEnhancedService>(), isTrue);
+    expect(
+        enhanced.resolve<ServiceThatDependOnEnhancedService>().dependency.foo,
+        equals('bar'));
+  });
 }
