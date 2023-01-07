@@ -35,7 +35,7 @@ final tryResolveInternalTemplate = cb.Method((m) {
       fallbackIfNull(exposedType$, typeP).statement,
       IfBuilder(
         serviceInstances$.property('containsKey').call([exposedType$]),
-      ).thenReturn(serviceInstances$[exposedType$]),
+      ).thenReturn(serviceInstances$[exposedType$].asA(nullableTypeT)),
       initVar(descriptor$, knownServices$[exposedType$]),
       IfBuilder(descriptor$.equalTo(cb.literalNull)).thenReturn(cb.literalNull),
       initVar(instance$, descriptor$.property('produce').call([])),
@@ -45,6 +45,6 @@ final tryResolveInternalTemplate = cb.Method((m) {
               .equalTo(singletonLifeTime$))
           .then(assign(serviceInstances$[exposedType$], instance$))
           .code,
-      instance$.returned.statement,
+      instance$.asA(nullableTypeT).returned.statement,
     ]);
 });
