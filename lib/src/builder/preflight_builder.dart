@@ -23,6 +23,9 @@ class PreflightBuilder implements Builder {
     final preflightAsset =
         buildStep.inputId.changeExtension('.catalyst_builder.preflight.json');
     var extractedAnnotations = _extractAnnotations(entryLib);
+    if (extractedAnnotations.services.isEmpty) {
+      return;
+    }
 
     await buildStep.writeAsString(
       preflightAsset,
