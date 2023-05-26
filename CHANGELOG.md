@@ -1,3 +1,11 @@
+## 3.4.0
+
+Features:
+- Added an example for working with relative dependencies. [PR#19](https://github.com/mintware-de/catalyst_builder/pull/19)
+
+Changes:
+- The preflight builder will no more emit empty files. This should increase the build performance. [PR#18](https://github.com/mintware-de/catalyst_builder/pull/18)
+
 ## 3.3.1
 
 Fixes:
