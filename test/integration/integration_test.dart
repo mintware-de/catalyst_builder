@@ -106,9 +106,9 @@ void main() {
 
   test('hasService', () {
     expect(serviceProvider.has<MySingletonService>(), isTrue);
-    expect(serviceProvider.has(MySingletonService), isTrue);
+    expect(serviceProvider.has<dynamic>(MySingletonService), isTrue);
     expect(serviceProvider.has<ChatProvider>(), isTrue);
-    expect(serviceProvider.has(ChatProvider), isTrue);
+    expect(serviceProvider.has<dynamic>(ChatProvider), isTrue);
   });
 
   test('service registration', () {

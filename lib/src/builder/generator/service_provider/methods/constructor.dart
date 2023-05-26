@@ -10,9 +10,9 @@ cb.Constructor buildProviderConstructor(
   cb.Reference typeReference,
 ) {
   return cb.Constructor((ctor) {
-    var serviceFactories = {};
-    var exposeAsData = {};
-    var servicesBySymbol = {};
+    var serviceFactories = <cb.Reference, cb.Expression>{};
+    var exposeAsData = <cb.Reference, cb.Reference>{};
+    var servicesBySymbol = <cb.Code, List<cb.Reference>>{};
     var knownTags = <String, cb.Code>{};
     for (var svc in services) {
       var serviceType = cb.refer(svc.service.symbolName, svc.service.library);
@@ -30,10 +30,13 @@ cb.Constructor buildProviderConstructor(
           knownTags[tag] = cb.Code('#$tag');
         }
         var s = knownTags[tag];
+        if (s == null) {
+          continue;
+        }
         if (!servicesBySymbol.containsKey(s)) {
           servicesBySymbol[s] = [];
         }
-        servicesBySymbol[s].add(serviceType);
+        servicesBySymbol[s]?.add(serviceType);
       }
 
       serviceFactories[serviceType] = buildServiceFactory(
