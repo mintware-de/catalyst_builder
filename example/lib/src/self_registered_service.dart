@@ -1,4 +1,4 @@
-part of '../example.dart';
+part of '../public_api.dart';
 
 abstract class SelfRegisteredService {
   String get foo;

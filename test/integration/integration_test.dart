@@ -2,7 +2,21 @@ import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:test/test.dart';
 
 // ignore: avoid_relative_lib_imports
-import '../../example/lib/example.dart';
+import '../../example/lib/example.catalyst_builder.g.dart';
+
+// ignore: avoid_relative_lib_imports
+import '../../example/lib/public_api.dart'
+    show
+        Broadcaster,
+        ChatProvider,
+        CoolChatProvider,
+        ManuallyWiredService,
+        ManuallyWiredServiceImplementation,
+        MySelfRegisteredService,
+        MySingletonService,
+        MyTransientService,
+        PreloadService,
+        SelfRegisteredService;
 
 // ignore: avoid_relative_lib_imports
 import '../third_party_dependency/lib/third_party_dependency.dart';
