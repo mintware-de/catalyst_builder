@@ -351,3 +351,12 @@ targets:
           providerClassName: 'DefaultServiceProvider' # class name of the provider
           includePackageDependencies: false # True if services from dependencies should be added to your service provider (v1.1.0+)
 ```
+
+## Relative dependencies
+If you've dependencies to relative packages (for example if you've a monorepo) you need to export those packages in 
+the package where the service provider is generated.
+If you don't do this, the watch command will not regenerate the service provider when code changes inside the dependencies. 
+
+If you need an example, check 
+- [relative_deps_exports.dart](./example/lib/relative_deps_exports.dart)
+- [example.dart](./example/lib/example.dart) (`export 'relative_deps_exports.dart';`)
