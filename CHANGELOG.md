@@ -1,3 +1,7 @@
+## 3.5.0
+
+Updated the version constraint of the analyzer package.
+
 ## 3.4.0
 
 Features:
