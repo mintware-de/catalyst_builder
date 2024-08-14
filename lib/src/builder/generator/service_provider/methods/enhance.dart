@@ -46,8 +46,8 @@ cb.Method enhanceTemplate(String providerClassName) {
         initVar(enhancedV, cb.refer(providerClassName).newInstance([])),
         enhancedV
             .property(serviceInstances$.symbol!)
-            .property('addAll')
-            .call([serviceInstances$]).statement,
+            .assign(serviceInstances$)
+            .statement,
         _addKnownServices(enhancedV),
         enhancedV
             .property(exposeMap$.symbol!)

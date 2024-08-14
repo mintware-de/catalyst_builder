@@ -6,6 +6,5 @@ import '../../symbols.dart';
 final serviceInstancesTemplate = cb.Field((f) {
   f
     ..name = serviceInstances$.symbol
-    ..modifier = cb.FieldModifier.final$
     ..assignment = cb.literalMap({}, typeT, dynamicT).code;
 });
