@@ -15,8 +15,8 @@ dependencies:
   path: ^1.8.0
   analyzer: '>=5.0.0 <7.0.0'
   build_runner_core: ^7.1.0
-  lints: ^2.0.0
 
 dev_dependencies:
   test: any
+  lints: any
   build_runner: ^2.2.0

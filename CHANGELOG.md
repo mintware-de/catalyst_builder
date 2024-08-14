@@ -10,6 +10,8 @@ provider.
 
 To solve this problem, the instances of the map is now a reference to the original instances map of the parent provider.
 
+## Dependency updates
+Moved the lints to dev_dependencies and set the version constraint to any
 
 ## 3.5.0
 
