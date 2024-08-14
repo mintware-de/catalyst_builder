@@ -1,3 +1,16 @@
+## 3.5.1
+
+### Singleton instances on enhanced providers
+Previously each ServiceProvider had a map of service instances. If a singleton was created, the provider stored the 
+instance in the map and returned the instance the next time it is requested.
+
+If you're working with enhanced providers (`ServiceProvider.enhance`), the singletons created in the EnhancedProvider 
+ wasn't stored in the root provider which causes that a singleton will be created again if it's resolved in the root
+provider.
+
+To solve this problem, the instances of the map is now a reference to the original instances map of the parent provider.
+
+
 ## 3.5.0
 
 Updated the version constraint of the analyzer package.

@@ -13,3 +13,14 @@ class ServiceThatDependOnEnhancedService {
 class ServiceOnlyProvidedInEnhanced {
   final String foo = 'bar';
 }
+
+@Service()
+class SingletonThatShouldBeRegisteredInRoot {
+  static var _count = 0;
+
+  int get count => _count;
+
+  SingletonThatShouldBeRegisteredInRoot() {
+    _count++;
+  }
+}

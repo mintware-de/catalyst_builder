@@ -277,4 +277,18 @@ void main() {
         enhanced.resolve<ServiceThatDependOnEnhancedService>().dependency.foo,
         equals('bar'));
   });
+
+  test('enhance should register singletons in the root provider', () {
+    if (serviceProvider is! EnhanceableProvider) {
+      fail('Service provider is not a EnhanceableProvider');
+    }
+
+    var enhanced1 = (serviceProvider as EnhanceableProvider).enhance();
+    expect(enhanced1.resolve<SingletonThatShouldBeRegisteredInRoot>().count,
+        equals(1));
+
+    var enhanced2 = (serviceProvider as EnhanceableProvider).enhance();
+    expect(enhanced2.resolve<SingletonThatShouldBeRegisteredInRoot>().count,
+        equals(1));
+  });
 }
