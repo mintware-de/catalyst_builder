@@ -6,6 +6,9 @@ builders:
     build_extensions: { '.dart': [ '.catalyst_builder.preflight.json' ] }
     build_to: cache
     auto_apply: dependents
+    defaults:
+      options:
+        generatedProviderFile: ''
 
   buildServiceProvider:
     import: 'package:catalyst_builder/src/builder/service_provider_builder.dart'

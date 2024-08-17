@@ -1,3 +1,18 @@
+## 3.6.0
+
+### Fixed updating the generated provider file
+In this release we hopefully fixed the old problem with outdated `*.catalyst_builder.g.dart` files.
+
+#### Cause
+The ServiceProviderBuilder did not emit an updated version since the `@GenerateServiceProvider` annotation 
+doesn't exist in the most files. 
+
+#### Solution
+We added a new `generatedProviderFile` option to the preflightBuilder configuration. You need to put the relative path
+to the generated provider file (`*.catalyst_builder.g.dart`) in this option.
+The PreflightBuilder will automatically delete the file if it exists. This lead to a full regeneration of the service
+provider file. 🙌
+
 ## 3.5.2
 
 ### Fix downgrade error

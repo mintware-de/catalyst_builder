@@ -346,6 +346,10 @@ targets:
   $default:
     auto_apply_builders: true
     builders:
+      catalyst_builder|preflight:
+        options:
+          generatedProviderFile: 'lib/main.catalyst_builder.g.dart' # Enter the path to the generated service provider file
+                                                                    # This ensures that the file is reliably updated.
       catalyst_builder|buildServiceProvider:
         options:
           providerClassName: 'DefaultServiceProvider' # class name of the provider
