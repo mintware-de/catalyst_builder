@@ -1,3 +1,9 @@
+## 3.5.2
+
+## Fix downgrade error
+In version 5.0.0 of the `analyzer` Package was `DartType.element` removed. 
+It was added again in 5.2.0 so we updated the version constraint to `>=5.2.0 <7.0.0` to fix that downgrade error.
+
 ## 3.5.1
 
 ### Singleton instances on enhanced providers
