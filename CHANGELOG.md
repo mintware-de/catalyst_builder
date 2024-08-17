@@ -1,6 +1,6 @@
 ## 3.5.2
 
-## Fix downgrade error
+### Fix downgrade error
 In version 5.0.0 of the `analyzer` Package was `DartType.element` removed. 
 It was added again in 5.2.0 so we updated the version constraint to `>=5.2.0 <7.0.0` to fix that downgrade error.
 
@@ -16,7 +16,7 @@ provider.
 
 To solve this problem, the instances of the map is now a reference to the original instances map of the parent provider.
 
-## Dependency updates
+### Dependency updates
 Moved the lints to dev_dependencies and set the version constraint to any
 
 ## 3.5.0
