@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' as io;
 
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
@@ -12,6 +13,10 @@ import 'dto/dto.dart';
 /// The PreflightBuilder scans the files for @Service annotations.
 /// The result is stored in preflight.json files.
 class PreflightBuilder implements Builder {
+  final String _generatedProviderFile;
+
+  PreflightBuilder(this._generatedProviderFile);
+
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     if (!await buildStep.resolver.isLibrary(buildStep.inputId)) {
@@ -20,17 +25,32 @@ class PreflightBuilder implements Builder {
 
     final entryLib = await buildStep.inputLibrary;
 
-    final preflightAsset =
-        buildStep.inputId.changeExtension('.catalyst_builder.preflight.json');
+    await _deleteProviderFile();
+
     var extractedAnnotations = _extractAnnotations(entryLib);
     if (extractedAnnotations.services.isEmpty) {
       return;
     }
 
+    final preflightAsset =
+        buildStep.inputId.changeExtension('.catalyst_builder.preflight.json');
+
     await buildStep.writeAsString(
       preflightAsset,
       jsonEncode(extractedAnnotations),
     );
+  }
+
+  Future<void> _deleteProviderFile() async {
+    if (_generatedProviderFile.isEmpty) {
+      return;
+    }
+    try {
+      var providerFile = io.File(_generatedProviderFile);
+      if (await providerFile.exists()) {
+        await providerFile.delete();
+      }
+    } catch (_) {}
   }
 
   @override
@@ -219,4 +239,6 @@ class PreflightBuilder implements Builder {
 }
 
 /// Runs the preflight builder
-Builder runPreflight(BuilderOptions options) => PreflightBuilder();
+Builder runPreflight(BuilderOptions options) => PreflightBuilder(
+      options.config['generatedProviderFile'].toString(),
+    );
