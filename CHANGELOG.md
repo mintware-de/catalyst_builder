@@ -3,6 +3,14 @@
 ### BREAKING CHANGES:
 Version updates
 - Bump the minimum Dart SDK version to 3.5.0
+- Dependencies
+  - `code_builder`: `^4.2.0` => `^4.10.1`
+  - `dart_style`: `^2.0.1` => `^3.0.1`
+  - `build`: `^2.1.0` => `^2.4.2`
+  - `glob`: `^2.1.0` => `^2.1.3`
+  - `path`: `^1.8.0` => `^1.9.1`
+  - `analyzer`: `'>=5.2.0 <7.0.0'` => `^7.0.0`
+  - `build_runner_core`: `^7.1.0` => `^8.0.0`
 
 ## 3.6.0
 
