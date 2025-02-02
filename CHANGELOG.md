@@ -1,3 +1,9 @@
+## 4.0.0
+
+### BREAKING CHANGES:
+Version updates
+- Bump the minimum Dart SDK version to 3.5.0
+
 ## 3.6.0
 
 ### Fixed updating the generated provider file
