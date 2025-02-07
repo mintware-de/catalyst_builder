@@ -3,7 +3,7 @@ import 'package:code_builder/code_builder.dart' as cb;
 import '../../helper.dart';
 import '../../symbols.dart';
 
-/// Template for _registerInternal<T>(
+/// Template for _registerInternal&lt;T&gt;(
 ///   Type tReal,
 ///   Service service,
 ///   T Function(ServiceProvider) factory

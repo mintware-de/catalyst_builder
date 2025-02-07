@@ -3,7 +3,7 @@ import 'package:code_builder/code_builder.dart' as cb;
 import '../../helper.dart';
 import '../../symbols.dart';
 
-/// Template for resolve<T>()
+/// Template for resolve&lt;T&gt;()
 final resolveTemplate = cb.Method((m) {
   var typeT = cb.TypeReference((b) => b..symbol = 'T');
 

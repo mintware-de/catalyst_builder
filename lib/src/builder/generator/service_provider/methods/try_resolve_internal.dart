@@ -3,7 +3,7 @@ import 'package:code_builder/code_builder.dart' as cb;
 import '../../helper.dart';
 import '../../symbols.dart';
 
-/// Template for _tryResolveInternal<T>(Type t)
+/// Template for _tryResolveInternal&lt;T&gt;(Type t)
 final tryResolveInternalTemplate = cb.Method((m) {
   var typeT = cb.TypeReference((b) => b..symbol = 'T');
 

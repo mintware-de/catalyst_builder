@@ -4,8 +4,8 @@ import '../../helper.dart';
 import '../../symbols.dart';
 
 /// Template for ServiceProvider enhance({
-///   List<ServiceDescriptor> services = const [],
-///   Map<String, dynamic> parameters = const {},
+///   List&lt;ServiceDescriptor&gt; services = const [],
+///   Map&lt;String, dynamic&gt; parameters = const {},
 /// });
 cb.Method enhanceTemplate(String providerClassName) {
   return cb.Method((m) {
