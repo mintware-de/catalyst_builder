@@ -11,3 +11,5 @@ build/
 pubspec.lock
 **/**.preflight.json
 **/**.DS_Store
+
+.catalyst_builder_cache/

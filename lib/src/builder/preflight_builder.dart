@@ -1,22 +1,26 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' as io;
 
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
+import 'package:path/path.dart' as p;
 
-import '../../catalyst_builder.dart';
+import '../cache_helper.dart';
+import '../service_lifetime.dart';
+import 'constants.dart';
 import 'dto/dto.dart';
 import 'helpers.dart';
 
 /// The PreflightBuilder scans the files for @Service annotations.
 /// The result is stored in preflight.json files.
 class PreflightBuilder implements Builder {
-  final String _generatedProviderFile;
-
-  PreflightBuilder(this._generatedProviderFile);
+  @override
+  final Map<String, List<String>> buildExtensions = {
+    r'$lib$': [],
+    '.dart': [preflightExtension],
+  };
 
   @override
   FutureOr<void> build(BuildStep buildStep) async {
@@ -24,41 +28,30 @@ class PreflightBuilder implements Builder {
       return;
     }
 
-    final entryLib = await buildStep.inputLibrary;
+    var extractedAnnotations = _extractAnnotations(
+      await buildStep.inputLibrary,
+    );
 
-    await _deleteProviderFile();
-
-    var extractedAnnotations = _extractAnnotations(entryLib);
+    final cachedPath = _getFilename(buildStep);
     if (extractedAnnotations.services.isEmpty) {
+      await CacheHelper.deleteFileFromCache(cachedPath);
       return;
     }
 
-    final preflightAsset =
-        buildStep.inputId.changeExtension('.catalyst_builder.preflight.json');
-
-    await buildStep.writeAsString(
-      preflightAsset,
+    await CacheHelper.writeFileToCache(
+      cachedPath,
       jsonEncode(extractedAnnotations),
     );
   }
 
-  Future<void> _deleteProviderFile() async {
-    if (_generatedProviderFile.isEmpty) {
-      return;
-    }
-    try {
-      var providerFile = io.File(_generatedProviderFile);
-      if (await providerFile.exists()) {
-        await providerFile.delete();
-      }
-    } catch (_) {}
-  }
+  String _getFilename(BuildStep buildStep) {
+    final preflightAsset = buildStep.inputId.changeExtension(
+      preflightExtension,
+    );
 
-  @override
-  Map<String, List<String>> get buildExtensions => {
-        r'$lib$': [],
-        '.dart': ['.catalyst_builder.preflight.json'],
-      };
+    var cachedPath = p.join(preflightAsset.package, preflightAsset.path);
+    return cachedPath;
+  }
 
   PreflightPart _extractAnnotations(LibraryElement entryLib) {
     var services = <ExtractedService>[];
@@ -219,8 +212,3 @@ class PreflightBuilder implements Builder {
         [];
   }
 }
-
-/// Runs the preflight builder
-Builder runPreflight(BuilderOptions options) => PreflightBuilder(
-      options.config['generatedProviderFile'].toString(),
-    );

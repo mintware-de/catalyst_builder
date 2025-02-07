@@ -33,6 +33,8 @@ dev_dependencies:
   build_runner: ^2.2.0
 ```
 
+Don't forget to exclude the `.catalyst_builder_cache` directory from VCS.
+
 ## Usage
 
 Decorate your services with `@Service`:
