@@ -1,5 +1,3 @@
-library catalyst_builder_example;
-
 import 'dart:convert';
 
 import 'package:catalyst_builder/catalyst_builder.dart';
