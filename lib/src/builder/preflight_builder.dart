@@ -9,6 +9,7 @@ import 'package:build/build.dart';
 
 import '../../catalyst_builder.dart';
 import 'dto/dto.dart';
+import 'helpers.dart';
 
 /// The PreflightBuilder scans the files for @Service annotations.
 /// The result is stored in preflight.json files.
@@ -73,16 +74,15 @@ class PreflightBuilder implements Builder {
 
   List<ExtractedService> _extractFromTopLevelElement(Element el) {
     var services = <ExtractedService>[];
-    var isPreloaded =
-        el.metadata.any((a) => _isLibraryAnnotation(a, 'Preload'));
+    var isPreloaded = el.metadata.any((a) => a.isLibraryAnnotation('Preload'));
 
     for (var annotation in el.metadata) {
-      if (_isLibraryAnnotation(annotation, 'ServiceMap')) {
+      if (annotation.isLibraryAnnotation('ServiceMap')) {
         services.addAll(
           _extractServicesFromServiceMap(annotation, isPreloaded),
         );
       }
-      if (_isLibraryAnnotation(annotation, 'Service') && el is ClassElement) {
+      if (annotation.isLibraryAnnotation('Service') && el is ClassElement) {
         var serviceAnnotation = annotation.computeConstantValue();
         services.add(_mapToExtractedService(
           el,
@@ -189,7 +189,7 @@ class PreflightBuilder implements Builder {
     List<ElementAnnotation?> annotations,
   ) {
     var injectAnnotation = annotations.firstWhere(
-      (a) => _isLibraryAnnotation(a!, 'Inject'),
+      (a) => a!.isLibraryAnnotation('Inject'),
       orElse: () => null,
     );
 
@@ -205,15 +205,6 @@ class PreflightBuilder implements Builder {
       tag: tag,
       parameter: parameter,
     );
-  }
-
-  bool _isLibraryAnnotation(ElementAnnotation annotation, String name) {
-    return annotation.element != null &&
-        (annotation.element!.library?.source.uri
-                .toString()
-                .startsWith('package:catalyst_builder/src/annotation/') ??
-            false) &&
-        annotation.element?.enclosingElement3?.name == name;
   }
 
   List<String> _getTags(DartObject? serviceAnnotation) {
