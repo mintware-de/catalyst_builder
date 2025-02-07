@@ -200,14 +200,14 @@ void main() {
 In many cases you've generic terms like 'key' or 'name'. If you've many services with the same name, you'll get in
 trouble.
 
-You can use the `@Parameter('param name')` annotation to solve this problem:
+You can use the `@Inject(parameter: 'name')` annotation to solve this problem:
 
 ```dart
 @Service()
 class MyService {
   String username;
 
-  MyService(@Parameter('senderUserName') this.username);
+  MyService(@Inject(parameter: 'senderUserName') this.username);
 }
 
 void main() {
@@ -220,9 +220,6 @@ void main() {
   print(myService.username); // Test 2 
 }
 ```
-
-> The `@Parameter` annotation is deprecated since v3.2.0 and will be removed in v4. Use `@Inject(parameter: 'name')` instead.  
-
 
 ## Service Maps (v1.2.0+)
 
