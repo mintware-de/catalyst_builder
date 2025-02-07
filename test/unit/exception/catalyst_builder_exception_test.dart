@@ -2,8 +2,7 @@ import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:test/test.dart';
 
 class _Tmp extends CatalystBuilderException {
-  _Tmp(String message, [CatalystBuilderException? inner])
-      : super(message, inner);
+  _Tmp(super.message, [super.inner]);
 }
 
 void main() {
