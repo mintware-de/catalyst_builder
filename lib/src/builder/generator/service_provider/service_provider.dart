@@ -7,11 +7,11 @@ import 'methods/methods.dart';
 
 /// Generates the code for the service provider.
 cb.Class buildServiceProviderClass(
-  Map<String, dynamic> config,
+  String providerClassName,
   List<ExtractedService> services,
 ) {
   return cb.Class((c) => c
-    ..name = config['providerClassName'] as String
+    ..name = providerClassName
     ..extend = serviceProviderT
     ..implements.addAll([serviceRegistryT, enhanceableProviderT])
     ..fields.addAll([
@@ -33,7 +33,7 @@ cb.Class buildServiceProviderClass(
       hasTemplate,
       registerTemplate,
       registerInternalTemplate,
-      enhanceTemplate(config['providerClassName'].toString()),
+      enhanceTemplate(providerClassName),
     ])
     ..constructors.add(
       buildProviderConstructor(services, typeT),

@@ -1,25 +1,31 @@
 builders:
-  preflight:
-    import: 'package:catalyst_builder/src/builder/preflight_builder.dart'
+  entrypoint:
+    import: 'package:catalyst_builder/src/builder/builders.dart'
     builder_factories:
-      - 'runPreflight'
-    build_extensions: { '.dart': [ '.catalyst_builder.preflight.json' ] }
+      - 'createEntrypointBuilder'
+    build_extensions:
+      '.dart': [ '.catalyst_builder.entrypoint.json' ]
+    build_to: cache
+    auto_apply: root_package
+  preflight:
+    import: 'package:catalyst_builder/src/builder/builders.dart'
+    builder_factories:
+      - 'createPreflightBuilder'
+    build_extensions:
+      '.dart': [ '.catalyst_builder.preflight.json' ]
     build_to: cache
     auto_apply: dependents
-    defaults:
-      options:
-        generatedProviderFile: ''
-
-  buildServiceProvider:
-    import: 'package:catalyst_builder/src/builder/service_provider_builder.dart'
-    builder_factories:
-      - 'buildServiceProvider'
-    build_extensions: { '.dart': [ '.catalyst_builder.g.dart' ] }
-    build_to: source
-    auto_apply: dependents
     required_inputs:
-      - '.catalyst_builder.preflight.json'
-    defaults:
-      options:
-        providerClassName: 'DefaultServiceProvider'
-        includePackageDependencies: false
+      - '.catalyst_builder.entrypoint.json'
+  buildServiceProvider:
+    import: 'package:catalyst_builder/src/builder/builders.dart'
+    builder_factories:
+      - 'createServiceProviderBuilder'
+    build_extensions:
+      '.catalyst_builder.entrypoint.json': [ '.catalyst_builder.g.dart' ]
+    build_to: source
+    auto_apply: root_package
+    required_inputs:
+      - '.catalyst_builder.entrypoint.json'
+
+
