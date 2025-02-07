@@ -334,30 +334,13 @@ class ServiceWithDeps {
 
 ```
 
-## Configuration
+## Include services from dependencies
 
-To customize the builder, create a `build.yaml` beside your `pubsepc.yaml` with this content:
-
-```yaml
-targets:
-  $default:
-    auto_apply_builders: true
-    builders:
-      catalyst_builder|preflight:
-        options:
-          generatedProviderFile: 'lib/main.catalyst_builder.g.dart' # Enter the path to the generated service provider file
-                                                                    # This ensures that the file is reliably updated.
-      catalyst_builder|buildServiceProvider:
-        options:
-          providerClassName: 'DefaultServiceProvider' # class name of the provider
-          includePackageDependencies: false # True if services from dependencies should be added to your service provider (v1.1.0+)
+By default, the builder includes only services from the root package.
+If you've dependencies that provides decorated services (`@Service`) you need to set `includePackageDependencies` to true. 
+```dart
+@GenerateServiceProvider(
+  providerClassName: 'ExampleProvider',
+  includePackageDependencies: true,     // Set this to true
+)
 ```
-
-## Relative dependencies
-If you've dependencies to relative packages (for example if you've a monorepo) you need to export those packages in 
-the package where the service provider is generated.
-If you don't do this, the watch command will not regenerate the service provider when code changes inside the dependencies. 
-
-If you need an example, check 
-- [relative_deps_exports.dart](./example/lib/relative_deps_exports.dart)
-- [example.dart](./example/lib/example.dart) (`export 'relative_deps_exports.dart';`)
