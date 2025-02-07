@@ -3,7 +3,7 @@ import 'package:code_builder/code_builder.dart' as cb;
 import '../../helper.dart';
 import '../../symbols.dart';
 
-/// Template for has<T>([Type t = null])
+/// Template for has&lt;T&gt;([Type t = null])
 final hasTemplate = cb.Method((m) {
   var typeTP = cb.TypeReference((b) => b..symbol = 'T');
 
