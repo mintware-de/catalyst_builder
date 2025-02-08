@@ -35,6 +35,24 @@ dev_dependencies:
 
 Don't forget to exclude the `.catalyst_builder_cache` directory from VCS.
 
+## Config reference
+
+Some parts of the builder can be configured by adding a `catalyst_builder` section to the `pubspec.yaml`
+
+```yaml
+# pubspec.yaml
+name: your_package
+# dependencies:
+#   catalyst_builder: 
+# ... 
+catalyst_builder:
+  cacheDir: '.cache/catalyst_builder'
+```
+
+| Property   | Type    | Description                                          | Default                 |
+|------------|---------|------------------------------------------------------|-------------------------|
+| `cacheDir` | String? | The path to the cache directory for preflight files. | .catalyst_builder_cache |
+
 ## Usage
 
 Decorate your services with `@Service`:
@@ -45,6 +63,7 @@ class MyService {}
 ```
 
 Decorate in your entry point file any top level symbol with `@GenerateServiceProvider`:
+
 ```dart
 // my_entrypoint.dart
 
@@ -72,7 +91,7 @@ import 'my_entrypoint.catalyst_builder.g.dart';
 void main() {
   // Create a new instance of the service provider
   var provider = DefaultServiceProvider();
-  
+
   // Boot it to wire services
   provider.boot();
 
@@ -102,10 +121,10 @@ class SingletonService {}
 class TransientService {}
 ```
 
-| Lifetime  | Description |
-| --------- | ----------- |
+| Lifetime  | Description                                                                      |
+|-----------|----------------------------------------------------------------------------------|
 | Singleton | The instance is stored in the provider. You'll always receive the same instance. | 
-| Transient | Everytime you call `resolve` or `tryResolve` you'll receive a fresh instance. |
+| Transient | Everytime you call `resolve` or `tryResolve` you'll receive a fresh instance.    |
 
 ### Exposing
 
@@ -241,6 +260,7 @@ void main() {}
 ## Registering services at runtime  (v2.1.0+)
 
 Sometimes you need to register services at runtime. For this, you can use the `register` method:
+
 ```dart
 void main() {
   var provider = ExampleProvider();
@@ -255,10 +275,11 @@ void main() {
 ```
 
 ## Create a sub-provider with additional services / parameters  (v2.2.0+)
+
 In some cases, you want to register services or parameters only for a specific service.
-The services or parameters should not be placed inside the global service provider. 
-To solve this problem, you can use the `enhance` method, which accepts an array of additional services and 
-a map of additional parameters. These are only available in the returned ServiceProvider. 
+The services or parameters should not be placed inside the global service provider.
+To solve this problem, you can use the `enhance` method, which accepts an array of additional services and
+a map of additional parameters. These are only available in the returned ServiceProvider.
 
 ```dart
 void main() {
@@ -271,7 +292,7 @@ void main() {
     services: [
       // Important: Specify the type explicitly or cast the outer array to dynamic. Otherwise dart can not infer the
       // correct return type!
-      LazyServiceDescriptor<MySelfRegisteredService>( 
+      LazyServiceDescriptor<MySelfRegisteredService>(
             (p) => MySelfRegisteredService(p.resolve(), p.parameters['foo']),
         const Service(exposeAs: SelfRegisteredService),
       ),
@@ -284,8 +305,10 @@ void main() {
 ```
 
 ## Tagged services (v2.3.0+)
+
 You can tag services using the `tags` property on the `Service` annotation. This is useful if you need to group services
 and load all services with a certain tag at once.
+
 ```dart
 @Service(tags: [#groupTag, #anotherTag])
 class MyService1 {}
@@ -315,6 +338,7 @@ void main() {
 ## Inject tagged services (v3.2.0+)
 
 The `@Inject` annotation allows you to inject a list of services tagged with a certain tag.
+
 ```dart
 abstract class MyServiceBase {}
 
@@ -326,10 +350,8 @@ class MyService2 extends MyServiceBase {}
 
 @Service()
 class ServiceWithDeps {
-  
-  ServiceWithDeps(
-      @Inject(tag: #groupTag) List<MyServiceBase> services,
-  ) {
+
+  ServiceWithDeps(@Inject(tag: #groupTag) List<MyServiceBase> services,) {
     // services includes MyService1 and MyService2
   }
 }
@@ -339,10 +361,12 @@ class ServiceWithDeps {
 ## Include services from dependencies
 
 By default, the builder includes only services from the root package.
-If you've dependencies that provides decorated services (`@Service`) you need to set `includePackageDependencies` to true. 
+If you've dependencies that provides decorated services (`@Service`) you need to set `includePackageDependencies` to
+true.
+
 ```dart
 @GenerateServiceProvider(
   providerClassName: 'ExampleProvider',
-  includePackageDependencies: true,     // Set this to true
+  includePackageDependencies: true, // Set this to true
 )
 ```

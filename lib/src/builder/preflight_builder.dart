@@ -16,6 +16,8 @@ import 'helpers.dart';
 /// The PreflightBuilder scans the files for @Service annotations.
 /// The result is stored in preflight.json files.
 class PreflightBuilder implements Builder {
+  final CacheHelper _cacheHelper = CacheHelper();
+
   @override
   final Map<String, List<String>> buildExtensions = {
     r'$lib$': [],
@@ -34,11 +36,11 @@ class PreflightBuilder implements Builder {
 
     final cachedPath = _getFilename(buildStep);
     if (extractedAnnotations.services.isEmpty) {
-      await CacheHelper.deleteFileFromCache(cachedPath);
+      await _cacheHelper.deleteFileFromCache(cachedPath);
       return;
     }
 
-    await CacheHelper.writeFileToCache(
+    await _cacheHelper.writeFileToCache(
       cachedPath,
       jsonEncode(extractedAnnotations),
     );

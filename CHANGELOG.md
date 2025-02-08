@@ -1,3 +1,17 @@
+## 4.1.0
+
+### Features
+
+#### Cache location
+
+You're now able to set a custom cache location by setting `catalyst_builder: { cacheDir: 'a/cache/path' }` property in the pubspec.yaml
+
+Take a look in [pubspec.yaml](example/pubspec.yaml) for an example.
+
+### Internal
+
+- The `CacheHelper` is no longer static.
+
 ## 4.0.0
 
 This major update has breaking changes.
@@ -28,6 +42,7 @@ Bump the minimum Dart SDK version to 3.5.0
 - `analyzer`: `'>=5.2.0 <7.0.0'` => `'>=5.2.0 <8.0.0'`
 
 #### Annotations
+
 Removed the deprecated `@Parameter` annotation. Use `@Inject` instead.
 
 #### Build customization

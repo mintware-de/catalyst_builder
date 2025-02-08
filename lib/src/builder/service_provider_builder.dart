@@ -14,6 +14,8 @@ import 'generator/service_provider/service_provider.dart';
 /// The ServiceProviderBuilder creates a service provider from the resulting
 /// preflight .json files.
 class ServiceProviderBuilder implements Builder {
+  final CacheHelper _cacheHelper = CacheHelper();
+
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     if (!buildStep.inputId.path.endsWith(entrypointExtension)) {
@@ -40,8 +42,8 @@ class ServiceProviderBuilder implements Builder {
     final services = <ExtractedService>[];
 
     final source = entrypoint.includePackageDependencies
-        ? CacheHelper.preflightFiles
-        : CacheHelper.getPreflightFilesForPackage(
+        ? _cacheHelper.preflightFiles
+        : _cacheHelper.getPreflightFilesForPackage(
             entrypoint.assetId.pathSegments.first,
           );
 
