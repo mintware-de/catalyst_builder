@@ -5,47 +5,52 @@ import 'package:glob/list_local_fs.dart';
 import 'package:path/path.dart' as p;
 
 import './builder/constants.dart';
+import './builder/dto/dto.dart';
 
-abstract final class CacheHelper {
-  static final _filePattern = '**/*$preflightExtension';
+final class CacheHelper {
+  static const _filePattern = '**/*$preflightExtension';
   static final _preflightFiles = Glob(_filePattern, recursive: true);
 
   /// Returns the path to the cache directory
-  static final String _cachePath = p.join(
-    p.current,
-    cacheDir,
-  );
+  late final String _cachePath;
 
-  static final Directory _cacheDir = Directory(_cachePath);
+  late final Directory _cacheDir = Directory(_cachePath);
 
-  static Stream<FileSystemEntity> get preflightFiles =>
+  CacheHelper() {
+    var config = Config.load();
+    _cachePath = p.isAbsolute(config.cacheDir)
+        ? config.cacheDir
+        : p.join(p.current, config.cacheDir);
+  }
+
+  Stream<FileSystemEntity> get preflightFiles =>
       _preflightFiles.list(root: _cachePath);
 
-  static Stream<FileSystemEntity> getPreflightFilesForPackage(String package) {
+  Stream<FileSystemEntity> getPreflightFilesForPackage(String package) {
     return Glob('$package/$_filePattern', recursive: true)
         .list(root: _cachePath);
   }
 
-  static Future<void> cleanCacheDir() async {
+  Future<void> cleanCacheDir() async {
     if (await _cacheDir.exists()) {
       await _cacheDir.delete(recursive: true);
     }
   }
 
-  static Future<void> createCacheDirectory() async {
+  Future<void> createCacheDirectory() async {
     if (!(await _cacheDir.exists())) {
       await _cacheDir.create(recursive: true);
     }
   }
 
-  static Future<void> deleteFileFromCache(String filename) async {
+  Future<void> deleteFileFromCache(String filename) async {
     var f = _getCacheFile(filename);
     if (await f.exists()) {
       await f.delete(recursive: true);
     }
   }
 
-  static Future<void> writeFileToCache(
+  Future<void> writeFileToCache(
     String filename,
     String contents,
   ) async {
@@ -56,7 +61,7 @@ abstract final class CacheHelper {
     await f.writeAsString(contents, mode: FileMode.writeOnly);
   }
 
-  static File _getCacheFile(String filename) {
+  File _getCacheFile(String filename) {
     var cachedName = p.join(_cachePath, filename);
     var f = File(cachedName);
     return f;

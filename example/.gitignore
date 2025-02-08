@@ -6,4 +6,4 @@
 build/
 *.g.dart
 
-.catalyst_builder_cache/
+.cache/
