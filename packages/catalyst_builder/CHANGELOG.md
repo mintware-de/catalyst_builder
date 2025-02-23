@@ -1,3 +1,9 @@
+## 4.2.1
+
+### Fixes
+
+- Fixed the dependency detection in the preflight builder.
+
 ## 4.2.0
 
 ### Changes
