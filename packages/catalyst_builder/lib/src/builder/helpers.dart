@@ -8,9 +8,11 @@ extension ElementAnnotationExtension on ElementAnnotation {
     if (element?.enclosingElement3?.name != name) {
       return false;
     }
-    return (element!.library?.source.uri
-            .toString()
-            .startsWith(annotationsPrefix) ??
-        false);
+    var packageUri = element!.library?.source.uri.toString();
+    if (packageUri == null) {
+      return false;
+    }
+    return packageUri.startsWith(oldAnnotationsPrefix) ||
+        packageUri.startsWith(annotationsPrefix);
   }
 }
