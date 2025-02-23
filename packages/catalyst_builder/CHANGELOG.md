@@ -1,3 +1,15 @@
+## 4.2.0
+
+### Changes
+
+#### Project separation
+To improve the maintainability of your projects, we decided to separate the less frequently changing parts - such as
+annotations, abstractions like the base class for the ServiceProvider, and exceptions (`catalyst_builder_contracts`) - 
+from the more frequently changing parts, like the implementation of the builder itself (`catalyst_builder`).
+
+This means that a breaking change in the `catalyst_builder` package does not force you to update projects where you only
+use the annotations.
+
 ## 4.1.0
 
 ### Features

@@ -10,8 +10,6 @@ environment:
 dependencies:
   catalyst_builder:
     path: ../
-  catalyst_builder_contracts:
-    path: ../../catalyst_builder_contracts
   third_party_dependency:
     path: ../test/third_party_dependency
 
