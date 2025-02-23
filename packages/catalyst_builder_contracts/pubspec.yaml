@@ -1,9 +1,12 @@
 name: catalyst_builder_contracts
 description: This is the contracts package for the catalyst_builder package. It includes annotations and marker interfaces.
-version: 0.0.2
+version: 1.0.0
 homepage: 'https://github.com/mintware-de/catalyst_builder'
-repository: 'https://github.com/mintware-de/catalyst_builder/packages/catalyst_builder_contracts'
+repository: 'https://github.com/mintware-de/catalyst_builder/tree/main/packages/catalyst_builder_contracts'
 documentation: https://github.com/mintware-de/catalyst_builder/wiki
+issue_tracker: https://github.com/mintware-de/catalyst_builder/issues?q=is%3Aopen+label%3Acatalyst_builder_contracts
+funding:
+  - https://github.com/sponsors/mintware-de
 
 topics:
   - code-generation
