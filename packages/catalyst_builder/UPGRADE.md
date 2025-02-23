@@ -1,0 +1,1 @@
+For upgrade guidance check the wiki https://github.com/mintware-de/catalyst_builder/wiki
