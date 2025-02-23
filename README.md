@@ -1,7 +1,5 @@
-[![GitHub license](https://img.shields.io/github/license/mintware-de/catalyst_builder.svg)](https://github.com/mintware-de/catalyst_builder/blob/main/LICENSE)
 ![GitHub issues](https://img.shields.io/github/issues/mintware-de/catalyst_builder)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mintware-de/catalyst_builder/dart.yml?branch=main)
-![Pub Likes](https://img.shields.io/pub/likes/catalyst_builder)
 
 # Catalyst Builder
 
