@@ -7,8 +7,11 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test_catalyst_builder:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/catalyst_builder
 
     steps:
       - uses: actions/checkout@v2
@@ -34,3 +37,27 @@ jobs:
 
       - name: Run tests
         run: ./run_tests.sh
+  test_catalyst_builder_contracts:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/catalyst_builder_contracts
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 'stable'
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed lib
+
+      - name: Analyze project source
+        run: dart analyze lib
+
+      - name: Run tests
+        run: dart test
