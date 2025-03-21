@@ -1,3 +1,9 @@
+## 4.3.1
+
+### Changes
+
+- Removed verbose logging
+
 ## 4.3.0
 
 ### Changes

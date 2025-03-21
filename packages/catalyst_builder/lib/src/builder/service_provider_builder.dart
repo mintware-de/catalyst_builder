@@ -19,7 +19,6 @@ class ServiceProviderBuilder implements PostProcessBuilder {
   @override
   FutureOr<void> build(PostProcessBuildStep buildStep) async {
     await for (final input in _cacheHelper.entrypointFiles) {
-      log.info('Generating entrypoint ${input.path}');
       final entrypointFile = File(input.path);
 
       var entrypoint = Entrypoint.fromJson(
