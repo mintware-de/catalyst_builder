@@ -11,5 +11,5 @@ Builder createEntrypointBuilder(BuilderOptions options) => EntrypointBuilder();
 Builder createPreflightBuilder(BuilderOptions options) => PreflightBuilder();
 
 /// Creates the service provider builder
-Builder createServiceProviderBuilder(BuilderOptions options) =>
+PostProcessBuilder createServiceProviderBuilder(BuilderOptions options) =>
     ServiceProviderBuilder();

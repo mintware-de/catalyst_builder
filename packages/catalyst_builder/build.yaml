@@ -7,6 +7,8 @@ builders:
       '.dart': [ '.catalyst_builder.entrypoint.json' ]
     build_to: cache
     auto_apply: root_package
+    runs_before:
+      - 'catalyst_builder:preflight'
   preflight:
     import: 'package:catalyst_builder/src/builder/builders.dart'
     builder_factories:
@@ -17,15 +19,10 @@ builders:
     auto_apply: all_packages
     required_inputs:
       - '.catalyst_builder.entrypoint.json'
+    applies_builders:
+      - 'catalyst_builder:buildServiceProvider'
+post_process_builders:
   buildServiceProvider:
     import: 'package:catalyst_builder/src/builder/builders.dart'
-    builder_factories:
-      - 'createServiceProviderBuilder'
-    build_extensions:
-      '.catalyst_builder.entrypoint.json': [ '.catalyst_builder.g.dart' ]
-    build_to: source
-    auto_apply: root_package
-    required_inputs:
-      - '.catalyst_builder.entrypoint.json'
-
-
+    builder_factory: 'createServiceProviderBuilder'
+    input_extensions: [".catalyst_builder.entrypoint.json", '.catalyst_builder.preflight.json']

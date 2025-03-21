@@ -49,6 +49,10 @@ class PreflightBuilder implements Builder {
       cachedPath,
       jsonEncode(extractedAnnotations),
     );
+    buildStep.writeAsString(
+      buildStep.inputId.changeExtension(preflightExtension),
+      jsonEncode(extractedAnnotations),
+    );
   }
 
   String _getFilename(BuildStep buildStep) {
