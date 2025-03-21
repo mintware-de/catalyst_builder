@@ -22,7 +22,13 @@ class EntrypointBuilder implements Builder {
     if (!await buildStep.resolver.isLibrary(buildStep.inputId)) {
       return;
     }
-    var libraryElement = (await buildStep.inputLibrary);
+    LibraryElement libraryElement;
+    try {
+      libraryElement = (await buildStep.inputLibrary);
+    } catch (e) {
+      log.warning('Error while processing input library. Skip for now.', e);
+      return;
+    }
 
     var annotation = libraryElement.topLevelElements
         .map((el) => el.metadata
