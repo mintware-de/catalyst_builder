@@ -8,8 +8,11 @@ import './builder/constants.dart';
 import './builder/dto/dto.dart';
 
 final class CacheHelper {
-  static const _filePattern = '**/*$preflightExtension';
-  static final _preflightFiles = Glob(_filePattern, recursive: true);
+  static const _preflightFilePattern = '**/*$preflightExtension';
+  static final _preflightFiles = Glob(_preflightFilePattern, recursive: true);
+
+  static const _entrypointFilePattern = '**/*$entrypointExtension';
+  static final _entrypointFiles = Glob(_entrypointFilePattern, recursive: true);
 
   /// Returns the path to the cache directory
   late final String _cachePath;
@@ -26,8 +29,11 @@ final class CacheHelper {
   Stream<FileSystemEntity> get preflightFiles =>
       _preflightFiles.list(root: _cachePath);
 
+  Stream<FileSystemEntity> get entrypointFiles =>
+      _entrypointFiles.list(root: _cachePath);
+
   Stream<FileSystemEntity> getPreflightFilesForPackage(String package) {
-    return Glob('$package/$_filePattern', recursive: true)
+    return Glob('$package/$_preflightFilePattern', recursive: true)
         .list(root: _cachePath);
   }
 

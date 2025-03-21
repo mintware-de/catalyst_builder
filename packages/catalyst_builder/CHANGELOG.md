@@ -1,5 +1,11 @@
 ## 4.3.0
 
+### Changes
+
+#### Migrated the ServiceProviderBuilder to post_process_builders
+Since the ServiceProviderBuilder does not rely on the real outputs of the previous builders but the cache files,
+this is a much better solution since a PostProcessBuilders does not process all .dart files.
+
 ### Fixes
 
 #### Skip unprocessable files

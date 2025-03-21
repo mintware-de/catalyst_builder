@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
+import 'package:catalyst_builder/src/cache_helper.dart';
+import 'package:path/path.dart' as p;
 
 import 'constants.dart';
 import 'dto/dto.dart';
@@ -11,6 +13,8 @@ import 'helpers.dart';
 /// The EntrypointBuilder scans the files for @GenerateServiceProvider
 /// annotations. The result is stored in *entrypoint.json files.
 class EntrypointBuilder implements Builder {
+  final CacheHelper _cacheHelper = CacheHelper();
+
   @override
   final Map<String, List<String>> buildExtensions = {
     r'$lib$': [],
@@ -46,6 +50,15 @@ class EntrypointBuilder implements Builder {
     var includePackageDependencies =
         constantValue.getField('includePackageDependencies')!.toBoolValue()!;
 
+    var filename = _getFilename(buildStep);
+    _cacheHelper.writeFileToCache(
+      filename,
+      jsonEncode(Entrypoint(
+        providerClassName: providerClassName,
+        includePackageDependencies: includePackageDependencies,
+        assetId: buildStep.inputId.uri,
+      ).toJson()),
+    );
     buildStep.writeAsString(
       buildStep.inputId.changeExtension(entrypointExtension),
       jsonEncode(Entrypoint(
@@ -54,5 +67,14 @@ class EntrypointBuilder implements Builder {
         assetId: buildStep.inputId.uri,
       ).toJson()),
     );
+  }
+
+  String _getFilename(BuildStep buildStep) {
+    final preflightAsset = buildStep.inputId.changeExtension(
+      entrypointExtension,
+    );
+
+    var cachedPath = p.join(preflightAsset.package, preflightAsset.path);
+    return cachedPath;
   }
 }

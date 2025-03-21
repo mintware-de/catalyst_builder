@@ -13,28 +13,32 @@ import 'generator/service_provider/service_provider.dart';
 
 /// The ServiceProviderBuilder creates a service provider from the resulting
 /// preflight .json files.
-class ServiceProviderBuilder implements Builder {
+class ServiceProviderBuilder implements PostProcessBuilder {
   final CacheHelper _cacheHelper = CacheHelper();
 
   @override
-  FutureOr<void> build(BuildStep buildStep) async {
-    if (!buildStep.inputId.path.endsWith(entrypointExtension)) {
-      return;
+  FutureOr<void> build(PostProcessBuildStep buildStep) async {
+    await for (final input in _cacheHelper.entrypointFiles) {
+      log.info('Generating entrypoint ${input.path}');
+      final entrypointFile = File(input.path);
+
+      var entrypoint = Entrypoint.fromJson(
+        jsonDecode(
+          await entrypointFile.readAsString(),
+        ) as Map<String, dynamic>,
+      );
+
+      var content = await _generateCode(entrypoint);
+      var outFileName = AssetId.resolve(entrypoint.assetId)
+          .changeExtension(serviceProviderExtension)
+          .path;
+      var outFile = File(outFileName);
+      if (!outFile.existsSync()) {
+        outFile.createSync(recursive: true);
+      }
+
+      await outFile.writeAsString(content);
     }
-
-    var entrypoint = Entrypoint.fromJson(
-      jsonDecode(
-        await buildStep.readAsString(buildStep.inputId),
-      ) as Map<String, dynamic>,
-    );
-
-    var content = await _generateCode(entrypoint);
-
-    await buildStep.writeAsString(
-      AssetId.resolve(entrypoint.assetId)
-          .changeExtension(serviceProviderExtension),
-      content,
-    );
   }
 
   Future<String> _generateCode(Entrypoint entrypoint) async {
@@ -76,8 +80,6 @@ class ServiceProviderBuilder implements Builder {
   }
 
   @override
-  final Map<String, List<String>> buildExtensions = {
-    r'$lib$': [],
-    entrypointExtension: [serviceProviderExtension]
-  };
+  Iterable<String> get inputExtensions =>
+      [entrypointExtension, preflightExtension];
 }
