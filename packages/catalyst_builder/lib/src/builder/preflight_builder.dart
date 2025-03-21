@@ -30,9 +30,14 @@ class PreflightBuilder implements Builder {
       return;
     }
 
-    var extractedAnnotations = _extractAnnotations(
-      await buildStep.inputLibrary,
-    );
+    LibraryElement libraryElement;
+    try {
+      libraryElement = await buildStep.inputLibrary;
+    } catch (e) {
+      log.warning('Error while processing input library. Skip for now.', e);
+      return;
+    }
+    var extractedAnnotations = _extractAnnotations(libraryElement);
 
     final cachedPath = _getFilename(buildStep);
     if (extractedAnnotations.services.isEmpty) {

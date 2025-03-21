@@ -1,3 +1,17 @@
+## 4.3.0
+
+### Fixes
+
+#### Skip unprocessable files
+This will fix the following error when using catalyst_builder with Flutter:
+```plain
+[SEVERE] catalyst_builder:preflight on package:sky_engine/html/html_dart2js.dart:
+
+This builder requires Dart inputs without syntax errors.
+...
+```
+
+
 ## 4.2.1
 
 ### Fixes
