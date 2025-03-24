@@ -11,6 +11,14 @@
 
 A dependency injection provider builder for dart.
 
+Click on the image for a video on YouTube:
+
+[![YouTube Video](screenshots/cover.png)](https://youtu.be/aJO7_bCOHRs?si=t9lhwQ5v31z-p4iw)
+
+## Screenshot
+
+![minimal.png](screenshots/minimal.png)
+
 ## Background
 
 Since [Catalyst](https://github.com/mintware-de/catalyst) is only for Dart

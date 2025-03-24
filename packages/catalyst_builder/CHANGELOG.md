@@ -1,3 +1,9 @@
+## 4.3.2
+
+### Changes
+
+- Updated the README and added screenshots
+
 ## 4.3.1
 
 ### Changes
