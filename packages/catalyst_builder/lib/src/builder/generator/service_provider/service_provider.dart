@@ -35,6 +35,7 @@ cb.Class buildServiceProviderClass(
       registerTemplate,
       registerInternalTemplate,
       enhanceTemplate(providerClassName),
+      applyPlugin(),
     ])
     ..constructors.add(
       buildProviderConstructor(services, typeT),

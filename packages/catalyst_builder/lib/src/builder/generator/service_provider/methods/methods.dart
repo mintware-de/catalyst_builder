@@ -11,3 +11,4 @@ export 'resolve_or_get_parameter.dart';
 export 'try_resolve.dart';
 export 'try_resolve_internal.dart';
 export 'try_resolve_or_get_parameter.dart';
+export 'apply_plugin.dart';
