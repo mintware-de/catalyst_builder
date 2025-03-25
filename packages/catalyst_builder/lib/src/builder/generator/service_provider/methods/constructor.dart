@@ -14,6 +14,8 @@ cb.Constructor buildProviderConstructor(
     var exposeAsData = <cb.Reference, cb.Reference>{};
     var servicesBySymbol = <cb.Code, List<cb.Reference>>{};
     var knownTags = <String, cb.Code>{};
+    var preloadServices = <cb.Reference>[];
+
     for (var svc in services) {
       var serviceType = cb.refer(svc.service.symbolName, svc.service.library);
 
@@ -44,6 +46,10 @@ cb.Constructor buildProviderConstructor(
         serviceType,
         svc,
       );
+
+      if (svc.preload) {
+        preloadServices.add(exposeAsReference ?? serviceType);
+      }
     }
 
     ctor.body = cb.Block.of([
@@ -56,6 +62,9 @@ cb.Constructor buildProviderConstructor(
       servicesByTag$.property('addAll').call([
         cb.literalMap(servicesBySymbol, symbolT, listOfT(typeT)),
       ]).statement,
+      preloadedTypes$
+          .property('addAll')
+          .call([cb.literalList(preloadServices)]).statement,
     ]);
   });
 }
