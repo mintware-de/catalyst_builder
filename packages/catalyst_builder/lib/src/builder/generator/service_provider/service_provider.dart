@@ -20,6 +20,7 @@ cb.Class buildServiceProviderClass(
       exposeMapTemplate,
       serviceInstancesTemplate,
       servicesByTagTemplate,
+      preloadedTypesTemplate,
     ])
     ..methods.addAll([
       tryResolveTemplate,

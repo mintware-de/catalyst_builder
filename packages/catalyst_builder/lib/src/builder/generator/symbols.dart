@@ -119,3 +119,6 @@ cb.Reference listOfT(cb.Reference T) => (cb.TypeReferenceBuilder()
 
 /// Make the reference nullable
 cb.Reference nullable(cb.Reference ref) => cb.refer("${ref.symbol}?", ref.url);
+
+/// _preloadedTypes field in the service provider
+final preloadedTypes$ = cb.refer('_preloadedTypes');
