@@ -122,3 +122,21 @@ cb.Reference nullable(cb.Reference ref) => cb.refer("${ref.symbol}?", ref.url);
 
 /// _preloadedTypes field in the service provider
 final preloadedTypes$ = cb.refer('_preloadedTypes');
+
+/// [ServiceProvider.applyPlugin] method
+final applyPlugin$ = cb.refer('applyPlugin');
+
+/// [ServiceProviderPlugin]
+final serviceProviderPluginT = cb.refer('ServiceProviderPlugin', rootPackage);
+
+/// provideKnownServices method
+final provideKnownServices$ = cb.refer('provideKnownServices');
+
+/// provideExposes method
+final provideExposes$ = cb.refer('provideExposes');
+
+/// providePreloadedTypes method
+final providePreloadedTypes$ = cb.refer('providePreloadedTypes');
+
+/// provideServiceTags method
+final provideServiceTags$ = cb.refer('provideServiceTags');

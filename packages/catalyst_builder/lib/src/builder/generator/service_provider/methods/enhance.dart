@@ -58,7 +58,7 @@ cb.Method enhanceTemplate(String providerClassName) {
               serviceV.property('returnType'),
               serviceV.property('factory'),
               serviceV.property('service'),
-            ]))
+            ]).statement)
             .code,
         enhancedV
             .property(parameters$.symbol!)
