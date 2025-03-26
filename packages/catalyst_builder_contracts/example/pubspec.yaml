@@ -15,6 +15,3 @@ dependencies:
 
 dev_dependencies:
   build_runner:
-
-catalyst_builder:
-  cacheDir: '.cache/catalyst_builder'

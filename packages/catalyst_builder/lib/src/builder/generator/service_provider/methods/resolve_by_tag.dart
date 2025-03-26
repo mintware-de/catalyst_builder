@@ -26,7 +26,7 @@ final resolveByTagTemplate = cb.Method((m) {
           .finalize(
             servicesV.property('add').call([
               tryResolveInternal$.call([svcV]).asA(dynamicT)
-            ]),
+            ]).statement,
           )
           .code,
       servicesV.returned.statement

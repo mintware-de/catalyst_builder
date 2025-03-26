@@ -1,8 +1,13 @@
+export 'apply_plugin.dart';
 export 'boot.dart';
 export 'constructor.dart';
 export 'enhance.dart';
 export 'ensure_booted.dart';
 export 'has.dart';
+export 'provide_exposes.dart';
+export 'provide_known_services.dart';
+export 'provide_preloaded_types.dart';
+export 'provide_service_tags.dart';
 export 'register.dart';
 export 'register_internal.dart';
 export 'resolve.dart';

@@ -24,6 +24,7 @@ final tryResolveOrGetParameterTemplate = cb.Method((m) {
 
   m
     ..name = tryResolveOrGetParameter$.symbol
+    ..annotations.add(cb.refer('override'))
     ..requiredParameters.addAll([
       cb.Parameter((p) => p
         ..name = paramB$.symbol!

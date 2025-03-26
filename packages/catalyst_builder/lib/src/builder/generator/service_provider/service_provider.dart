@@ -8,18 +8,24 @@ import 'methods/methods.dart';
 /// Generates the code for the service provider.
 cb.Class buildServiceProviderClass(
   String providerClassName,
+  String pluginClassName,
   List<ExtractedService> services,
 ) {
   return cb.Class((c) => c
     ..name = providerClassName
     ..extend = serviceProviderT
-    ..implements.addAll([serviceRegistryT, enhanceableProviderT])
+    ..implements.addAll([
+      serviceRegistryT,
+      enhanceableProviderT,
+    ])
     ..fields.addAll([
       bootedTemplate,
       knownServicesTemplate,
       exposeMapTemplate,
       serviceInstancesTemplate,
       servicesByTagTemplate,
+      preloadedTypesTemplate,
+      appliedPluginsTemplate,
     ])
     ..methods.addAll([
       tryResolveTemplate,
@@ -34,8 +40,9 @@ cb.Class buildServiceProviderClass(
       registerTemplate,
       registerInternalTemplate,
       enhanceTemplate(providerClassName),
+      applyPlugin(),
     ])
     ..constructors.add(
-      buildProviderConstructor(services, typeT),
+      buildProviderConstructor(pluginClassName),
     ));
 }

@@ -3,19 +3,18 @@ import 'dart:convert';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
+import 'package:catalyst_builder/src/builder/generator/service_provider/service_provider_plugin.dart';
+import 'package:catalyst_builder/src/builder/helpers.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:glob/glob.dart';
 
 import 'constants.dart';
 import 'dto/dto.dart';
-import 'generator/service_provider/service_provider.dart';
-import 'generator/service_provider/service_provider_plugin.dart';
-import 'helpers.dart';
 
-/// The ServiceProviderBuilder creates a service provider from the resulting
+/// The ServiceProviderPluginBuilder creates a plugin from the resulting
 /// preflight .json files.
-class ServiceProviderBuilder implements Builder {
+class ServiceProviderPluginBuilder implements Builder {
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     if (!await buildStep.resolver.isLibrary(buildStep.inputId)) {
@@ -30,8 +29,8 @@ class ServiceProviderBuilder implements Builder {
     }
 
     var annotation = libraryElement.topLevelElements
-        .map((el) => el.metadata
-            .where((m) => m.isLibraryAnnotation('GenerateServiceProvider')))
+        .map((el) => el.metadata.where(
+            (m) => m.isLibraryAnnotation('GenerateServiceProviderPlugin')))
         .fold(<ElementAnnotation>[], (prev, e) => [...prev, ...e]).firstOrNull;
 
     var isEntryPoint = annotation != null;
@@ -40,26 +39,18 @@ class ServiceProviderBuilder implements Builder {
     }
 
     var constantValue = annotation.computeConstantValue()!;
-    var providerClassName =
-        constantValue.getField('providerClassName')!.toStringValue()!;
     var pluginClassName =
         constantValue.getField('pluginClassName')!.toStringValue()!;
 
-    final entrypoint = Entrypoint(
-      providerClassName: providerClassName,
-      pluginClassName: pluginClassName,
-      assetId: buildStep.inputId.uri,
-    );
-
-    var content = await _generateCode(buildStep, entrypoint);
+    var content = await _generateCode(buildStep, pluginClassName);
     await buildStep.writeAsString(
-      buildStep.inputId.changeExtension(serviceProviderExtension),
+      buildStep.inputId.changeExtension(serviceProviderPluginExtension),
       content,
     );
   }
 
   Future<String> _generateCode(
-      BuildStep buildStep, Entrypoint entrypoint) async {
+      BuildStep buildStep, String pluginClassName) async {
     final parts = <PreflightPart>[];
     final services = <ExtractedService>[];
 
@@ -80,9 +71,8 @@ class ServiceProviderBuilder implements Builder {
 
     final rawOutput = Library(
       (l) => l.body.addAll([
-        buildServiceProviderClass(
-            entrypoint.providerClassName, entrypoint.pluginClassName, services),
-        buildServiceProviderPluginClass(entrypoint.pluginClassName, services),
+        buildServiceProviderPluginClass(pluginClassName, services),
+        buildExtension(pluginClassName),
       ]),
     ).accept(emitter).toString();
 
@@ -98,6 +88,6 @@ class ServiceProviderBuilder implements Builder {
   @override
   Map<String, List<String>> get buildExtensions => {
         r'$lib$': [],
-        r'.dart': [serviceProviderExtension],
+        r'.dart': [serviceProviderPluginExtension],
       };
 }

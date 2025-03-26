@@ -32,6 +32,7 @@ final resolveOrGetParameterTemplate = cb.Method((m) {
 
   m
     ..name = resolveOrGetParameter$.symbol
+    ..annotations.add(cb.refer('override'))
     ..requiredParameters.addAll([
       cb.Parameter((p) => p
         ..name = paramRequiredBy$.symbol!

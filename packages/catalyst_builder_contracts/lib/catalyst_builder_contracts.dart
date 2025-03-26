@@ -6,3 +6,4 @@ export 'src/enhanceable_provider.dart';
 export 'src/service_lifetime.dart';
 export 'src/service_provider.dart';
 export 'src/service_registry.dart';
+export 'src/service_provider_plugin.dart';

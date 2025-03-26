@@ -25,7 +25,7 @@ void main() {
   late ServiceProvider serviceProvider;
 
   resetServiceProvider() {
-    serviceProvider = ExampleProvider();
+    serviceProvider = ExampleProvider()..useThirdPartyPlugin();
     serviceProvider.parameters['sender_username'] = 'XYZ';
   }
 

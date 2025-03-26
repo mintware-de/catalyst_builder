@@ -47,14 +47,14 @@ class ForEachBuilder {
   ForEachBuilder(this._collection, this._var);
 
   /// Executes the [body] in the if body.
-  cb.Expression finalize(cb.Expression body) {
+  cb.Expression finalize(cb.Code body) {
     return cb.CodeExpression(cb.Block.of([
       const cb.Code('for (var '),
       _var.code,
       const cb.Code(' in '),
       _collection.code,
       const cb.Code(') {'),
-      body.statement,
+      body,
       const cb.Code('}'),
     ]));
   }

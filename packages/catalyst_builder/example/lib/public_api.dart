@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:catalyst_builder/catalyst_builder.dart';
+import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 
 export './src/manually_wired_service.dart';
 

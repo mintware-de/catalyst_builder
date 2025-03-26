@@ -3,7 +3,8 @@ import 'package:code_builder/code_builder.dart' as cb;
 import '../../../catalyst_builder.dart';
 
 /// The catalyst_builder root package.
-const rootPackage = 'package:catalyst_builder/catalyst_builder.dart';
+const rootPackage =
+    'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 
 /// [Service]
 final serviceT = cb.refer('Service', rootPackage);
@@ -71,11 +72,11 @@ final servicesByTag$ = cb.refer('_servicesByTag');
 /// parameters field in the service provider
 final parameters$ = cb.refer('parameters');
 
-/// _tryResolveOrGetParameter method
-final tryResolveOrGetParameter$ = cb.refer('_tryResolveOrGetParameter');
+/// tryResolveOrGetParameter method
+final tryResolveOrGetParameter$ = cb.refer('tryResolveOrGetParameter');
 
-/// _resolveOrGetParameter method
-final resolveOrGetParameter$ = cb.refer('_resolveOrGetParameter');
+/// resolveOrGetParameter method
+final resolveOrGetParameter$ = cb.refer('resolveOrGetParameter');
 
 /// [ProviderNotBootedException]
 final providerNotBootedExceptionT =
@@ -117,5 +118,35 @@ cb.Reference listOfT(cb.Reference T) => (cb.TypeReferenceBuilder()
       ..types.add(T))
     .build();
 
+cb.Reference mapOfT(cb.Reference tKey, cb.Reference tValue) =>
+    (cb.TypeReferenceBuilder()
+          ..symbol = 'Map'
+          ..types.addAll([tKey, tValue]))
+        .build();
+
 /// Make the reference nullable
 cb.Reference nullable(cb.Reference ref) => cb.refer("${ref.symbol}?", ref.url);
+
+/// _preloadedTypes field in the service provider
+final preloadedTypes$ = cb.refer('_preloadedTypes');
+
+/// [ServiceProvider.applyPlugin] method
+final applyPlugin$ = cb.refer('applyPlugin');
+
+/// [ServiceProviderPlugin]
+final serviceProviderPluginT = cb.refer('ServiceProviderPlugin', rootPackage);
+
+/// provideKnownServices method
+final provideKnownServices$ = cb.refer('provideKnownServices');
+
+/// provideExposes method
+final provideExposes$ = cb.refer('provideExposes');
+
+/// providePreloadedTypes method
+final providePreloadedTypes$ = cb.refer('providePreloadedTypes');
+
+/// provideServiceTags method
+final provideServiceTags$ = cb.refer('provideServiceTags');
+
+/// _appliedPlugins field
+final appliedPlugins$ = cb.refer('_appliedPlugins');
