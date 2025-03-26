@@ -44,11 +44,9 @@ class ServiceProviderBuilder implements PostProcessBuilder {
     final parts = <PreflightPart>[];
     final services = <ExtractedService>[];
 
-    final source = entrypoint.includePackageDependencies
-        ? _cacheHelper.preflightFiles
-        : _cacheHelper.getPreflightFilesForPackage(
-            entrypoint.assetId.pathSegments.first,
-          );
+    final source = _cacheHelper.getPreflightFilesForPackage(
+      entrypoint.assetId.pathSegments.first,
+    );
 
     await for (final input in source) {
       final jsonContent = await File(input.path).readAsString();

@@ -47,15 +47,12 @@ class EntrypointBuilder implements Builder {
     var constantValue = annotation.computeConstantValue()!;
     var providerClassName =
         constantValue.getField('providerClassName')!.toStringValue()!;
-    var includePackageDependencies =
-        constantValue.getField('includePackageDependencies')!.toBoolValue()!;
 
     var filename = _getFilename(buildStep);
     _cacheHelper.writeFileToCache(
       filename,
       jsonEncode(Entrypoint(
         providerClassName: providerClassName,
-        includePackageDependencies: includePackageDependencies,
         assetId: buildStep.inputId.uri,
       ).toJson()),
     );
@@ -63,7 +60,6 @@ class EntrypointBuilder implements Builder {
       buildStep.inputId.changeExtension(entrypointExtension),
       jsonEncode(Entrypoint(
         providerClassName: providerClassName,
-        includePackageDependencies: includePackageDependencies,
         assetId: buildStep.inputId.uri,
       ).toJson()),
     );

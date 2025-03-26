@@ -1,3 +1,13 @@
+## 5.0.0-dev.1
+
+We need a total makeover of the underlying architecture.
+Services from packages you depend on are no longer resolved automatically!
+
+More background information is available in the [Wiki](https://github.com/mintware-de/catalyst_builder/wiki/v5) 
+
+### Changes
+- `includePackageDependencies` was removed
+
 ## 4.3.2
 
 ### Changes

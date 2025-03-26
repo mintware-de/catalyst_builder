@@ -1,3 +1,9 @@
+## Next
+
+### Breaking Changes
+
+- `GenerateServiceProvider.includePackageDependencies` was removed
+
 ## 1.0.0
 
 - First public version
