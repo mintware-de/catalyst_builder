@@ -24,9 +24,10 @@ cb.Method applyPlugin() {
         IfBuilder(booted$)
             .then(providerAlreadyBootedExceptionT.constInstance([]).thrown)
             .code,
+        appliedPlugins$.property('add').call([pluginP]).statement,
         // Add _knownServices
         knownServices$.property('addAll').call([
-          pluginP.property(provideKnownServices$.symbol!).call([])
+          pluginP.property(provideKnownServices$.symbol!).call([this$])
         ]).statement,
         // add _exposeMap
         exposeMap$.property('addAll').call(

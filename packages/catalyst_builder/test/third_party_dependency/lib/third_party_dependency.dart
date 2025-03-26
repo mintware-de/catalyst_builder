@@ -1,5 +1,7 @@
 import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 
+export 'third_party_dependency.catalyst_builder.plugin.g.dart';
+
 @Service()
 class ThirdPartyService {}
 
@@ -24,3 +26,8 @@ class SingletonThatShouldBeRegisteredInRoot {
     _count++;
   }
 }
+
+@GenerateServiceProviderPlugin(
+  pluginClassName: 'ThirdPartyPlugin',
+)
+void _() {} // ignore: unused_element

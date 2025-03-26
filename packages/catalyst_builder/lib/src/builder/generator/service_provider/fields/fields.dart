@@ -1,3 +1,4 @@
+export 'applied_plugins.dart';
 export 'booted.dart';
 export 'expose_map.dart';
 export 'known_services.dart';

@@ -26,20 +26,22 @@ More background information is available in the [Wiki](https://github.com/mintwa
 ### Changes
 
 #### Migrated the ServiceProviderBuilder to post_process_builders
+
 Since the ServiceProviderBuilder does not rely on the real outputs of the previous builders but the cache files,
 this is a much better solution since a PostProcessBuilders does not process all .dart files.
 
 ### Fixes
 
 #### Skip unprocessable files
+
 This will fix the following error when using catalyst_builder with Flutter:
+
 ```plain
 [SEVERE] catalyst_builder:preflight on package:sky_engine/html/html_dart2js.dart:
 
 This builder requires Dart inputs without syntax errors.
 ...
 ```
-
 
 ## 4.2.1
 
@@ -52,8 +54,9 @@ This builder requires Dart inputs without syntax errors.
 ### Changes
 
 #### Project separation
+
 To improve the maintainability of your projects, we decided to separate the less frequently changing parts - such as
-annotations, abstractions like the base class for the ServiceProvider, and exceptions (`catalyst_builder_contracts`) - 
+annotations, abstractions like the base class for the ServiceProvider, and exceptions (`catalyst_builder_contracts`) -
 from the more frequently changing parts, like the implementation of the builder itself (`catalyst_builder`).
 
 This means that a breaking change in the `catalyst_builder` package does not force you to update projects where you only
@@ -65,7 +68,8 @@ use the annotations.
 
 #### Cache location
 
-You're now able to set a custom cache location by setting `catalyst_builder: { cacheDir: 'a/cache/path' }` property in the pubspec.yaml
+You're now able to set a custom cache location by setting `catalyst_builder: { cacheDir: 'a/cache/path' }` property in
+the pubspec.yaml
 
 Take a look in [pubspec.yaml](example/pubspec.yaml) for an example.
 
