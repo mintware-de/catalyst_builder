@@ -13,3 +13,4 @@ pubspec.lock
 **/**.DS_Store
 
 .catalyst_builder_cache/
+**/*.g.dart

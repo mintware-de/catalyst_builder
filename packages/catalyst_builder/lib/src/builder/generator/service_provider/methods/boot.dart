@@ -21,7 +21,8 @@ cb.Method bootTemplate(
             .code,
         assign(booted$, cb.literalTrue).statement,
         ForEachBuilder(preloadedTypes$, typeV)
-            .finalize(tryResolveInternal$.call([typeV], {}, [dynamicT.type]).statement)
+            .finalize(tryResolveInternal$
+                .call([typeV], {}, [dynamicT.type]).statement)
             .code,
       ]);
   });

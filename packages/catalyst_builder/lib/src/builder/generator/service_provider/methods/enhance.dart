@@ -14,6 +14,7 @@ cb.Method enhanceTemplate(String providerClassName) {
 
     var serviceV = const cb.Reference('service');
     var enhancedV = const cb.Reference('enhanced');
+    var pluginV = const cb.Reference('plugin');
 
     m
       ..annotations.add(cb.refer('override'))
@@ -44,6 +45,11 @@ cb.Method enhanceTemplate(String providerClassName) {
       ..body = cb.Block.of([
         ensureBoot$.call([]).statement,
         initVar(enhancedV, cb.refer(providerClassName).newInstance([])),
+        ForEachBuilder(appliedPlugins$, pluginV)
+            .finalize(enhancedV
+                .property(applyPlugin$.symbol!)
+                .call([pluginV]).statement)
+            .code,
         enhancedV
             .property(serviceInstances$.symbol!)
             .assign(serviceInstances$)

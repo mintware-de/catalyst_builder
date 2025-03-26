@@ -10,6 +10,7 @@ cb.Expression buildServiceFactory(
   cb.Reference? exposeAsReference,
   cb.Reference serviceType,
   ExtractedService svc,
+  cb.Reference providerP,
 ) {
   var factory = cb.MethodBuilder();
 
@@ -19,12 +20,18 @@ cb.Expression buildServiceFactory(
   var positionalArgs = <cb.Expression>[];
   var namedArgs = <String, cb.Expression>{};
 
+  var tryResolveOrGetParameter_ =
+      providerP.property(tryResolveOrGetParameter$.symbol!);
+  var resolveByTag_ = providerP.property(resolveByTag$.symbol!);
+  var resolveOrGetParameter_ =
+      providerP.property(resolveOrGetParameter$.symbol!);
+
   for (var param in svc.constructorArgs) {
     var defaultValue = '';
     var parameterName = param.inject?.parameter ?? param.name;
 
     var resolveWithFallbacks =
-        tryResolveOrGetParameter$.call([cb.literal(parameterName)]);
+        tryResolveOrGetParameter_.call([cb.literal(parameterName)]);
 
     if (param.defaultValue.isNotEmpty) {
       resolveWithFallbacks = resolveWithFallbacks
@@ -34,9 +41,9 @@ cb.Expression buildServiceFactory(
     var val = resolveWithFallbacks;
     var tag = param.inject?.tag;
     if (tag != null) {
-      val = resolveByTag$.call([cb.refer('#$tag')]).property('cast').call([]);
+      val = resolveByTag_.call([cb.refer('#$tag')]).property('cast').call([]);
     } else if (!param.isOptional && defaultValue.isEmpty) {
-      val = resolveOrGetParameter$.call([
+      val = resolveOrGetParameter_.call([
         serviceType,
         cb.literal(param.name),
         if (parameterName != param.name) cb.literal(parameterName),
