@@ -25,4 +25,12 @@ abstract class ServiceProvider {
   /// Boot the service container.
   /// While booting the service provider, preloaded services are instantiated.
   void boot();
+
+  /// Resolves a service or gets a matching parameter.
+  /// If neither a service nor a parameter is found, an exception is thrown.
+  T resolveOrGetParameter<T>(
+    Type requiredBy,
+    String param, [
+    String? parameter,
+  ]);
 }

@@ -74,8 +74,8 @@ final parameters$ = cb.refer('parameters');
 /// _tryResolveOrGetParameter method
 final tryResolveOrGetParameter$ = cb.refer('_tryResolveOrGetParameter');
 
-/// _resolveOrGetParameter method
-final resolveOrGetParameter$ = cb.refer('_resolveOrGetParameter');
+/// resolveOrGetParameter method
+final resolveOrGetParameter$ = cb.refer('resolveOrGetParameter');
 
 /// [ProviderNotBootedException]
 final providerNotBootedExceptionT =
@@ -115,6 +115,11 @@ final symbolT = cb.refer('Symbol');
 cb.Reference listOfT(cb.Reference T) => (cb.TypeReferenceBuilder()
       ..symbol = 'List'
       ..types.add(T))
+    .build();
+
+cb.Reference mapOfT(cb.Reference tKey, cb.Reference tValue) => (cb.TypeReferenceBuilder()
+      ..symbol = 'Map'
+      ..types.addAll([tKey, tValue]))
     .build();
 
 /// Make the reference nullable
