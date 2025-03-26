@@ -71,8 +71,8 @@ final servicesByTag$ = cb.refer('_servicesByTag');
 /// parameters field in the service provider
 final parameters$ = cb.refer('parameters');
 
-/// _tryResolveOrGetParameter method
-final tryResolveOrGetParameter$ = cb.refer('_tryResolveOrGetParameter');
+/// tryResolveOrGetParameter method
+final tryResolveOrGetParameter$ = cb.refer('tryResolveOrGetParameter');
 
 /// resolveOrGetParameter method
 final resolveOrGetParameter$ = cb.refer('resolveOrGetParameter');
