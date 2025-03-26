@@ -118,10 +118,11 @@ cb.Reference listOfT(cb.Reference T) => (cb.TypeReferenceBuilder()
       ..types.add(T))
     .build();
 
-cb.Reference mapOfT(cb.Reference tKey, cb.Reference tValue) => (cb.TypeReferenceBuilder()
-      ..symbol = 'Map'
-      ..types.addAll([tKey, tValue]))
-    .build();
+cb.Reference mapOfT(cb.Reference tKey, cb.Reference tValue) =>
+    (cb.TypeReferenceBuilder()
+          ..symbol = 'Map'
+          ..types.addAll([tKey, tValue]))
+        .build();
 
 /// Make the reference nullable
 cb.Reference nullable(cb.Reference ref) => cb.refer("${ref.symbol}?", ref.url);
@@ -146,3 +147,6 @@ final providePreloadedTypes$ = cb.refer('providePreloadedTypes');
 
 /// provideServiceTags method
 final provideServiceTags$ = cb.refer('provideServiceTags');
+
+/// _appliedPlugins field
+final appliedPlugins$ = cb.refer('_appliedPlugins');
