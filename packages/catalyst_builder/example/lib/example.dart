@@ -9,7 +9,6 @@ export 'example.catalyst_builder.g.dart';
 @Preload()
 @GenerateServiceProvider(
   providerClassName: 'ExampleProvider',
-  includePackageDependencies: true,
 )
 @ServiceMap(services: {
   ManuallyWiredServiceImplementation: Service(
