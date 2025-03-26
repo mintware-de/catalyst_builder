@@ -1,8 +1,13 @@
-## Next
+## 2.0.0-dev.1
 
 ### Breaking Changes
 
 - `GenerateServiceProvider.includePackageDependencies` was removed
+
+### Features
+
+- Added a new annotation `GenerateServiceProviderPlugin` to generate a standalone plugin
+- Added the `pluginClassName` property to the `GenerateServiceProvider` annotation
 
 ## 1.0.0
 
