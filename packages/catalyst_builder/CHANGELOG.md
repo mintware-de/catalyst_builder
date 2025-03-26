@@ -19,6 +19,7 @@ More background information is available in the [Wiki](https://github.com/mintwa
 ### Changes
 
 - Removed verbose logging
+- Removed the caching system
 
 ## 4.3.0
 
