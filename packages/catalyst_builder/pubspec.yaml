@@ -34,7 +34,7 @@ dependencies:
   path: ^1.8.0
   analyzer: '>=6.2.0 <8.0.0'
   yaml: ^3.0.0
-  catalyst_builder_contracts: ^1.0.0
+  catalyst_builder_contracts: ^2.0.0-dev.1
 
 dev_dependencies:
   test: any
