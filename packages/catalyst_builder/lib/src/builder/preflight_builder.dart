@@ -6,9 +6,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
-import 'package:path/path.dart' as p;
 
-import '../cache_helper.dart';
 import 'constants.dart';
 import 'dto/dto.dart';
 import 'helpers.dart';
@@ -16,8 +14,6 @@ import 'helpers.dart';
 /// The PreflightBuilder scans the files for @Service annotations.
 /// The result is stored in preflight.json files.
 class PreflightBuilder implements Builder {
-  final CacheHelper _cacheHelper = CacheHelper();
-
   @override
   final Map<String, List<String>> buildExtensions = {
     r'$lib$': [],
@@ -39,29 +35,14 @@ class PreflightBuilder implements Builder {
     }
     var extractedAnnotations = _extractAnnotations(libraryElement);
 
-    final cachedPath = _getFilename(buildStep);
     if (extractedAnnotations.services.isEmpty) {
-      await _cacheHelper.deleteFileFromCache(cachedPath);
       return;
     }
 
-    await _cacheHelper.writeFileToCache(
-      cachedPath,
-      jsonEncode(extractedAnnotations),
-    );
     buildStep.writeAsString(
       buildStep.inputId.changeExtension(preflightExtension),
       jsonEncode(extractedAnnotations),
     );
-  }
-
-  String _getFilename(BuildStep buildStep) {
-    final preflightAsset = buildStep.inputId.changeExtension(
-      preflightExtension,
-    );
-
-    var cachedPath = p.join(preflightAsset.package, preflightAsset.path);
-    return cachedPath;
   }
 
   PreflightPart _extractAnnotations(LibraryElement entryLib) {

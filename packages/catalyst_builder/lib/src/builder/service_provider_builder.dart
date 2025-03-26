@@ -1,55 +1,69 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
+import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
+import 'package:catalyst_builder/src/builder/helpers.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
+import 'package:glob/glob.dart';
 
-import '../cache_helper.dart';
 import 'constants.dart';
 import 'dto/dto.dart';
 import 'generator/service_provider/service_provider.dart';
 
 /// The ServiceProviderBuilder creates a service provider from the resulting
 /// preflight .json files.
-class ServiceProviderBuilder implements PostProcessBuilder {
-  final CacheHelper _cacheHelper = CacheHelper();
-
+class ServiceProviderBuilder implements Builder {
   @override
-  FutureOr<void> build(PostProcessBuildStep buildStep) async {
-    await for (final input in _cacheHelper.entrypointFiles) {
-      final entrypointFile = File(input.path);
+  FutureOr<void> build(BuildStep buildStep) async {
+    if (!await buildStep.resolver.isLibrary(buildStep.inputId)) {
+      return;
+    }
+    LibraryElement libraryElement;
+    try {
+      libraryElement = (await buildStep.inputLibrary);
+    } catch (e) {
+      log.warning('Error while processing input library. Skip for now.', e);
+      return;
+    }
 
-      var entrypoint = Entrypoint.fromJson(
-        jsonDecode(
-          await entrypointFile.readAsString(),
-        ) as Map<String, dynamic>,
-      );
+    var annotation = libraryElement.topLevelElements
+        .map((el) => el.metadata
+            .where((m) => m.isLibraryAnnotation('GenerateServiceProvider')))
+        .fold(<ElementAnnotation>[], (prev, e) => [...prev, ...e]).firstOrNull;
 
-      var content = await _generateCode(entrypoint);
-      var outFileName = AssetId.resolve(entrypoint.assetId)
-          .changeExtension(serviceProviderExtension)
-          .path;
-      var outFile = File(outFileName);
-      if (!outFile.existsSync()) {
-        outFile.createSync(recursive: true);
-      }
+    var isEntryPoint = annotation != null;
+    if (!isEntryPoint) {
+      return;
+    }
 
       await outFile.writeAsString(content);
     }
+    var constantValue = annotation.computeConstantValue()!;
+    var providerClassName =
+        constantValue.getField('providerClassName')!.toStringValue()!;
+
+    final entrypoint = Entrypoint(
+      providerClassName: providerClassName,
+      assetId: buildStep.inputId.uri,
+    );
+
+    var content = await _generateCode(buildStep, entrypoint);
+    await buildStep.writeAsString(
+      buildStep.inputId.changeExtension(serviceProviderExtension),
+      content,
+    );
   }
 
-  Future<String> _generateCode(Entrypoint entrypoint) async {
+  Future<String> _generateCode(
+      BuildStep buildStep, Entrypoint entrypoint) async {
     final parts = <PreflightPart>[];
     final services = <ExtractedService>[];
 
-    final source = _cacheHelper.getPreflightFilesForPackage(
-      entrypoint.assetId.pathSegments.first,
-    );
-
-    await for (final input in source) {
-      final jsonContent = await File(input.path).readAsString();
+    await for (final input
+        in buildStep.findAssets(Glob('**/**$preflightExtension'))) {
+      final jsonContent = await buildStep.readAsString(input);
       final part = PreflightPart.fromJson(
         jsonDecode(jsonContent) as Map<String, dynamic>,
       );
@@ -77,6 +91,8 @@ class ServiceProviderBuilder implements PostProcessBuilder {
   }
 
   @override
-  Iterable<String> get inputExtensions =>
-      [entrypointExtension, preflightExtension];
+  Map<String, List<String>> get buildExtensions => {
+        r'$lib$': [],
+        r'.dart': [serviceProviderExtension],
+      };
 }
