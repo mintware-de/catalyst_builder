@@ -1,3 +1,5 @@
+import '../catalyst_builder_contracts.dart';
+
 /// Describes a simple ServiceProvider
 abstract class ServiceProvider {
   /// Additional provider parameters.
@@ -33,4 +35,12 @@ abstract class ServiceProvider {
     String param, [
     String? parameter,
   ]);
+
+  /// Try to resolve a service of the type [T].
+  /// If there is no matching service, try to resolve a [parameter] of the type
+  /// [T]. If no parameter exists, return null;
+  T? tryResolveOrGetParameter<T>(String parameter);
+
+  /// Applies a plugin to the service provider
+  void applyPlugin(ServiceProviderPlugin plugin);
 }
