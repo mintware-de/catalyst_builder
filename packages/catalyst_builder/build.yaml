@@ -1,14 +1,4 @@
 builders:
-  entrypoint:
-    import: 'package:catalyst_builder/src/builder/builders.dart'
-    builder_factories:
-      - 'createEntrypointBuilder'
-    build_extensions:
-      '.dart': [ '.catalyst_builder.entrypoint.json' ]
-    build_to: cache
-    auto_apply: root_package
-    runs_before:
-      - 'catalyst_builder:preflight'
   preflight:
     import: 'package:catalyst_builder/src/builder/builders.dart'
     builder_factories:
