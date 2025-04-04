@@ -1,3 +1,8 @@
+## 5.0.0-dev.2
+
+### Changes
+- Removed export of `catalyst_builder_annotations`.
+
 ## 5.0.0-dev.1
 
 We need a total makeover of the underlying architecture.

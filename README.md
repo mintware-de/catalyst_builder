@@ -27,5 +27,5 @@ This is the workspace root, select a specific package for more details.
 
 | Description                                                | Status |
 |------------------------------------------------------------|--------|
-| Remove the annotations inside the catalyst_builder_package | 🔲     |
+| Remove the annotations inside the catalyst_builder_package | ☑️     |
 | Remove the service provider subclasses                     | 🔲     |

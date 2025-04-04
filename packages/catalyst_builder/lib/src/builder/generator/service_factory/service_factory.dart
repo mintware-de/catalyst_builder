@@ -1,6 +1,6 @@
+import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 import 'package:code_builder/code_builder.dart' as cb;
 
-import '../../../../catalyst_builder.dart';
 import '../../dto/dto.dart';
 import '../symbols.dart';
 
