@@ -1,4 +1,4 @@
-import 'package:catalyst_builder/catalyst_builder.dart';
+import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 import 'package:catalyst_builder_contracts_example/my_service.dart';
 
 import 'example.catalyst_builder.g.dart';
