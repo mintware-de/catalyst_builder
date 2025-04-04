@@ -1,6 +1,11 @@
 ## 2.0.0-dev.1
 
 ### Breaking Changes
+- Changed `ServiceProvider` and `ServiceRegistry` to interfaces
+
+## 2.0.0-dev.1
+
+### Breaking Changes
 
 - `GenerateServiceProvider.includePackageDependencies` was removed
 

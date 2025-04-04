@@ -6,7 +6,7 @@ import 'service_provider.dart';
 typedef ServiceFactory<T> = T Function(ServiceProvider);
 
 /// Describes a class for registering services
-abstract class ServiceRegistry {
+abstract interface class ServiceRegistry {
   /// Register a service
   void register<T>(
     ServiceFactory<T> factory, [
