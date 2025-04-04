@@ -16,7 +16,6 @@ cb.Class buildServiceProviderClass(
     ..extend = serviceProviderT
     ..implements.addAll([
       serviceRegistryT,
-      enhanceableProviderT,
     ])
     ..fields.addAll([
       bootedTemplate,
