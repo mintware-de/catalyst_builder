@@ -1,12 +1,12 @@
 import '../catalyst_builder_contracts.dart';
 
 /// Describes a simple ServiceProvider
-abstract class ServiceProvider {
+abstract interface class ServiceProvider {
   /// Additional provider parameters.
   /// If a service is not registered, the provider will also look inside
   /// the [parameters]. If there is a entry that match the name of the service
   /// parameter and the type matches the expected type, this parameter is used.
-  final Map<String, dynamic> parameters = <String, dynamic>{};
+  Map<String, dynamic> get parameters;
 
   /// Resolves a [Service] of the given [T]ype.
   ///
