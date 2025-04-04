@@ -13,11 +13,12 @@ cb.Class buildServiceProviderClass(
 ) {
   return cb.Class((c) => c
     ..name = providerClassName
-    ..extend = serviceProviderT
     ..implements.addAll([
+      serviceProviderT,
       serviceRegistryT,
     ])
     ..fields.addAll([
+      parametersTemplate,
       bootedTemplate,
       knownServicesTemplate,
       exposeMapTemplate,
