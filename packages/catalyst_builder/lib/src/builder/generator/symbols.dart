@@ -16,9 +16,6 @@ final serviceProviderT = cb.refer('ServiceProvider', rootPackage);
 /// [ServiceRegistry]
 final serviceRegistryT = cb.refer('ServiceRegistry', rootPackage);
 
-/// [EnhanceableProvider]
-final enhanceableProviderT = cb.refer('EnhanceableProvider', rootPackage);
-
 /// [LazyServiceDescriptor]
 final lazyServiceDescriptorT = cb.refer('LazyServiceDescriptor', rootPackage);
 

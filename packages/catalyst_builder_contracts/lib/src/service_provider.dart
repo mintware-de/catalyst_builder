@@ -28,6 +28,12 @@ abstract class ServiceProvider {
   /// While booting the service provider, preloaded services are instantiated.
   void boot();
 
+  /// Creates a new service provider with additional services and parameters.
+  ServiceProvider enhance({
+    List<LazyServiceDescriptor> services = const [],
+    Map<String, dynamic> parameters = const {},
+  });
+
   /// Resolves a service or gets a matching parameter.
   /// If neither a service nor a parameter is found, an exception is thrown.
   T resolveOrGetParameter<T>(
