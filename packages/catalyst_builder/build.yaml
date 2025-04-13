@@ -14,15 +14,6 @@ builders:
       - 'catalyst_builder:buildServiceProvider'
       - 'catalyst_builder:buildServiceProviderPlugin'
 
-  buildServiceProvider:
-    import: 'package:catalyst_builder/src/builder/builders.dart'
-    builder_factories:
-      - 'createServiceProviderBuilder'
-    build_extensions: { '.dart': [ '.catalyst_builder.g.dart' ] }
-    build_to: source
-    auto_apply: root_package
-    required_inputs:
-      - '.catalyst_builder.preflight.json'
   buildServiceProviderPlugin:
     import: 'package:catalyst_builder/src/builder/builders.dart'
     builder_factories:

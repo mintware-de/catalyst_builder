@@ -1,4 +1,3 @@
-export 'generate_service_provider.dart';
 export 'generate_service_provider_plugin.dart';
 export 'inject.dart';
 export 'preload.dart';
