@@ -1,14 +1,15 @@
 import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 import 'package:catalyst_builder_contracts_example/my_service.dart';
 
-import 'example.catalyst_builder.g.dart';
+import 'example.catalyst_builder.plugin.g.dart';
 
-@GenerateServiceProvider(
+@GenerateServiceProviderPlugin(
   // Enter a name that is used for the service provider class
-  providerClassName: 'ExampleProvider',
+  pluginClassName: 'ExampleProviderPlugin',
 )
 void main() {
-  final provider = ExampleProvider();
+  final provider = DefaultServiceProvider();
+  provider.useExampleProviderPlugin();
   provider.boot();
 
   final service = provider.resolve<MyService>();

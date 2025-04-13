@@ -1,7 +1,10 @@
+import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 import 'package:catalyst_builder_example/example.dart';
 
 void main(List<String> arguments) {
-  var provider = ExampleProvider();
+  var provider = DefaultServiceProvider();
+  provider.useExampleProviderPlugin();
+
   provider.parameters['sender_username'] = 'Julian';
 
   print('Post parameter set, pre boot');

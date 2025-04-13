@@ -5,4 +5,5 @@ export 'src/service_descriptor.dart';
 export 'src/service_lifetime.dart';
 export 'src/service_provider.dart';
 export 'src/service_registry.dart';
+export 'src/default_service_provider.dart';
 export 'src/service_provider_plugin.dart';
