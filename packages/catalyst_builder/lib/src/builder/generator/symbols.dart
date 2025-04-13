@@ -46,7 +46,7 @@ final register$ = cb.refer('register');
 
 final registerInternal$ = cb.refer('_registerInternal');
 
-/// [EnhanceableProvider.enhance]
+/// [ServiceProvider.enhance]
 final enhance$ = cb.refer('enhance');
 
 /// this

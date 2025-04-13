@@ -138,13 +138,9 @@ void main() {
   });
 
   test('enhance', () {
-    if (serviceProvider is! EnhanceableProvider) {
-      fail('Service provider is not a EnhanceableProvider');
-    }
     expect(serviceProvider.has<SelfRegisteredService>(), isFalse);
 
-    var newProvider =
-        (serviceProvider as EnhanceableProvider).enhance(services: [
+    var newProvider = serviceProvider.enhance(services: [
       LazyServiceDescriptor(
         (p) => MySelfRegisteredService(p.resolve()),
         const Service(exposeAs: SelfRegisteredService),
@@ -159,14 +155,11 @@ void main() {
   });
 
   test('enhance with parameter', () {
-    if (serviceProvider is! EnhanceableProvider) {
-      fail('Service provider is not a EnhanceableProvider');
-    }
     serviceProvider.parameters['foo'] = 'bar';
     serviceProvider.parameters['bar'] = 'baz';
     expect(serviceProvider.has<SelfRegisteredService>(), isFalse);
 
-    var newProvider = (serviceProvider as EnhanceableProvider).enhance(
+    var newProvider = serviceProvider.enhance(
       parameters: {
         'foo': 'overwritten',
       },
@@ -185,13 +178,10 @@ void main() {
   });
 
   test('enhance with multiple descriptors', () {
-    if (serviceProvider is! EnhanceableProvider) {
-      fail('Service provider is not a EnhanceableProvider');
-    }
     expect(serviceProvider.has<SelfRegisteredService>(), isFalse);
     expect(serviceProvider.has<String>(), isFalse);
 
-    var newProvider = (serviceProvider as EnhanceableProvider).enhance(
+    var newProvider = serviceProvider.enhance(
       services: [
         LazyServiceDescriptor<MySelfRegisteredService>(
           (p) => MySelfRegisteredService(p.resolve()),
@@ -212,13 +202,10 @@ void main() {
   });
 
   test('enhance should contain previous manual registered services', () {
-    if (serviceProvider is! EnhanceableProvider) {
-      fail('Service provider is not a EnhanceableProvider');
-    }
     expect(serviceProvider.has<SelfRegisteredService>(), isFalse);
     expect(serviceProvider.has<String>(), isFalse);
 
-    var newProvider = (serviceProvider as EnhanceableProvider).enhance(
+    var newProvider = serviceProvider.enhance(
       services: [
         LazyServiceDescriptor<MySelfRegisteredService>(
           (p) => MySelfRegisteredService(p.resolve()),
@@ -230,7 +217,7 @@ void main() {
     expect(newProvider.has<SelfRegisteredService>(), isTrue);
     expect(newProvider.has<String>(), isFalse);
 
-    var newProvider2 = (newProvider as EnhanceableProvider).enhance(
+    var newProvider2 = newProvider.enhance(
       services: [
         LazyServiceDescriptor<String>(
           (p) => 'This should also work',
@@ -254,16 +241,13 @@ void main() {
   });
 
   test('enhance should not override default descriptors', () {
-    if (serviceProvider is! EnhanceableProvider) {
-      fail('Service provider is not a EnhanceableProvider');
-    }
     expect(serviceProvider.has<ServiceThatDependOnEnhancedService>(), isTrue);
     expect(
       () => serviceProvider.resolve<ServiceThatDependOnEnhancedService>(),
       throwsA(const TypeMatcher<DependencyNotFoundException>()),
     );
 
-    var enhanced = (serviceProvider as EnhanceableProvider).enhance(
+    var enhanced = serviceProvider.enhance(
       services: [
         LazyServiceDescriptor<ServiceOnlyProvidedInEnhanced>(
           (p) => ServiceOnlyProvidedInEnhanced(),
@@ -279,15 +263,11 @@ void main() {
   });
 
   test('enhance should register singletons in the root provider', () {
-    if (serviceProvider is! EnhanceableProvider) {
-      fail('Service provider is not a EnhanceableProvider');
-    }
-
-    var enhanced1 = (serviceProvider as EnhanceableProvider).enhance();
+    var enhanced1 = serviceProvider.enhance();
     expect(enhanced1.resolve<SingletonThatShouldBeRegisteredInRoot>().count,
         equals(1));
 
-    var enhanced2 = (serviceProvider as EnhanceableProvider).enhance();
+    var enhanced2 = serviceProvider.enhance();
     expect(enhanced2.resolve<SingletonThatShouldBeRegisteredInRoot>().count,
         equals(1));
   });
