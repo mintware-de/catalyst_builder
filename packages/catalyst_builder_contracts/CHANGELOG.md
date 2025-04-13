@@ -1,7 +1,8 @@
-## 2.0.0-dev.1
+## 2.0.0-dev.2
 
 ### Breaking Changes
 - Changed `ServiceProvider` and `ServiceRegistry` to interfaces
+- Removed `EnhanceableProvider` and added `enhance` to `ServiceProvider`
 
 ## 2.0.0-dev.1
 
