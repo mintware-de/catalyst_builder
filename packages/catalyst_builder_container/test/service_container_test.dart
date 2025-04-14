@@ -20,7 +20,7 @@ void main() {
     resetServiceProvider();
     expect(
       () => serviceProvider.resolve<String>(),
-      throwsA(const TypeMatcher<ProviderNotBootedException>()),
+      throwsA(const TypeMatcher<ContainerNotBootedException>()),
     );
   });
 

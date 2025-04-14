@@ -107,7 +107,7 @@ class ServiceContainer implements ServiceProvider, ServiceRegistry {
 
   void _ensureBoot() {
     if (_booted == false) {
-      throw const ProviderNotBootedException();
+      throw const ContainerNotBootedException();
     }
   }
 
