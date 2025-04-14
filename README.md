@@ -15,20 +15,11 @@ This is the workspace root, select a specific package for more details.
 
 ## Roadmap
 
-# v4 (Current)
-
-| Description                                                           | Status |
-|-----------------------------------------------------------------------|--------|
-| Fix build problems with relative dependencies.                        | ☑️     |
-| Extract the annotations and contracts in a separate package           | ☑️     |
-| Remove the service provider subclasses                                | ☑️     |
-| Make changes to make the `catalyst_builder` package a dev dependency. | ☑️     |
-
-# v5 (Next)
+# v5 (Current)
 
 | Description                                                               | Status |
 |---------------------------------------------------------------------------|--------|
 | Remove the annotations inside the catalyst_builder_package                | ☑️     |
 | Remove the service provider subclasses                                    | ☑️     |
-| Stop generating the ServiceProvider and create a default ServiceContainer | 🔲     |
+| Stop generating the ServiceProvider and create a default ServiceContainer | ☑️     |
 | Add scope support                                                         | 🔲     |
