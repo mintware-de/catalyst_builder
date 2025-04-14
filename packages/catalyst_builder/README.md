@@ -1,10 +1,9 @@
-[![GitHub license](https://img.shields.io/github/license/mintware-de/catalyst_builder.svg)](https://github.com/mintware-de/catalyst_builder/blob/main/packages/catalyst_builder/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/mintware-de/catalyst_builder)](https://github.com/mintware-de/catalyst_builder/blob/main/packages/catalyst_builder/LICENSE)
 ![GitHub issues](https://img.shields.io/github/issues/mintware-de/catalyst_builder)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mintware-de/catalyst_builder/dart.yml?branch=main)
 [![Pub](https://img.shields.io/pub/v/catalyst_builder.svg)](https://pub.dartlang.org/packages/catalyst_builder)
 ![Pub Points](https://img.shields.io/pub/points/catalyst_builder)
 ![Pub Publisher](https://img.shields.io/pub/publisher/catalyst_builder)
-![Pub Popularity](https://img.shields.io/pub/popularity/catalyst_builder)
 ![Pub Likes](https://img.shields.io/pub/likes/catalyst_builder)
 
 # Catalyst Builder
