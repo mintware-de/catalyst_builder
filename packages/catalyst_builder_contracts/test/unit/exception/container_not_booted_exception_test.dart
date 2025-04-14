@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('constructor', () {
-    var ex = const ProviderNotBootedException();
+    var ex = const ContainerNotBootedException();
     expect(ex, const TypeMatcher<CatalystBuilderException>());
     expect(
       ex.message,
