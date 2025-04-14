@@ -1,3 +1,8 @@
+## Next
+
+### Breaking Changes
+- Removed `GenerateServiceProvider`. Use `ServiceContainer` from the `catalyst_builder_container` package.
+
 ## 2.0.0-dev.2
 
 ### Breaking Changes
