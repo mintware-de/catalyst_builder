@@ -20,12 +20,12 @@ This is the workspace root, select a specific package for more details.
 |-----------------------------------------------------------------------|--------|
 | Fix build problems with relative dependencies.                        | ☑️     |
 | Extract the annotations and contracts in a separate package           | ☑️     |
-| Remove the service provider subclasses                                | 🔲     |
-| Make changes to make the `catalyst_builder` package a dev dependency. | 🔲     |
+| Remove the service provider subclasses                                | ☑️     |
+| Make changes to make the `catalyst_builder` package a dev dependency. | ☑️     |
 
 # v5 (Next)
 
 | Description                                                | Status |
 |------------------------------------------------------------|--------|
 | Remove the annotations inside the catalyst_builder_package | ☑️     |
-| Remove the service provider subclasses                     | 🔲     |
+| Remove the service provider subclasses                     | ☑️     |
