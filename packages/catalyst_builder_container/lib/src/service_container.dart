@@ -119,7 +119,7 @@ class ServiceContainer implements ServiceProvider, ServiceRegistry {
 
   @override
   void register<T>(
-    T Function(ServiceProvider) factory, [
+    ServiceFactory<T> factory, [
     Service service = const Service(),
   ]) {
     _registerInternal(T, factory, service);
@@ -127,7 +127,7 @@ class ServiceContainer implements ServiceProvider, ServiceRegistry {
 
   void _registerInternal<T>(
     Type tReal,
-    T Function(ServiceProvider) factory, [
+    ServiceFactory<T> factory, [
     Service service = const Service(),
   ]) {
     _knownServices[tReal] = ServiceDescriptor(service, () => factory(this));
