@@ -237,6 +237,7 @@ abstract interface class _MarkerInterface {
 }
 
 class _ServiceThatRequiresParameter implements _MarkerInterface {
+  @override
   final String parameter;
 
   _ServiceThatRequiresParameter(
