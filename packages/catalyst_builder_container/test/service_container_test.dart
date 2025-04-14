@@ -27,7 +27,7 @@ void main() {
   test('double boot should throw an exception', () {
     expect(
       () => serviceProvider.boot(),
-      throwsA(const TypeMatcher<ProviderAlreadyBootedException>()),
+      throwsA(const TypeMatcher<ContainerAlreadyBootedException>()),
     );
   });
 
@@ -287,8 +287,7 @@ class _MySelfRegisteredService implements _SelfRegisteredService {
 class _ServiceWithTaggedDependencies {
   final List<Object> dependencies;
 
-  _ServiceWithTaggedDependencies(
-      @Inject(tag: #tagToInject) List<Object> this.dependencies);
+  _ServiceWithTaggedDependencies(@Inject(tag: #tagToInject) this.dependencies);
 }
 
 class _PreloadService {
