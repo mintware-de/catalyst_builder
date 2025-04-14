@@ -1,3 +1,4 @@
+import 'package:catalyst_builder_container/catalyst_builder_container.dart';
 import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 import 'package:catalyst_builder_contracts_example/my_service.dart';
 
@@ -8,7 +9,7 @@ import 'example.catalyst_builder.plugin.g.dart';
   pluginClassName: 'ExampleProviderPlugin',
 )
 void main() {
-  final provider = DefaultServiceProvider();
+  final provider = ServiceContainer();
   provider.useExampleProviderPlugin();
   provider.boot();
 

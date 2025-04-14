@@ -20,3 +20,5 @@ dependency_overrides:
     path: ../
   catalyst_builder:
     path: ../../catalyst_builder
+  catalyst_builder_container:
+    path: ../../catalyst_builder_container
