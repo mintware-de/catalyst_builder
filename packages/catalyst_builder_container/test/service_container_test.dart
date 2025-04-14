@@ -1,3 +1,4 @@
+import 'package:catalyst_builder_container/catalyst_builder_container.dart';
 import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 import 'package:test/test.dart';
 
@@ -5,7 +6,7 @@ void main() {
   late ServiceProvider serviceProvider;
 
   resetServiceProvider() {
-    serviceProvider = DefaultServiceProvider();
+    serviceProvider = ServiceContainer();
     serviceProvider.applyPlugin(_TestPlugin());
     serviceProvider.parameters['paramOverride'] = 'XYZ';
   }

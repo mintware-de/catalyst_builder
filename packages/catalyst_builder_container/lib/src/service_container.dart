@@ -1,6 +1,8 @@
 import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 
-class DefaultServiceProvider implements ServiceProvider, ServiceRegistry {
+/// This is a service container. Use it to register and resolve services
+/// from your app.
+class ServiceContainer implements ServiceProvider, ServiceRegistry {
   @override
   final parameters = <String, dynamic>{};
 
@@ -140,10 +142,8 @@ class DefaultServiceProvider implements ServiceProvider, ServiceRegistry {
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) {
     _ensureBoot();
-    var enhanced = DefaultServiceProvider();
-    for (var plugin in _appliedPlugins) {
-      enhanced.applyPlugin(plugin);
-    }
+    var enhanced = ServiceContainer();
+    _appliedPlugins.forEach(enhanced.applyPlugin);
     enhanced._serviceInstances = _serviceInstances;
     enhanced._knownServices.addAll(
       Map.fromEntries(

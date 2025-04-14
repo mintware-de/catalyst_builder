@@ -1,0 +1,27 @@
+name: catalyst_builder_container
+description: A lightweight and easy to use dependency injection container for dart.
+version: 1.0.0-dev.1
+homepage: 'https://github.com/mintware-de/catalyst_builder'
+repository: 'https://github.com/mintware-de/catalyst_builder/tree/main/packages/catalyst_builder'
+documentation: 'https://github.com/mintware-de/catalyst_builder/wiki'
+issue_tracker: 'https://github.com/mintware-de/catalyst_builder/issues?q=is:open%20label:catalyst_builder_container'
+funding:
+  - https://github.com/sponsors/mintware-de
+
+topics:
+  - code-generation
+  - builder
+  - dependency-injection
+  - annotations
+  - service-provider
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+
+dependencies:
+  analyzer: '>=6.2.0 <8.0.0'
+  catalyst_builder_contracts: ^2.0.0-dev.2
+
+dev_dependencies:
+  test: any
+  lints: any
