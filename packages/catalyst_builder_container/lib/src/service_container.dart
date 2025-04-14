@@ -97,7 +97,7 @@ class ServiceContainer implements ServiceProvider, ServiceRegistry {
   @override
   void boot() {
     if (_booted) {
-      throw const ProviderAlreadyBootedException();
+      throw const ContainerAlreadyBootedException();
     }
     _booted = true;
     for (var type in _preloadedTypes) {
@@ -169,7 +169,7 @@ class ServiceContainer implements ServiceProvider, ServiceRegistry {
   @override
   void applyPlugin(ServiceProviderPlugin plugin) {
     if (_booted) {
-      throw const ProviderAlreadyBootedException();
+      throw const ContainerAlreadyBootedException();
     }
     _appliedPlugins.add(plugin);
     _knownServices.addAll(plugin.provideKnownServices(this));
