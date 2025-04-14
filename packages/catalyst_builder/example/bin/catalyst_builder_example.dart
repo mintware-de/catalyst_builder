@@ -1,8 +1,8 @@
-import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
+import 'package:catalyst_builder_container/catalyst_builder_container.dart';
 import 'package:catalyst_builder_example/example.dart';
 
 void main(List<String> arguments) {
-  var provider = DefaultServiceProvider();
+  var provider = ServiceContainer();
   provider.useExampleProviderPlugin();
 
   provider.parameters['sender_username'] = 'Julian';
