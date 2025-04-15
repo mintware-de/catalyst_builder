@@ -44,7 +44,7 @@ class ServiceProviderPluginBuilder implements Builder {
 
     var content = await _generateCode(buildStep, pluginClassName);
     await buildStep.writeAsString(
-      buildStep.inputId.changeExtension(serviceProviderPluginExtension),
+      buildStep.inputId.changeExtension(serviceContainerPluginExtension),
       content,
     );
   }
@@ -88,6 +88,6 @@ class ServiceProviderPluginBuilder implements Builder {
   @override
   Map<String, List<String>> get buildExtensions => {
         r'$lib$': [],
-        r'.dart': [serviceProviderPluginExtension],
+        r'.dart': [serviceContainerPluginExtension],
       };
 }
