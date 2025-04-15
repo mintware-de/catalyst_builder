@@ -1,3 +1,14 @@
+## 2.0.0-rc.1
+
+### Breaking Changes
+
+- Removed `GenerateServiceProvider` annotation
+- Renamed `GenerateServiceProviderPlugin` to `GenerateServiceContainerPlugin`
+- Renamed `ProviderAlreadyBootedException` to `ContainerAlreadyBootedException`
+- Renamed `ProviderNotBootedException` to `ContainerNotBootedException`
+- Renamed `ServiceProvider` to `AbstractServiceContainer`
+- Renamed `ServiceProviderPlugin` to `ServiceContainerPlugin`
+
 ## 2.0.0-dev.2
 
 ### Breaking Changes
