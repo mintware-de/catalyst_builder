@@ -1,3 +1,7 @@
+## 2.0.0
+
+No additional changes were made. Check changes of previous version.
+
 ## 2.0.0-rc.1
 
 ### Breaking Changes
@@ -12,6 +16,7 @@
 ## 2.0.0-dev.2
 
 ### Breaking Changes
+
 - Changed `ServiceProvider` and `ServiceRegistry` to interfaces
 - Removed `EnhanceableProvider` and added `enhance` to `ServiceProvider`
 
@@ -33,7 +38,7 @@
 ## 0.0.2
 
 - Fix export of EnhanceableProvider
- 
+
 ## 0.0.1
 
 - Initial version
