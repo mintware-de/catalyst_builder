@@ -3,18 +3,18 @@ import 'dart:convert';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
-import 'package:catalyst_builder/src/builder/generator/service_provider/service_provider_plugin.dart';
-import 'package:catalyst_builder/src/builder/helpers.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:glob/glob.dart';
 
 import 'constants.dart';
 import 'dto/dto.dart';
+import 'generator/service_container/service_container_plugin.dart';
+import 'helpers.dart';
 
-/// The ServiceProviderPluginBuilder creates a plugin from the resulting
+/// The ServiceContainerPluginBuilder creates a plugin from the resulting
 /// preflight .json files.
-class ServiceProviderPluginBuilder implements Builder {
+class ServiceContainerPluginBuilder implements Builder {
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     if (!await buildStep.resolver.isLibrary(buildStep.inputId)) {
@@ -30,7 +30,7 @@ class ServiceProviderPluginBuilder implements Builder {
 
     var annotation = libraryElement.topLevelElements
         .map((el) => el.metadata.where(
-            (m) => m.isLibraryAnnotation('GenerateServiceProviderPlugin')))
+            (m) => m.isLibraryAnnotation('GenerateServiceContainerPlugin')))
         .fold(<ElementAnnotation>[], (prev, e) => [...prev, ...e]).firstOrNull;
 
     var isEntryPoint = annotation != null;
@@ -71,7 +71,7 @@ class ServiceProviderPluginBuilder implements Builder {
 
     final rawOutput = Library(
       (l) => l.body.addAll([
-        buildServiceProviderPluginClass(pluginClassName, services),
+        buildServiceContainerPluginClass(pluginClassName, services),
         buildExtension(pluginClassName),
       ]),
     ).accept(emitter).toString();

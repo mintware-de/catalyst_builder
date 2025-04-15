@@ -1,33 +1,33 @@
-import 'package:catalyst_builder_container/catalyst_builder_container.dart';
+import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:catalyst_builder_example/example.dart';
 
 void main(List<String> arguments) {
-  var provider = ServiceContainer();
-  provider.useExampleProviderPlugin();
+  var container = ServiceContainer();
+  container.useExampleContainerPlugin();
 
-  provider.parameters['sender_username'] = 'Julian';
+  container.parameters['sender_username'] = 'Julian';
 
   print('Post parameter set, pre boot');
-  provider.boot();
+  container.boot();
   print('Post boot, pre resolve');
 
-  var chat = provider.resolve<ChatProvider>();
+  var chat = container.resolve<ChatProvider>();
   print(chat.runtimeType);
   chat.sendChatMessage('WTF, this is really cool!');
 
-  provider.register(
-    (provider) => MySelfRegisteredService(provider.resolve()),
+  container.register(
+    (container) => MySelfRegisteredService(container.resolve()),
   );
 
-  var selfRegistered = provider.resolve<MySelfRegisteredService>();
+  var selfRegistered = container.resolve<MySelfRegisteredService>();
   selfRegistered.sayHello();
 
   // Contains CoolChatProvider and ConsoleTransport
-  var servicesByTag = provider.resolveByTag(#chat);
+  var servicesByTag = container.resolveByTag(#chat);
   for (var svc in servicesByTag) {
     print(svc);
   }
 
-  var broadcaster = provider.resolve<Broadcaster>();
+  var broadcaster = container.resolve<Broadcaster>();
   broadcaster.sendChatMessage('Hello Broadcast using injection tag.');
 }

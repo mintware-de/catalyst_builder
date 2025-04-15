@@ -1,17 +1,18 @@
+import 'package:catalyst_builder/catalyst_builder.dart';
 import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 import 'package:catalyst_builder_contracts_example/my_service.dart';
 
 import 'example.catalyst_builder.plugin.g.dart';
 
-@GenerateServiceProviderPlugin(
-  // Enter a name that is used for the service provider class
-  pluginClassName: 'ExampleProviderPlugin',
+@GenerateServiceContainerPlugin(
+  // Enter a name that is used for the service container class
+  pluginClassName: 'ExampleContainerPlugin',
 )
 void main() {
-  final provider = ServiceContainer();
-  provider.useExampleProviderPlugin();
-  provider.boot();
+  final container = ServiceContainer();
+  container.useExampleContainerPlugin();
+  container.boot();
 
-  final service = provider.resolve<MyService>();
+  final service = container.resolve<MyService>();
   service.sayHello();
 }

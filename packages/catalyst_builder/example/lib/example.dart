@@ -7,8 +7,8 @@ export './src/manually_wired_service.dart';
 export 'example.catalyst_builder.plugin.g.dart';
 
 @Preload()
-@GenerateServiceProviderPlugin(
-  pluginClassName: 'ExampleProviderPlugin',
+@GenerateServiceContainerPlugin(
+  pluginClassName: 'ExampleContainerPlugin',
 )
 @ServiceMap(services: {
   ManuallyWiredServiceImplementation: Service(

@@ -1,19 +1,25 @@
 import 'package:code_builder/code_builder.dart' as cb;
 
 /// The catalyst_builder root package.
-const rootPackage =
+const contractsPackage =
     'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 
+const builderPackage = 'package:catalyst_builder/catalyst_builder.dart';
+
 /// [Service]
-final serviceT = cb.refer('Service', rootPackage);
+final serviceT = cb.refer('Service', contractsPackage);
 
 /// [ServiceDescriptor]
-final serviceDescriptorT = cb.refer('ServiceDescriptor', rootPackage);
+final serviceDescriptorT = cb.refer('ServiceDescriptor', contractsPackage);
 
-/// [ServiceProvider]
-final serviceProviderT = cb.refer('ServiceProvider', rootPackage);
+/// [ServiceContainer]
+final serviceContainerT = cb.refer('ServiceContainer', builderPackage);
 
-/// [ServiceProvider.resolveByTag]
+/// [AbstractServiceContainer]
+final abstractServiceContainerT =
+    cb.refer('AbstractServiceContainer', contractsPackage);
+
+/// [ServiceContainer.resolveByTag]
 final resolveByTag$ = cb.refer('resolveByTag');
 
 /// tryResolveOrGetParameter method
@@ -42,11 +48,12 @@ cb.Reference mapOfT(cb.Reference tKey, cb.Reference tValue) =>
           ..types.addAll([tKey, tValue]))
         .build();
 
-/// [ServiceProvider.applyPlugin] method
+/// [ServiceContainer.applyPlugin] method
 final applyPlugin$ = cb.refer('applyPlugin');
 
-/// [ServiceProviderPlugin]
-final serviceProviderPluginT = cb.refer('ServiceProviderPlugin', rootPackage);
+/// [ServiceContainerPlugin]
+final serviceContainerPluginT =
+    cb.refer('ServiceContainerPlugin', contractsPackage);
 
 /// provideKnownServices method
 final provideKnownServices$ = cb.refer('provideKnownServices');

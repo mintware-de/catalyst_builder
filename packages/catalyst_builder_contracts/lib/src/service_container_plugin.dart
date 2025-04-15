@@ -1,9 +1,9 @@
 import '../catalyst_builder_contracts.dart';
 
-/// Defines a plugin for the [ServiceProvider]
-abstract interface class ServiceProviderPlugin {
+/// Defines a plugin for the [ServiceContainerPlugin]
+abstract interface class ServiceContainerPlugin {
   /// Returns all known services that should be registered.
-  Map<Type, ServiceDescriptor> provideKnownServices(ServiceProvider p);
+  Map<Type, ServiceDescriptor> provideKnownServices(AbstractServiceContainer p);
 
   /// Returns a map for the exposing of services.
   Map<Type, Type> provideExposes();

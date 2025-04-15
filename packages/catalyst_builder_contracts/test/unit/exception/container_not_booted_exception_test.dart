@@ -8,7 +8,7 @@ void main() {
     expect(
       ex.message,
       equals(
-        'Service provider was not booted. Call ServiceProvider.boot() first.',
+        'Service container was not booted. Call ServiceContainer.boot() first.',
       ),
     );
   });
