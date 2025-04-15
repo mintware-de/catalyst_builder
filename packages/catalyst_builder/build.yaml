@@ -8,16 +8,14 @@ builders:
     build_to: cache
     auto_apply: root_package
     runs_before:
-      - 'catalyst_builder:buildServiceProvider'
-      - 'catalyst_builder:buildServiceProviderPlugin'
+      - 'catalyst_builder:buildServiceContainerPlugin'
     applies_builders:
-      - 'catalyst_builder:buildServiceProvider'
-      - 'catalyst_builder:buildServiceProviderPlugin'
+      - 'catalyst_builder:buildServiceContainerPlugin'
 
-  buildServiceProviderPlugin:
+  buildServiceContainerPlugin:
     import: 'package:catalyst_builder/src/builder/builders.dart'
     builder_factories:
-      - 'createServiceProviderPluginBuilder'
+      - 'createServiceContainerPluginBuilder'
     build_extensions: { '.dart': [ '.catalyst_builder.plugin.g.dart' ] }
     build_to: source
     auto_apply: dependents

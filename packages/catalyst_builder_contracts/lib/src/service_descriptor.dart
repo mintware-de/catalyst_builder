@@ -1,6 +1,6 @@
 import 'annotation/annotation.dart';
 
-/// This class is used for describing services in the service provider.
+/// This class is used for describing services in the service container.
 class ServiceDescriptor<T> {
   final Service _service;
 

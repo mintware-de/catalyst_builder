@@ -6,6 +6,6 @@ class ContainerNotBootedException extends CatalystBuilderException {
   /// Creates a new [ContainerNotBootedException] object.
   const ContainerNotBootedException()
       : super(
-          'Service provider was not booted. Call ServiceContainer.boot() first.',
+          'Service container was not booted. Call ServiceContainer.boot() first.',
         );
 }

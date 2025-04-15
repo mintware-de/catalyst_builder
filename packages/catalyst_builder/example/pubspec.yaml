@@ -12,19 +12,15 @@ dependencies:
     path: ../../catalyst_builder_contracts
   third_party_dependency:
     path: ../test/third_party_dependency
-  catalyst_builder_container:
-    path: ../../catalyst_builder_container
+  catalyst_builder:
+    path: ../
 
 dev_dependencies:
   lints: ^5.1.1
   build_runner: ^2.0.1
-  catalyst_builder:
-    path: ../
 
 dependency_overrides:
   catalyst_builder:
     path: ../
   catalyst_builder_contracts:
     path: ../../catalyst_builder_contracts
-  catalyst_builder_container:
-    path: ../../catalyst_builder_container

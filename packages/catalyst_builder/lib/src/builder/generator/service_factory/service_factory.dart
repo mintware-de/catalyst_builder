@@ -10,7 +10,7 @@ cb.Expression buildServiceFactory(
   cb.Reference? exposeAsReference,
   cb.Reference serviceType,
   ExtractedService svc,
-  cb.Reference providerP,
+  cb.Reference containerP,
 ) {
   var factory = cb.MethodBuilder();
 
@@ -21,10 +21,10 @@ cb.Expression buildServiceFactory(
   var namedArgs = <String, cb.Expression>{};
 
   var tryResolveOrGetParameter_ =
-      providerP.property(tryResolveOrGetParameter$.symbol!);
-  var resolveByTag_ = providerP.property(resolveByTag$.symbol!);
+      containerP.property(tryResolveOrGetParameter$.symbol!);
+  var resolveByTag_ = containerP.property(resolveByTag$.symbol!);
   var resolveOrGetParameter_ =
-      providerP.property(resolveOrGetParameter$.symbol!);
+      containerP.property(resolveOrGetParameter$.symbol!);
 
   for (var param in svc.constructorArgs) {
     var defaultValue = '';
@@ -61,7 +61,7 @@ cb.Expression buildServiceFactory(
   return serviceDescriptorT.call([
     serviceT.constInstance([], {
       if (svc.lifetime != ServiceLifetime.singleton.toString())
-        'lifetime': cb.refer(svc.lifetime, rootPackage),
+        'lifetime': cb.refer(svc.lifetime, contractsPackage),
       if (exposeAsReference != null) 'exposeAs': exposeAsReference
     }),
     constructor,

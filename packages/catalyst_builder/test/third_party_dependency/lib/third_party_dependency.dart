@@ -27,7 +27,7 @@ class SingletonThatShouldBeRegisteredInRoot {
   }
 }
 
-@GenerateServiceProviderPlugin(
+@GenerateServiceContainerPlugin(
   pluginClassName: 'ThirdPartyPlugin',
 )
 void _() {} // ignore: unused_element

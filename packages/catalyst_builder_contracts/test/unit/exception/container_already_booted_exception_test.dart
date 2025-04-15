@@ -5,6 +5,6 @@ void main() {
   test('constructor', () {
     var ex = const ContainerAlreadyBootedException();
     expect(ex, const TypeMatcher<CatalystBuilderException>());
-    expect(ex.message, equals('The service provider was already booted.'));
+    expect(ex.message, equals('The service container was already booted.'));
   });
 }

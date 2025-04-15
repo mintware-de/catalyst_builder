@@ -8,7 +8,7 @@
 
 # Catalyst Builder
 
-A dependency injection provider builder for dart.
+A dependency injection container builder for dart.
 
 Click on the image for a video on YouTube:
 
@@ -24,9 +24,9 @@ Since [Catalyst](https://github.com/mintware-de/catalyst) is only for Dart
 and [Flutter Catalyst](https://github.com/mintware-de/flutter_catalyst)
 supports Flutter, but a mess to configure I decided to do something cooler.
 
-Catalyst Builder is a dependency injection provider builder for both, Dart and Flutter. It's easy to use and dependency
+Catalyst Builder is a dependency injection container builder for both, Dart and Flutter. It's easy to use and dependency
 injection is almost done automatically. You only have to decorate your services with `@Service` and the build_runner
-will create a service provider for you.
+will create a service container for you.
 
 ## Installation
 

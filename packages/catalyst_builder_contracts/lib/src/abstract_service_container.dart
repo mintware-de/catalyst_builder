@@ -1,9 +1,9 @@
 import '../catalyst_builder_contracts.dart';
 
-/// Describes a simple ServiceProvider
-abstract interface class ServiceProvider {
-  /// Additional provider parameters.
-  /// If a service is not registered, the provider will also look inside
+/// Describes a simple service container
+abstract interface class AbstractServiceContainer {
+  /// Additional container parameters.
+  /// If a service is not registered, the container will also look inside
   /// the [parameters]. If there is a entry that match the name of the service
   /// parameter and the type matches the expected type, this parameter is used.
   Map<String, dynamic> get parameters;
@@ -25,11 +25,11 @@ abstract interface class ServiceProvider {
   bool has<T>([Type? type]);
 
   /// Boot the service container.
-  /// While booting the service provider, preloaded services are instantiated.
+  /// While booting the service container, preloaded services are instantiated.
   void boot();
 
-  /// Creates a new service provider with additional services and parameters.
-  ServiceProvider enhance({
+  /// Creates a new service container with additional services and parameters.
+  AbstractServiceContainer enhance({
     List<LazyServiceDescriptor> services = const [],
     Map<String, dynamic> parameters = const {},
   });
@@ -47,6 +47,6 @@ abstract interface class ServiceProvider {
   /// [T]. If no parameter exists, return null;
   T? tryResolveOrGetParameter<T>(String parameter);
 
-  /// Applies a plugin to the service provider
-  void applyPlugin(ServiceProviderPlugin plugin);
+  /// Applies a plugin to the service container
+  void applyPlugin(ServiceContainerPlugin plugin);
 }

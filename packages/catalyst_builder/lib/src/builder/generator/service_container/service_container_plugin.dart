@@ -4,14 +4,14 @@ import '../../dto/dto.dart';
 import '../symbols.dart';
 import 'methods/methods.dart';
 
-/// Generates the code for the service provider.
-cb.Class buildServiceProviderPluginClass(
+/// Generates the code for the service container.
+cb.Class buildServiceContainerPluginClass(
   String pluginClassName,
   List<ExtractedService> services,
 ) {
   return cb.Class((c) => c
     ..name = pluginClassName
-    ..implements.addAll([serviceProviderPluginT])
+    ..implements.addAll([serviceContainerPluginT])
     ..methods.addAll([
       provideKnownServicesTemplate(services),
       provideExposesTemplate(services),
@@ -23,7 +23,7 @@ cb.Class buildServiceProviderPluginClass(
 cb.Extension buildExtension(String pluginClassName) {
   return cb.Extension((e) => e
     ..name = "${pluginClassName}Extension"
-    ..on = serviceProviderT
+    ..on = abstractServiceContainerT
     ..methods.add(cb.Method((m) => m
       ..name = "use$pluginClassName"
       ..returns = voidT

@@ -1,9 +1,9 @@
+import 'abstract_service_container.dart';
 import 'annotation/annotation.dart';
-import 'service_provider.dart';
 
 /// A function that can produce a [T]. Dependencies can be resolved using the
-/// passed [ServiceProvider].
-typedef ServiceFactory<T> = T Function(ServiceProvider);
+/// passed [AbstractServiceContainer].
+typedef ServiceFactory<T> = T Function(AbstractServiceContainer);
 
 /// Describes a class for registering services
 abstract interface class ServiceRegistry {

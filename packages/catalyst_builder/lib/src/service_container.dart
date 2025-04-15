@@ -2,7 +2,7 @@ import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 
 /// This is a service container. Use it to register and resolve services
 /// from your app.
-class ServiceContainer implements ServiceProvider, ServiceRegistry {
+class ServiceContainer implements AbstractServiceContainer, ServiceRegistry {
   @override
   final parameters = <String, dynamic>{};
 
@@ -14,7 +14,7 @@ class ServiceContainer implements ServiceProvider, ServiceRegistry {
 
   final _preloadedTypes = <Type>[];
 
-  final _appliedPlugins = <ServiceProviderPlugin>[];
+  final _appliedPlugins = <ServiceContainerPlugin>[];
 
   var _serviceInstances = <Type, dynamic>{};
 
@@ -137,7 +137,7 @@ class ServiceContainer implements ServiceProvider, ServiceRegistry {
   }
 
   @override
-  ServiceProvider enhance({
+  AbstractServiceContainer enhance({
     List<LazyServiceDescriptor> services = const <LazyServiceDescriptor>[],
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) {
@@ -167,7 +167,7 @@ class ServiceContainer implements ServiceProvider, ServiceRegistry {
   }
 
   @override
-  void applyPlugin(ServiceProviderPlugin plugin) {
+  void applyPlugin(ServiceContainerPlugin plugin) {
     if (_booted) {
       throw const ContainerAlreadyBootedException();
     }

@@ -8,7 +8,7 @@ import '../../symbols.dart';
 cb.Method provideKnownServicesTemplate(List<ExtractedService> services) {
   var serviceFactories = <cb.Reference, cb.Expression>{};
 
-  var pP = cb.refer('p');
+  var containerP = cb.refer('c');
   for (var svc in services) {
     var serviceType = cb.refer(svc.service.symbolName, svc.service.library);
 
@@ -22,7 +22,7 @@ cb.Method provideKnownServicesTemplate(List<ExtractedService> services) {
       exposeAsReference,
       serviceType,
       svc,
-      pP,
+      containerP,
     );
   }
 
@@ -32,8 +32,8 @@ cb.Method provideKnownServicesTemplate(List<ExtractedService> services) {
       ..name = provideKnownServices$.symbol
       ..returns = mapOfT(typeT, serviceDescriptorT)
       ..requiredParameters.add(cb.Parameter((p) => p
-        ..name = pP.symbol!
-        ..type = serviceProviderT))
+        ..name = containerP.symbol!
+        ..type = abstractServiceContainerT))
       ..body = cb
           .literalMap(serviceFactories, typeT, serviceDescriptorT)
           .returned
