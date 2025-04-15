@@ -1,12 +1,34 @@
+## 5.0.0
+
+I'm proud to release v5.0.0 🎉
+
+This release contains a lot of rework in the underlying engine.
+
+This is a list of the largest changes between v4.3.2 and v5.0.0
+
+- New plugin based architecture
+- The `ServiceContainer` (formerly `ServiceProvider`) is no longer generated code. Instead, I created a
+  `ServiceContainer` implementation that uses Plugins which are generated.
+- Services from dependencies are no longer included. This improves the build speed and reliability of generated code.
+  Services from dependencies must be deployed as plugins. This gives you more control over what is registered in your
+  container.
+- Aligned naming: In the previous versions, we mixed the terms `provider` and `container`. Starting with this version
+  we will use only `container`.
+
+For upgrade guidance check the "[Upgrade from v4 to v5](https://github.com/mintware-de/catalyst_builder/wiki/v5)" Guide
+
 ## 5.0.0-rc.1
 
 ### Breaking Changes
 
-- Removed the generation of the service container. Check the [GenerateServiceProvider](https://github.com/mintware-de/catalyst_builder/wiki/v5#generateserviceprovider) section for upgrade guidance. 
+- Removed the generation of the service container. Check
+  the [GenerateServiceProvider](https://github.com/mintware-de/catalyst_builder/wiki/v5#generateserviceprovider) section
+  for upgrade guidance.
 
 ## 5.0.0-dev.2
 
 ### Changes
+
 - Removed export of `catalyst_builder_annotations`.
 
 ## 5.0.0-dev.1
@@ -14,9 +36,10 @@
 We need a total makeover of the underlying architecture.
 Services from packages you depend on are no longer resolved automatically!
 
-More background information is available in the [Wiki](https://github.com/mintware-de/catalyst_builder/wiki/v5) 
+More background information is available in the [Wiki](https://github.com/mintware-de/catalyst_builder/wiki/v5)
 
 ### Changes
+
 - `includePackageDependencies` was removed
 
 ## 4.3.2
