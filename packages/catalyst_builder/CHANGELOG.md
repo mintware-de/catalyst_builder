@@ -1,3 +1,9 @@
+## 5.0.0-rc.1
+
+### Breaking Changes
+
+- Removed the generation of the service container. Check the [GenerateServiceProvider](https://github.com/mintware-de/catalyst_builder/wiki/v5#generateserviceprovider) section for upgrade guidance. 
+
 ## 5.0.0-dev.2
 
 ### Changes
