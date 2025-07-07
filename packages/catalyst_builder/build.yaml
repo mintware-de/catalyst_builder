@@ -9,8 +9,10 @@ builders:
     auto_apply: root_package
     runs_before:
       - 'catalyst_builder:buildServiceContainerPlugin'
+      - 'catalyst_builder:buildCatalystLibrary'
     applies_builders:
       - 'catalyst_builder:buildServiceContainerPlugin'
+      - 'catalyst_builder:buildCatalystLibrary'
 
   buildServiceContainerPlugin:
     import: 'package:catalyst_builder/src/builder/builders.dart'
@@ -19,5 +21,15 @@ builders:
     build_extensions: { '.dart': [ '.catalyst_builder.plugin.g.dart' ] }
     build_to: source
     auto_apply: dependents
+    required_inputs:
+      - '.catalyst_builder.preflight.json'
+
+  buildCatalystLibrary:
+    import: 'package:catalyst_builder/src/builder/builders.dart'
+    builder_factories:
+      - 'createCatalystLibraryBuilder'
+    build_extensions: { '.dart': [ '.catalyst_library.g.dart' ] }
+    build_to: source
+    auto_apply: root_package
     required_inputs:
       - '.catalyst_builder.preflight.json'

@@ -1,5 +1,6 @@
 import 'package:build/build.dart';
 
+import 'catalyst_library_builder.dart';
 import 'preflight_builder.dart';
 import 'service_container_plugin_builder.dart';
 
@@ -9,3 +10,7 @@ Builder createPreflightBuilder(BuilderOptions options) => PreflightBuilder();
 /// Creates the service container plugin builder
 Builder createServiceContainerPluginBuilder(BuilderOptions options) =>
     ServiceContainerPluginBuilder();
+
+/// Creates the catalyst library builder
+Builder createCatalystLibraryBuilder(BuilderOptions options) =>
+    CatalystLibraryBuilder();
