@@ -37,7 +37,7 @@ Add this to your pubspec.yaml and run `pub get` or `flutter pub get`:
 
 ```yaml
 dev_dependencies:
-  build_runner: ^2.2.0
+  build_runner: any
 ```
 
 Don't forget to exclude the `.catalyst_builder_cache` directory from VCS.
