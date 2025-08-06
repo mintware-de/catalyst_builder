@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/element2.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
@@ -26,7 +26,7 @@ class PreflightBuilder implements Builder {
       return;
     }
 
-    LibraryElement libraryElement;
+    LibraryElement2 libraryElement;
     try {
       libraryElement = await buildStep.inputLibrary;
     } catch (e) {
@@ -45,35 +45,33 @@ class PreflightBuilder implements Builder {
     );
   }
 
-  PreflightPart _extractAnnotations(LibraryElement entryLib) {
+  PreflightPart _extractAnnotations(LibraryElement2 entryLib) {
     var services = <ExtractedService>[];
 
-    for (var lib in entryLib.topLevelElements) {
+    for (var lib in entryLib.children2.whereType<Annotatable>()) {
       services.addAll(_extractFromTopLevelElement(lib));
     }
 
-    return PreflightPart(
-      services: services,
-    );
+    return PreflightPart(services: services);
   }
 
-  List<ExtractedService> _extractFromTopLevelElement(Element el) {
+  List<ExtractedService> _extractFromTopLevelElement(Annotatable el) {
     var services = <ExtractedService>[];
-    var isPreloaded = el.metadata.any((a) => a.isLibraryAnnotation('Preload'));
+    var isPreloaded = el.metadata2.annotations.any(
+      (a) => a.isLibraryAnnotation('Preload'),
+    );
 
-    for (var annotation in el.metadata) {
+    for (var annotation in el.metadata2.annotations) {
       if (annotation.isLibraryAnnotation('ServiceMap')) {
         services.addAll(
           _extractServicesFromServiceMap(annotation, isPreloaded),
         );
       }
-      if (annotation.isLibraryAnnotation('Service') && el is ClassElement) {
+      if (annotation.isLibraryAnnotation('Service') && el is ClassElement2) {
         var serviceAnnotation = annotation.computeConstantValue();
-        services.add(_mapToExtractedService(
-          el,
-          serviceAnnotation,
-          isPreloaded,
-        ));
+        services.add(
+          _mapToExtractedService(el, serviceAnnotation, isPreloaded),
+        );
       }
     }
     return services;
@@ -93,22 +91,20 @@ class PreflightBuilder implements Builder {
         continue;
       }
 
-      var keyElement = typed.element;
-      if (keyElement is! ClassElement) {
+      var keyElement = typed.element3;
+      if (keyElement is! ClassElement2) {
         continue;
       }
 
-      serviceMapServices.add(_mapToExtractedService(
-        keyElement,
-        kvp.value,
-        isPreloaded,
-      ));
+      serviceMapServices.add(
+        _mapToExtractedService(keyElement, kvp.value, isPreloaded),
+      );
     }
     return serviceMapServices;
   }
 
   ExtractedService _mapToExtractedService(
-    ClassElement serviceClass,
+    ClassElement2 serviceClass,
     DartObject? serviceAnnotation,
     bool isPreloaded,
   ) {
@@ -117,8 +113,8 @@ class PreflightBuilder implements Builder {
     return ExtractedService(
       lifetime: lifetime.toString(),
       service: SymbolReference(
-        symbolName: serviceClass.name,
-        library: serviceClass.librarySource.uri.toString(),
+        symbolName: serviceClass.displayName,
+        library: serviceClass.library2.uri.toString(),
       ),
       constructorArgs: _extractConstructorArgs(serviceClass),
       exposeAs: _getExposeAs(serviceAnnotation),
@@ -133,11 +129,11 @@ class PreflightBuilder implements Builder {
       return null;
     }
 
-    var exposeAsElement = typed.element;
+    var exposeAsElement = typed.element3;
 
     return SymbolReference(
-      symbolName: exposeAsElement.name,
-      library: exposeAsElement.librarySource.uri.toString(),
+      symbolName: exposeAsElement.displayName,
+      library: exposeAsElement.library2.uri.toString(),
     );
   }
 
@@ -149,19 +145,27 @@ class PreflightBuilder implements Builder {
     return ServiceLifetime.values[lifetimeIndex ?? 1];
   }
 
-  List<ConstructorArg> _extractConstructorArgs(ClassElement el) {
-    return el.constructors
-        .firstWhere((ctor) => !ctor.isFactory && ctor.name == '')
-        .parameters
-        .map(_buildConstructorArg)
+  List<ConstructorArg> _extractConstructorArgs(ClassElement2 el) {
+    var constructors = el.children2
+        .whereType<ConstructorElement2>()
+        .where(
+          (ctor) =>
+              !ctor.isFactory &&
+              (ctor.firstFragment.name2 == '' ||
+                  ctor.firstFragment.name2 == 'new'),
+        )
         .toList();
+    return constructors.firstOrNull?.formalParameters
+            .map(_buildConstructorArg)
+            .toList() ??
+        [];
   }
 
-  ConstructorArg _buildConstructorArg(ParameterElement param) {
-    var annotations = param.metadata.cast<ElementAnnotation?>();
+  ConstructorArg _buildConstructorArg(FormalParameterElement param) {
+    var annotations = param.metadata2.annotations;
 
     return ConstructorArg(
-      name: param.name,
+      name: param.displayName,
       isOptional: param.isOptional,
       isPositional: param.isPositional,
       isNamed: param.isNamed,
@@ -173,10 +177,10 @@ class PreflightBuilder implements Builder {
   InjectAnnotation? _extractInjectAnnotation(
     List<ElementAnnotation?> annotations,
   ) {
-    var injectAnnotation = annotations.firstWhere(
-      (a) => a!.isLibraryAnnotation('Inject'),
-      orElse: () => null,
-    );
+    var injectAnnotation = annotations.cast<ElementAnnotation?>().firstWhere(
+          (a) => a!.isLibraryAnnotation('Inject'),
+          orElse: () => null,
+        );
 
     if (injectAnnotation == null) {
       return null;
@@ -186,10 +190,7 @@ class PreflightBuilder implements Builder {
     var tag = constantValue?.getField('tag')?.toSymbolValue();
     var parameter = constantValue?.getField('parameter')?.toStringValue();
 
-    return InjectAnnotation(
-      tag: tag,
-      parameter: parameter,
-    );
+    return InjectAnnotation(tag: tag, parameter: parameter);
   }
 
   List<String> _getTags(DartObject? serviceAnnotation) {
