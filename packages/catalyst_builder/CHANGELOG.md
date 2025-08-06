@@ -1,3 +1,14 @@
+## 6.0.0-dev.1
+
+To support the latest version of `build` and `analyzer` we
+switched to the new [element model api](https://github.com/dart-lang/sdk/blob/main/pkg/analyzer/doc/element_model_migration_guide.md).
+
+This causes a **BREAKING CHANGE** since the required versions of the packages where updated to 
+```yaml
+build: ^3.0.0
+analyzer: '>=7.4.0 <9.0.0'
+```
+
 ## 5.0.0
 
 I'm proud to release v5.0.0 🎉
