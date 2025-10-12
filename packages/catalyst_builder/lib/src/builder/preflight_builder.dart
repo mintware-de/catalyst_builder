@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:analyzer/dart/constant/value.dart';
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
@@ -26,7 +26,7 @@ class PreflightBuilder implements Builder {
       return;
     }
 
-    LibraryElement2 libraryElement;
+    LibraryElement libraryElement;
     try {
       libraryElement = await buildStep.inputLibrary;
     } catch (e) {
@@ -45,29 +45,29 @@ class PreflightBuilder implements Builder {
     );
   }
 
-  PreflightPart _extractAnnotations(LibraryElement2 entryLib) {
+  PreflightPart _extractAnnotations(LibraryElement entryLib) {
     var services = <ExtractedService>[];
 
-    for (var lib in entryLib.children2.whereType<Annotatable>()) {
+    for (var lib in entryLib.children.whereType<Element>()) {
       services.addAll(_extractFromTopLevelElement(lib));
     }
 
     return PreflightPart(services: services);
   }
 
-  List<ExtractedService> _extractFromTopLevelElement(Annotatable el) {
+  List<ExtractedService> _extractFromTopLevelElement(Element el) {
     var services = <ExtractedService>[];
-    var isPreloaded = el.metadata2.annotations.any(
+    var isPreloaded = el.metadata.annotations.any(
       (a) => a.isLibraryAnnotation('Preload'),
     );
 
-    for (var annotation in el.metadata2.annotations) {
+    for (var annotation in el.metadata.annotations) {
       if (annotation.isLibraryAnnotation('ServiceMap')) {
         services.addAll(
           _extractServicesFromServiceMap(annotation, isPreloaded),
         );
       }
-      if (annotation.isLibraryAnnotation('Service') && el is ClassElement2) {
+      if (annotation.isLibraryAnnotation('Service') && el is ClassElement) {
         var serviceAnnotation = annotation.computeConstantValue();
         services.add(
           _mapToExtractedService(el, serviceAnnotation, isPreloaded),
@@ -91,8 +91,8 @@ class PreflightBuilder implements Builder {
         continue;
       }
 
-      var keyElement = typed.element3;
-      if (keyElement is! ClassElement2) {
+      var keyElement = typed.element;
+      if (keyElement is! ClassElement) {
         continue;
       }
 
@@ -104,7 +104,7 @@ class PreflightBuilder implements Builder {
   }
 
   ExtractedService _mapToExtractedService(
-    ClassElement2 serviceClass,
+    ClassElement serviceClass,
     DartObject? serviceAnnotation,
     bool isPreloaded,
   ) {
@@ -114,7 +114,7 @@ class PreflightBuilder implements Builder {
       lifetime: lifetime.toString(),
       service: SymbolReference(
         symbolName: serviceClass.displayName,
-        library: serviceClass.library2.uri.toString(),
+        library: serviceClass.library.uri.toString(),
       ),
       constructorArgs: _extractConstructorArgs(serviceClass),
       exposeAs: _getExposeAs(serviceAnnotation),
@@ -129,11 +129,11 @@ class PreflightBuilder implements Builder {
       return null;
     }
 
-    var exposeAsElement = typed.element3;
+    var exposeAsElement = typed.element;
 
     return SymbolReference(
       symbolName: exposeAsElement.displayName,
-      library: exposeAsElement.library2.uri.toString(),
+      library: exposeAsElement.library.uri.toString(),
     );
   }
 
@@ -145,14 +145,14 @@ class PreflightBuilder implements Builder {
     return ServiceLifetime.values[lifetimeIndex ?? 1];
   }
 
-  List<ConstructorArg> _extractConstructorArgs(ClassElement2 el) {
-    var constructors = el.children2
-        .whereType<ConstructorElement2>()
+  List<ConstructorArg> _extractConstructorArgs(ClassElement el) {
+    var constructors = el.children
+        .whereType<ConstructorElement>()
         .where(
           (ctor) =>
               !ctor.isFactory &&
-              (ctor.firstFragment.name2 == '' ||
-                  ctor.firstFragment.name2 == 'new'),
+              (ctor.firstFragment.name == '' ||
+                  ctor.firstFragment.name == 'new'),
         )
         .toList();
     return constructors.firstOrNull?.formalParameters
@@ -162,7 +162,7 @@ class PreflightBuilder implements Builder {
   }
 
   ConstructorArg _buildConstructorArg(FormalParameterElement param) {
-    var annotations = param.metadata2.annotations;
+    var annotations = param.metadata.annotations;
 
     return ConstructorArg(
       name: param.displayName,

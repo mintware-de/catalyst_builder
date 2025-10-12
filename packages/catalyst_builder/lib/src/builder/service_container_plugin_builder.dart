@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:analyzer/dart/element/element2.dart';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_style/dart_style.dart';
@@ -20,7 +20,7 @@ class ServiceContainerPluginBuilder implements Builder {
     if (!await buildStep.resolver.isLibrary(buildStep.inputId)) {
       return;
     }
-    LibraryElement2 libraryElement;
+    LibraryElement libraryElement;
     try {
       libraryElement = (await buildStep.inputLibrary);
     } catch (e) {
@@ -28,9 +28,9 @@ class ServiceContainerPluginBuilder implements Builder {
       return;
     }
 
-    var annotation = libraryElement.children2
-        .whereType<Annotatable>()
-        .map((el) => el.metadata2.annotations.where(
+    var annotation = libraryElement.children
+        .whereType<Element>()
+        .map((el) => el.metadata.annotations.where(
             (m) => m.isLibraryAnnotation('GenerateServiceContainerPlugin')))
         .fold(<ElementAnnotation>[], (prev, e) => [...prev, ...e]).firstOrNull;
 

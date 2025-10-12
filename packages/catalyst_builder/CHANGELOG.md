@@ -1,3 +1,11 @@
+## 6.0.0-dev.2
+ 
+**BREAKING CHANGE**: Upgraded the versions of this packages:
+```yaml
+build: ^4.0.0
+analyzer: ^8.0.0
+```
+
 ## 6.0.0-dev.1
 
 To support the latest version of `build` and `analyzer` we
