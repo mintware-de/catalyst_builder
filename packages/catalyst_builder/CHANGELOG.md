@@ -1,3 +1,11 @@
+## 6.0.0-dev.3
+ 
+Fix downgrade issues by updating package version
+```yaml
+analyzer: ^8.1.0
+lints: '>=2.0.0'
+```
+
 ## 6.0.0-dev.2
  
 **BREAKING CHANGE**: Upgraded the versions of this packages:
