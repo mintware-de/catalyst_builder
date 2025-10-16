@@ -4,6 +4,9 @@ Removed unused packages
 - `path`
 - `yaml`
 
+Updated package version
+- `dart_style: ^3.1.2`
+
 ## 6.0.0-dev.3
  
 Fix downgrade issues by updating package version
