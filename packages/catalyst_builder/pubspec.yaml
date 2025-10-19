@@ -1,6 +1,6 @@
 name: catalyst_builder
 description: A lightweight and easy to use dependency injection container builder for dart.
-version: 6.0.0-rc.1
+version: 6.0.0
 homepage: 'https://github.com/mintware-de/catalyst_builder'
 repository: 'https://github.com/mintware-de/catalyst_builder/tree/main/packages/catalyst_builder'
 documentation: 'https://github.com/mintware-de/catalyst_builder/wiki'

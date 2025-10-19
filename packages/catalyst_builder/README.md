@@ -28,21 +28,6 @@ Catalyst Builder is a dependency injection container builder for both, Dart and 
 injection is almost done automatically. You only have to decorate your services with `@Service` and the build_runner
 will create a service container for you.
 
-## Installation
+## Installation & Documentation
 
-Follow the steps described on this Page:
-https://pub.dev/packages/catalyst_builder/install
-
-Add this to your pubspec.yaml and run `pub get` or `flutter pub get`:
-
-```yaml
-dev_dependencies:
-  build_runner: any
-```
-
-Don't forget to exclude the `.catalyst_builder_cache` directory from VCS.
-
-
-## Documentation
-
-Check out the [wiki on GitHub](https://github.com/mintware-de/catalyst_builder/wiki) for documentation
+You can find a quick start guide and further documentation for this package in the [wiki on GitHub](https://github.com/mintware-de/catalyst_builder/wiki).

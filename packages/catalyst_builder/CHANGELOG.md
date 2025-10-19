@@ -1,3 +1,7 @@
+## 6.0.0
+ 
+No more changes added. Check below for recent changes.
+
 ## 6.0.0-rc.1
  
 Removed unused packages
