@@ -1,3 +1,11 @@
+## 6.1.0
+
+Dependency updates
+
+```yaml
+analyzer: ">=8.1.0 <14.0.0"
+```
+
 ## 6.0.0
  
 No more changes added. Check below for recent changes.
