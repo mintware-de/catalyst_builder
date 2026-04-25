@@ -8,18 +8,18 @@ abstract interface class AbstractServiceContainer {
   /// parameter and the type matches the expected type, this parameter is used.
   Map<String, dynamic> get parameters;
 
-  /// Resolves a [Service] of the given [T]ype.
-  ///
+  /// Resolves a [Service] of the given [t]type or [T]ype.
+  /// If [t] is provided, [t] must be castable to [T]
   /// If the service does not exist, an [Exception] is thrown.
-  T resolve<T>();
+  T resolve<T>([Type? t]);
 
   /// Resolves all registered services with the given [tag].
   List<dynamic> resolveByTag(Symbol tag);
 
-  /// Try to resolve a [Service] of the given [T]ype.
+  /// Try to resolve a [Service] of the given [t]type or [T]ype.
   ///
   /// If the service does not exist, null is returned.
-  T? tryResolve<T>();
+  T? tryResolve<T>([Type? t]);
 
   /// Checks if a with the [T] or [type] is registered.
   bool has<T>([Type? type]);
@@ -43,6 +43,8 @@ abstract interface class AbstractServiceContainer {
   ]);
 
   /// Try to resolve a service of the type [T].
+  /// If [t] is provided, [t] must be castable to [T]
+  ///
   /// If there is no matching service, try to resolve a [parameter] of the type
   /// [T]. If no parameter exists, return null;
   T? tryResolveOrGetParameter<T>(String parameter);
