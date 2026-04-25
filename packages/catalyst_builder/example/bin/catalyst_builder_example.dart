@@ -30,4 +30,15 @@ void main(List<String> arguments) {
 
   var broadcaster = container.resolve<Broadcaster>();
   broadcaster.sendChatMessage('Hello Broadcast using injection tag.');
+
+  const Type p = ChatProvider;
+  // works
+  container.resolve<ChatProvider>(p);
+
+  // fails because ChatProvider is not a Broadcaster
+  try {
+    container.resolve<Broadcaster>(p);
+  } catch (_) {
+    // ignored
+  }
 }
