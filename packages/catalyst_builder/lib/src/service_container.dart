@@ -21,8 +21,8 @@ class ServiceContainer implements AbstractServiceContainer, ServiceRegistry {
   var _booted = false;
 
   @override
-  T? tryResolve<T>() {
-    return _tryResolveInternal<T>(T);
+  T? tryResolve<T>([Type? t]) {
+    return _tryResolveInternal<T>(t ?? T);
   }
 
   T? _tryResolveInternal<T>(Type t) {
@@ -44,9 +44,9 @@ class ServiceContainer implements AbstractServiceContainer, ServiceRegistry {
   }
 
   @override
-  T resolve<T>() {
+  T resolve<T>([Type? t]) {
     _ensureBoot();
-    var resolved = tryResolve<T>();
+    var resolved = tryResolve<T>(t);
     if (resolved != null) {
       return resolved;
     }

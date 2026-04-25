@@ -1,3 +1,13 @@
+## 6.2.0
+
+### Features
+
+Added an optional `[Type? t]` parameter to:
+- `AbstractServiceContainer.resolve<T>([Type? t])`
+- `AbstractServiceContainer.tryResolve<T>([Type? t])`
+
+This is helpful for dynamic type resolution on runtime
+
 ## 6.1.0
 
 Dependency updates
