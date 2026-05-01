@@ -134,6 +134,11 @@ class ServiceContainer implements AbstractServiceContainer, ServiceRegistry {
     if (service.exposeAs != null) {
       _exposeMap[service.exposeAs!] = tReal;
     }
+    if (service.tags.isNotEmpty) {
+      for (final tag in service.tags) {
+        _registerServiceForTag(tag, tReal);
+      }
+    }
   }
 
   @override
@@ -176,14 +181,18 @@ class ServiceContainer implements AbstractServiceContainer, ServiceRegistry {
     _exposeMap.addAll(plugin.provideExposes());
     _preloadedTypes.addAll(plugin.providePreloadedTypes());
     for (var entry in plugin.provideServiceTags().entries) {
-      if (!_servicesByTag.containsKey(entry.key)) {
-        _servicesByTag[entry.key] = <Type>[];
-      }
       for (var type in entry.value) {
-        if (!_servicesByTag[entry.key]!.contains(type)) {
-          _servicesByTag[entry.key]!.add(type);
-        }
+        _registerServiceForTag(entry.key, type);
       }
+    }
+  }
+
+  void _registerServiceForTag(Symbol tag, Type type) {
+    if (!_servicesByTag.containsKey(tag)) {
+      _servicesByTag[tag] = <Type>[];
+    }
+    if (!_servicesByTag[tag]!.contains(type)) {
+      _servicesByTag[tag]!.add(type);
     }
   }
 }

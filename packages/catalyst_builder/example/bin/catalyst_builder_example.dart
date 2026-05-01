@@ -1,4 +1,5 @@
 import 'package:catalyst_builder/catalyst_builder.dart';
+import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
 import 'package:catalyst_builder_example/example.dart';
 
 void main(List<String> arguments) {
@@ -41,4 +42,14 @@ void main(List<String> arguments) {
   } catch (_) {
     // ignored
   }
+
+  // Facing problem 2026-05-01:
+  // LazyServiceDescriptor services are not registering tags on enhance
+
+  var enhanced = container.enhance(services: [
+    LazyServiceDescriptor((p) => 'Test', const Service(tags: [#theName]))
+  ]);
+  var taggedServices = enhanced.resolveByTag(#theName);
+  assert(1 == taggedServices.length);
+  assert('Test' == taggedServices.first);
 }
