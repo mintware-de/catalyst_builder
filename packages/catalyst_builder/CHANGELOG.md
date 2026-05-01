@@ -1,3 +1,8 @@
+## 6.2.1
+
+### Fixes
+- Enhancement using services that provide their own injection tags now works.
+
 ## 6.2.0
 
 ### Features
