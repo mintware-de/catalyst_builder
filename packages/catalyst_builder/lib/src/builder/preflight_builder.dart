@@ -142,7 +142,7 @@ class PreflightBuilder implements Builder {
         ?.getField('lifetime')
         ?.getField('index')
         ?.toIntValue();
-    return ServiceLifetime.values[lifetimeIndex ?? 1];
+    return ServiceLifetime.values[lifetimeIndex ?? 0];
   }
 
   List<ConstructorArg> _extractConstructorArgs(ClassElement el) {
