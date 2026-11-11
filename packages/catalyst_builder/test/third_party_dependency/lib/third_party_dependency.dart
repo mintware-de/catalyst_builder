@@ -6,13 +6,13 @@ export 'third_party_dependency.catalyst_builder.plugin.g.dart';
 class ThirdPartyService {}
 
 @Service()
-class ServiceThatDependOnEnhancedService {
-  final ServiceOnlyProvidedInEnhanced dependency;
+class ServiceThatDependOnChildScopeService {
+  final ServiceOnlyProvidedInChildScope dependency;
 
-  ServiceThatDependOnEnhancedService(this.dependency);
+  ServiceThatDependOnChildScopeService(this.dependency);
 }
 
-class ServiceOnlyProvidedInEnhanced {
+class ServiceOnlyProvidedInChildScope {
   final String foo = 'bar';
 }
 

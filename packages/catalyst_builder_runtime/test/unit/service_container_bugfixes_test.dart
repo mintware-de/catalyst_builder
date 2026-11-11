@@ -48,14 +48,15 @@ void main() {
       expect(c.resolve<_NeedsNullableLogger>().logger, isNull);
     });
 
-    test('enhance should keep tags of manually registered services (3.6)', () {
+    test('createScope should keep tags of manually registered services (3.6)',
+        () {
       final c = ServiceContainer()
         ..register<_TaggedService>(
           (_) => _TaggedService(),
           const Service(tags: [#t]),
         );
       c.boot();
-      final e = c.enhance();
+      final e = c.createScope();
       expect(e.resolveByTag(#t), hasLength(1));
     });
   });

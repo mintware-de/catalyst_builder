@@ -28,11 +28,22 @@ abstract interface class AbstractServiceContainer {
   /// While booting the service container, preloaded services are instantiated.
   void boot();
 
-  /// Creates a new service container with additional services and parameters.
-  AbstractServiceContainer enhance({
+  /// Creates a child scope.
+  ///
+  /// Services with [ServiceLifetime.scoped] are instantiated once per
+  /// scope. The [services] and [parameters] registered here are only
+  /// visible inside the scope; the parent stays unchanged.
+  ServiceScope createScope({
     List<LazyServiceDescriptor> services = const [],
     Map<String, dynamic> parameters = const {},
   });
+
+  /// Disposes all [Disposable] instances owned by this container.
+  ///
+  /// For the root container this are its singletons; for a scope it are
+  /// all instances created inside the scope. Disposing a container does
+  /// not dispose the scopes created from it.
+  Future<void> dispose();
 
   /// Resolves a service or gets a matching parameter.
   /// If neither a service nor a parameter is found, an exception is thrown.

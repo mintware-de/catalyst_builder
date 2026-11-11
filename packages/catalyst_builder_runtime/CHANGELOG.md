@@ -17,11 +17,31 @@
   `ServiceDescriptor.produce()` became `produce(AbstractServiceContainer container)`.
 - `ServiceContainerPlugin.provideKnownServices()` no longer receives the container as a
   parameter.
-- `enhance()` now creates a child container linked to its parent instead of copying all
-  registrations. Singletons are always built and cached by the container that registered
-  them: a root singleton can no longer see child-only dependencies (it now throws
+- `enhance()` has been removed and replaced by `createScope()` with identical semantics:
+  it creates a child container linked to its parent instead of copying all registrations.
+  Singletons are always built and cached by the container that registered them: a root
+  singleton can no longer see child-only dependencies (it now throws
   `DependencyNotFoundException` like on the root). Services registered in a child stay
   invisible to the root.
+- `ServiceLifetime` gained the value `scoped` (at the end of the enum). Code with an
+  exhaustive `switch` over `ServiceLifetime` must handle the new case.
+- `AbstractServiceContainer` gained the members `createScope()` and `dispose()`. Custom implementations of
+  `AbstractServiceContainer` must implement the new members.
+
+### Features
+
+- New lifetime `ServiceLifetime.scoped`: one instance per scope, created and reused by the
+  innermost scope that resolves it. Resolving a scoped service from the root container throws
+  a `ScopeRequiredException` – also via `tryResolve`, because it is a configuration error.
+- `AbstractServiceContainer.createScope()` creates a child scope (with optional service and
+  parameter overrides). Scopes implement the new `ServiceScope` interface
+  (`parent`, `isDisposed`, `dispose()`).
+- New interface `Disposable`: instances created inside a scope that implement it are disposed
+  in reverse creation order when the scope is disposed; the root container disposes its
+  singletons on `dispose()`. Disposal is idempotent; all instances are disposed even if one
+  throws, and the first error is rethrown.
+- Circular dependencies between services are detected while instantiating and throw the new
+  `CircularDependencyException` with the offending `path` (e.g. `[A, B, A]`).
 
 ### Fixes
 
