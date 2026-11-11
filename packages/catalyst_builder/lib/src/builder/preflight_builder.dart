@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/element/nullability_suffix.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:build/build.dart';
 import 'package:catalyst_builder_runtime/catalyst_builder_runtime.dart';
@@ -163,6 +164,7 @@ class PreflightBuilder implements Builder {
 
   ConstructorArg _buildConstructorArg(FormalParameterElement param) {
     var annotations = param.metadata.annotations;
+    var paramType = param.type;
 
     return ConstructorArg(
       name: param.displayName,
@@ -171,6 +173,39 @@ class PreflightBuilder implements Builder {
       isNamed: param.isNamed,
       defaultValue: param.defaultValueCode ?? '',
       inject: _extractInjectAnnotation(annotations),
+      type: _buildTypeRef(paramType),
+      isNullable: paramType.nullabilitySuffix == NullabilitySuffix.question,
+    );
+  }
+
+  /// Builds a [TypeRef] for the given [type].
+  ///
+  /// Returns `null` for types that cannot be referenced by name in
+  /// generated code (function types, records, type parameters) or that
+  /// have non-resolvable type arguments.
+  TypeRef? _buildTypeRef(DartType type) {
+    if (type is! InterfaceType) {
+      return null;
+    }
+
+    var typeArguments = <TypeRef>[];
+    for (var typeArgument in type.typeArguments) {
+      var ref = _buildTypeRef(typeArgument);
+      if (ref == null) {
+        return null;
+      }
+      typeArguments.add(ref);
+    }
+
+    var element = type.element;
+    var library =
+        element.library.isDartCore ? null : element.library.uri.toString();
+
+    return TypeRef(
+      symbolName: element.displayName,
+      library: library,
+      typeArguments: typeArguments,
+      isNullable: type.nullabilitySuffix == NullabilitySuffix.question,
     );
   }
 

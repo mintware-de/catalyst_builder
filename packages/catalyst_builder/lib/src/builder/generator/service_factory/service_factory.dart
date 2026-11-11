@@ -1,3 +1,4 @@
+import 'package:build/build.dart';
 import 'package:catalyst_builder_runtime/catalyst_builder_runtime.dart';
 import 'package:code_builder/code_builder.dart' as cb;
 
@@ -29,8 +30,16 @@ cb.Expression buildServiceFactory(
   for (var param in svc.constructorArgs) {
     var parameterName = param.inject?.parameter ?? param.name;
 
-    var resolveWithFallbacks =
-        tryResolveOrGetParameter_.call([cb.literal(parameterName)]);
+    // The type argument is emitted explicitly and non-nullable whenever
+    // the parameter type could be resolved. `null` is handled by the
+    // chosen resolve method, not by the type argument.
+    var typeArgument = _buildTypeArgument(param);
+
+    var resolveWithFallbacks = tryResolveOrGetParameter_.call(
+      [cb.literal(parameterName)],
+      {},
+      [if (typeArgument != null) typeArgument],
+    );
 
     if (param.defaultValue.isNotEmpty) {
       resolveWithFallbacks = resolveWithFallbacks
@@ -41,12 +50,27 @@ cb.Expression buildServiceFactory(
     var tag = param.inject?.tag;
     if (tag != null) {
       val = resolveByTag_.call([cb.refer('#$tag')]).property('cast').call([]);
+    } else if (!param.isOptional && param.isNullable) {
+      // A required parameter with a nullable type: `null` is a valid
+      // value, so never fail here.
+      val = resolveWithFallbacks;
     } else if (!param.isOptional) {
-      val = resolveOrGetParameter_.call([
-        serviceType,
-        cb.literal(param.name),
-        if (parameterName != param.name) cb.literal(parameterName),
-      ]);
+      if (param.type == null) {
+        log.warning(
+          'Could not resolve the type of parameter '
+          "'${param.name}' of ${svc.service.symbolName}. "
+          'Falling back to type inference.',
+        );
+      }
+      val = resolveOrGetParameter_.call(
+        [
+          serviceType,
+          cb.literal(param.name),
+          if (parameterName != param.name) cb.literal(parameterName),
+        ],
+        {},
+        [if (typeArgument != null) typeArgument],
+      );
     }
     if (param.isNamed) {
       namedArgs[param.name] = val;
@@ -65,4 +89,36 @@ cb.Expression buildServiceFactory(
     }),
     constructor,
   ]);
+}
+
+/// Builds the explicit type argument to emit for [param], or `null` if the
+/// parameter type could not be resolved.
+///
+/// The top level is always emitted non-nullable: nullable parameters are
+/// resolved through methods that may return `null`, so the nullability does
+/// not belong into the type argument.
+cb.TypeReference? _buildTypeArgument(ConstructorArg param) {
+  var typeRef = param.type;
+  if (typeRef == null) {
+    return null;
+  }
+  return (cb.TypeReferenceBuilder()
+        ..symbol = typeRef.symbolName
+        ..url = typeRef.library
+        ..isNullable = false
+        ..types.addAll(
+          typeRef.typeArguments.map(_buildTypeArgumentFromRef).nonNulls,
+        ))
+      .build();
+}
+
+cb.TypeReference? _buildTypeArgumentFromRef(TypeRef typeRef) {
+  return (cb.TypeReferenceBuilder()
+        ..symbol = typeRef.symbolName
+        ..url = typeRef.library
+        ..isNullable = typeRef.isNullable
+        ..types.addAll(
+          typeRef.typeArguments.map(_buildTypeArgumentFromRef).nonNulls,
+        ))
+      .build();
 }

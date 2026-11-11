@@ -7,6 +7,7 @@ export './src/manually_wired_service.dart';
 part './src/broadcaster.dart';
 part './src/chat_provider.dart';
 part './src/cool_chat_provider.dart';
+part './src/nullable_dependency_service.dart';
 part './src/preload_service.dart';
 part './src/self_registered_service.dart';
 part './src/singleton_service.dart';

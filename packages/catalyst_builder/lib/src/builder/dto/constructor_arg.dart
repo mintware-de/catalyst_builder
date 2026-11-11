@@ -1,4 +1,5 @@
 import 'inject_annotation.dart';
+import 'type_ref.dart';
 
 /// Represents an argument in the constructor
 class ConstructorArg {
@@ -20,6 +21,14 @@ class ConstructorArg {
   /// The extracted Inject annotation.
   final InjectAnnotation? inject;
 
+  /// The type of the parameter, if it could be resolved to a named type.
+  ///
+  /// `null` for function types, records and type parameters.
+  final TypeRef? type;
+
+  /// True if the parameter type is nullable.
+  final bool isNullable;
+
   /// Create a ConstructorArg.
   const ConstructorArg({
     required this.name,
@@ -28,6 +37,8 @@ class ConstructorArg {
     required this.isPositional,
     required this.isNamed,
     required this.inject,
+    this.type,
+    this.isNullable = false,
   });
 
   /// Creates a new instance from the result of [toJson].
@@ -41,6 +52,10 @@ class ConstructorArg {
       inject: json['inject'] != null
           ? InjectAnnotation.fromJson(json['inject'] as Map<String, dynamic>)
           : null,
+      type: json['type'] != null
+          ? TypeRef.fromJson(json['type'] as Map<String, dynamic>)
+          : null,
+      isNullable: json['isNullable'] == true,
     );
   }
 
@@ -53,6 +68,8 @@ class ConstructorArg {
       'isPositional': isPositional,
       'defaultValue': defaultValue,
       'inject': inject?.toJson(),
+      'type': type?.toJson(),
+      'isNullable': isNullable,
     };
   }
 }

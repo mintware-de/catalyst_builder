@@ -24,6 +24,12 @@
   default) instead of `transient` when the `lifetime` of a `@Service` annotation cannot
   be read.
 - The preflight builder now awaits writing the preflight JSON file.
+- Required constructor parameters with a nullable type are now resolved correctly.
+  The generator emits an explicit non-nullable type argument
+  (`c.tryResolveOrGetParameter<Logger>('logger')` instead of relying on inference of
+  the nullable type, which never matched the registered service). Parameters whose
+  type cannot be referenced by name still fall back to inference, now with a build
+  warning. The preflight data gained a `TypeRef` for each resolvable parameter type.
 
 ## 6.2.1
 
