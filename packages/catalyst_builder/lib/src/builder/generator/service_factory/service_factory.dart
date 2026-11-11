@@ -17,6 +17,10 @@ cb.Expression buildServiceFactory(
 
   factory.returns = serviceType;
   factory.lambda = true;
+  // The factory lambda receives the container that resolves the service.
+  // The type is inferred from the ServiceDescriptor's factory parameter.
+  factory.requiredParameters
+      .add(cb.Parameter((p) => p..name = containerP.symbol!));
 
   var positionalArgs = <cb.Expression>[];
   var namedArgs = <String, cb.Expression>{};

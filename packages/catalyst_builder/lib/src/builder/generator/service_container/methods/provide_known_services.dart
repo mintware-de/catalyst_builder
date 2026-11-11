@@ -31,9 +31,6 @@ cb.Method provideKnownServicesTemplate(List<ExtractedService> services) {
       ..annotations.add(cb.refer('override'))
       ..name = provideKnownServices$.symbol
       ..returns = mapOfT(typeT, serviceDescriptorT)
-      ..requiredParameters.add(cb.Parameter((p) => p
-        ..name = containerP.symbol!
-        ..type = abstractServiceContainerT))
       ..body = cb
           .literalMap(serviceFactories, typeT, serviceDescriptorT)
           .returned

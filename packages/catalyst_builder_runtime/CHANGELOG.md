@@ -12,6 +12,16 @@
   ```
 - The `ServiceContainer` has been moved from `catalyst_builder` into this package. Import it from
   `catalyst_builder_runtime` instead of `catalyst_builder`.
+- `ServiceDescriptor` factories now receive the resolving container:
+  `ServiceDescriptor(const Service(), (c) => MyService(c.resolve<Foo>()))`.
+  `ServiceDescriptor.produce()` became `produce(AbstractServiceContainer container)`.
+- `ServiceContainerPlugin.provideKnownServices()` no longer receives the container as a
+  parameter.
+- `enhance()` now creates a child container linked to its parent instead of copying all
+  registrations. Singletons are always built and cached by the container that registered
+  them: a root singleton can no longer see child-only dependencies (it now throws
+  `DependencyNotFoundException` like on the root). Services registered in a child stay
+  invisible to the root.
 
 ### Fixes
 
