@@ -21,6 +21,11 @@
   parameter and emits `(c) => MyService(...)` factory lambdas that receive the resolving
   container. Generated files must be regenerated with `dart run build_runner build`.
 
+### Features
+
+- `@Service(lifetime: ServiceLifetime.scoped)` is passed through to the generated plugin.
+  `@Preload` on a scoped service emits a build warning and is ignored.
+
 ### Fixes
 
 - The preflight builder now falls back to `ServiceLifetime.singleton` (the annotation

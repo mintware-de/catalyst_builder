@@ -6,4 +6,12 @@ enum ServiceLifetime {
 
   /// Every time the service is requested, a new instance will be created.
   transient,
+
+  /// One instance per scope.
+  ///
+  /// A scoped service is instantiated the first time it is requested
+  /// inside a scope and reused for the lifetime of that scope. Resolving a
+  /// scoped service from the root container throws a
+  /// [ScopeRequiredException].
+  scoped,
 }

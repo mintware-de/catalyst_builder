@@ -9,6 +9,7 @@ part './src/chat_provider.dart';
 part './src/cool_chat_provider.dart';
 part './src/nullable_dependency_service.dart';
 part './src/preload_service.dart';
+part './src/request_context.dart';
 part './src/self_registered_service.dart';
 part './src/singleton_service.dart';
 part './src/transient_service.dart';

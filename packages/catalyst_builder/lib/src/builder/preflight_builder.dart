@@ -111,6 +111,12 @@ class PreflightBuilder implements Builder {
   ) {
     var lifetime = _getLifetimeFromAnnotation(serviceAnnotation);
 
+    if (isPreloaded && lifetime == ServiceLifetime.scoped) {
+      log.warning(
+        '@Preload is ignored for scoped service ${serviceClass.displayName}',
+      );
+    }
+
     return ExtractedService(
       lifetime: lifetime.toString(),
       service: SymbolReference(

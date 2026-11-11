@@ -94,10 +94,10 @@ void main() {
     expect(container.has<_SelfRegisteredService>(), isTrue);
   });
 
-  test('enhance', () {
+  test('createScope', () {
     expect(container.has<_SelfRegisteredService>(), isFalse);
 
-    var newContainer = container.enhance(services: [
+    var newContainer = container.createScope(services: [
       LazyServiceDescriptor(
         (p) => _MySelfRegisteredService(),
         const Service(exposeAs: _SelfRegisteredService),
@@ -110,12 +110,12 @@ void main() {
     var mySvc = newContainer.resolve<_SelfRegisteredService>();
     expect(mySvc.foo, equals('bar'));
   });
-  test('enhance with parameter', () {
+  test('createScope with parameter', () {
     container.parameters['foo'] = 'bar';
     container.parameters['bar'] = 'baz';
     expect(container.has<_SelfRegisteredService>(), isFalse);
 
-    var newContainer = container.enhance(
+    var newContainer = container.createScope(
       parameters: {
         'foo': 'overwritten',
       },
@@ -131,11 +131,11 @@ void main() {
     expect(mySvc.foo, equals('overwritten'));
     expect(newContainer.parameters.containsKey('bar'), isTrue);
   });
-  test('enhance with multiple descriptors', () {
+  test('createScope with multiple descriptors', () {
     expect(container.has<_SelfRegisteredService>(), isFalse);
     expect(container.has<String>(), isFalse);
 
-    var newContainer = container.enhance(
+    var newContainer = container.createScope(
       services: [
         LazyServiceDescriptor<_MySelfRegisteredService>(
           (p) => _MySelfRegisteredService(p.resolve()),
@@ -155,11 +155,11 @@ void main() {
     expect(newContainer.resolve<String>(), 'This should also work');
   });
 
-  test('enhance should contain previous manual registered services', () {
+  test('createScope should contain previous manual registered services', () {
     expect(container.has<_SelfRegisteredService>(), isFalse);
     expect(container.has<String>(), isFalse);
 
-    var newContainer = container.enhance(
+    var newContainer = container.createScope(
       services: [
         LazyServiceDescriptor<_MySelfRegisteredService>(
           (p) => _MySelfRegisteredService(p.resolve()),
@@ -171,7 +171,7 @@ void main() {
     expect(newContainer.has<_SelfRegisteredService>(), isTrue);
     expect(newContainer.has<String>(), isFalse);
 
-    var newContainer2 = newContainer.enhance(
+    var newContainer2 = newContainer.createScope(
       services: [
         LazyServiceDescriptor<String>(
           (p) => 'This should also work',
@@ -195,17 +195,17 @@ void main() {
   });
 
   test('root singleton cannot see child-only dependencies', () {
-    expect(container.has<_ServiceThatDependOnEnhancedService>(), isTrue);
+    expect(container.has<_ServiceThatDependOnChildScopeService>(), isTrue);
     expect(
-      () => container.resolve<_ServiceThatDependOnEnhancedService>(),
+      () => container.resolve<_ServiceThatDependOnChildScopeService>(),
       throwsA(const TypeMatcher<DependencyNotFoundException>()),
     );
 
-    var enhanced = container.enhance(
+    var scope = container.createScope(
       services: [
-        LazyServiceDescriptor<_ServiceOnlyProvidedInEnhanced>(
-          (p) => _ServiceOnlyProvidedInEnhanced(),
-          const Service(exposeAs: _ServiceOnlyProvidedInEnhanced),
+        LazyServiceDescriptor<_ServiceOnlyProvidedInChildScope>(
+          (p) => _ServiceOnlyProvidedInChildScope(),
+          const Service(exposeAs: _ServiceOnlyProvidedInChildScope),
         )
       ],
     );
@@ -213,24 +213,24 @@ void main() {
     // Singletons are built by the container that registered them. The
     // descriptor lives in the root, so the child-only dependency stays
     // invisible and resolution keeps throwing.
-    expect(enhanced.has<_ServiceThatDependOnEnhancedService>(), isTrue);
+    expect(scope.has<_ServiceThatDependOnChildScopeService>(), isTrue);
     expect(
-      () => enhanced.resolve<_ServiceThatDependOnEnhancedService>(),
+      () => scope.resolve<_ServiceThatDependOnChildScopeService>(),
       throwsA(const TypeMatcher<DependencyNotFoundException>()),
     );
   });
 
   test('transient built in the child sees child-only dependencies', () {
-    var enhanced = container.enhance(
+    var scope = container.createScope(
       services: [
-        LazyServiceDescriptor<_ServiceOnlyProvidedInEnhanced>(
-          (p) => _ServiceOnlyProvidedInEnhanced(),
-          const Service(exposeAs: _ServiceOnlyProvidedInEnhanced),
+        LazyServiceDescriptor<_ServiceOnlyProvidedInChildScope>(
+          (p) => _ServiceOnlyProvidedInChildScope(),
+          const Service(exposeAs: _ServiceOnlyProvidedInChildScope),
         ),
-        LazyServiceDescriptor<_ServiceThatDependOnEnhancedService>(
-          (c) => _ServiceThatDependOnEnhancedService(
+        LazyServiceDescriptor<_ServiceThatDependOnChildScopeService>(
+          (c) => _ServiceThatDependOnChildScopeService(
             c.resolveOrGetParameter(
-                _ServiceThatDependOnEnhancedService, 'dependency'),
+                _ServiceThatDependOnChildScopeService, 'dependency'),
           ),
           const Service(lifetime: ServiceLifetime.transient),
         ),
@@ -238,7 +238,7 @@ void main() {
     );
 
     expect(
-        enhanced.resolve<_ServiceThatDependOnEnhancedService>().dependency.foo,
+        scope.resolve<_ServiceThatDependOnChildScopeService>().dependency.foo,
         equals('bar'));
   });
 
@@ -246,7 +246,7 @@ void main() {
     (container as ServiceRegistry).register<_Cfg>((_) => _Cfg('root'));
     expect(container.resolve<_Cfg>().value, 'root');
 
-    var child = container.enhance(services: [
+    var child = container.createScope(services: [
       LazyServiceDescriptor<_Cfg>((_) => _Cfg('child')),
     ]);
 
@@ -255,7 +255,7 @@ void main() {
   });
 
   test('singleton registered only in child does not leak into root', () {
-    var child = container.enhance(services: [
+    var child = container.createScope(services: [
       LazyServiceDescriptor<_OnlyChild>((_) => _OnlyChild()),
     ]);
     child.resolve<_OnlyChild>();
@@ -267,7 +267,7 @@ void main() {
       () {
     // _ServiceThatRequiresParameter is registered as singleton in the root
     // and reads the 'paramOverride' parameter ('XYZ', set in resetContainer).
-    var child = container.enhance(parameters: {'paramOverride': 'CHILD'});
+    var child = container.createScope(parameters: {'paramOverride': 'CHILD'});
     expect(
       child.resolve<_ServiceThatRequiresParameter>().parameter,
       'XYZ',
@@ -279,7 +279,7 @@ void main() {
       (_) => _ManuallyTaggedService(),
       const Service(tags: [#manualTag]),
     );
-    var child = container.enhance();
+    var child = container.createScope();
     expect(child.resolveByTag(#manualTag), hasLength(1));
     expect(
         child.resolveByTag(#manualTag).single, isA<_ManuallyTaggedService>());
@@ -291,17 +291,17 @@ void main() {
     c.applyPlugin(plugin);
     c.boot();
     c.resolve<_MySingleton>();
-    c.enhance().resolve<_MySingleton>();
+    c.createScope().resolve<_MySingleton>();
     expect(plugin.knownServicesCalls, 1);
   });
 
-  test('enhance should register singletons in the root container', () {
-    var enhanced1 = container.enhance();
-    expect(enhanced1.resolve<_SingletonThatShouldBeRegisteredInRoot>().count,
+  test('createScope should share root singletons', () {
+    var scope1 = container.createScope();
+    expect(scope1.resolve<_SingletonThatShouldBeRegisteredInRoot>().count,
         equals(1));
 
-    var enhanced2 = container.enhance();
-    expect(enhanced2.resolve<_SingletonThatShouldBeRegisteredInRoot>().count,
+    var scope2 = container.createScope();
+    expect(scope2.resolve<_SingletonThatShouldBeRegisteredInRoot>().count,
         equals(1));
   });
 }
@@ -334,14 +334,14 @@ class _SingletonThatShouldBeRegisteredInRoot {
   }
 }
 
-class _ServiceOnlyProvidedInEnhanced {
+class _ServiceOnlyProvidedInChildScope {
   String get foo => 'bar';
 }
 
-class _ServiceThatDependOnEnhancedService {
-  final _ServiceOnlyProvidedInEnhanced dependency;
+class _ServiceThatDependOnChildScopeService {
+  final _ServiceOnlyProvidedInChildScope dependency;
 
-  _ServiceThatDependOnEnhancedService(this.dependency);
+  _ServiceThatDependOnChildScopeService(this.dependency);
 }
 
 abstract class _SelfRegisteredService {
@@ -446,11 +446,11 @@ class _TestPlugin implements ServiceContainerPlugin {
         Service(lifetime: ServiceLifetime.singleton),
         (c) => _SingletonThatShouldBeRegisteredInRoot(),
       ),
-      _ServiceThatDependOnEnhancedService:
-          ServiceDescriptor<_ServiceThatDependOnEnhancedService>(
+      _ServiceThatDependOnChildScopeService:
+          ServiceDescriptor<_ServiceThatDependOnChildScopeService>(
         Service(lifetime: ServiceLifetime.singleton),
-        (c) => _ServiceThatDependOnEnhancedService(c.resolveOrGetParameter(
-            _ServiceThatDependOnEnhancedService, 'dependency')),
+        (c) => _ServiceThatDependOnChildScopeService(c.resolveOrGetParameter(
+            _ServiceThatDependOnChildScopeService, 'dependency')),
       ),
       _PreloadService: ServiceDescriptor<_PreloadService>(
         Service(),
