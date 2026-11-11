@@ -27,7 +27,6 @@ cb.Expression buildServiceFactory(
       containerP.property(resolveOrGetParameter$.symbol!);
 
   for (var param in svc.constructorArgs) {
-    var defaultValue = '';
     var parameterName = param.inject?.parameter ?? param.name;
 
     var resolveWithFallbacks =
@@ -42,7 +41,7 @@ cb.Expression buildServiceFactory(
     var tag = param.inject?.tag;
     if (tag != null) {
       val = resolveByTag_.call([cb.refer('#$tag')]).property('cast').call([]);
-    } else if (!param.isOptional && defaultValue.isEmpty) {
+    } else if (!param.isOptional) {
       val = resolveOrGetParameter_.call([
         serviceType,
         cb.literal(param.name),
