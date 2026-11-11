@@ -50,7 +50,7 @@ class ServiceContainer implements AbstractServiceContainer, ServiceRegistry {
     if (resolved != null) {
       return resolved;
     }
-    throw ServiceNotFoundException(T);
+    throw ServiceNotFoundException(t ?? T);
   }
 
   @override

@@ -13,3 +13,8 @@
 - The `ServiceContainer` has been moved from `catalyst_builder` into this package. Import it from
   `catalyst_builder_runtime` instead of `catalyst_builder`.
 
+### Fixes
+
+- `ServiceNotFoundException` thrown by `resolve` now reports the runtime type that was
+  passed as argument instead of the static generic type.
+
