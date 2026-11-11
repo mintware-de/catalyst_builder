@@ -39,7 +39,7 @@ class PreflightBuilder implements Builder {
       return;
     }
 
-    buildStep.writeAsString(
+    await buildStep.writeAsString(
       buildStep.inputId.changeExtension(preflightExtension),
       jsonEncode(extractedAnnotations),
     );
