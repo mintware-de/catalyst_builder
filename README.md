@@ -13,3 +13,5 @@ This is the workspace root, select a specific package for more details.
 | [`catalyst_builder_runtime`](./packages/catalyst_builder_runtime) | The runtime package. Add it as a regular dependency: ServiceContainer, annotations and interfaces. | [![Pub](https://img.shields.io/pub/v/catalyst_builder_runtime.svg)](https://pub.dartlang.org/packages/catalyst_builder_runtime)  <br> ![Pub Points](https://img.shields.io/pub/points/catalyst_builder_runtime)  <br> ![Pub Likes](https://img.shields.io/pub/likes/catalyst_builder_runtime) <br>  ![Pub Monthly Downloads](https://img.shields.io/pub/dm/catalyst_builder_runtime) |
 
 To get started, check the [Quickstart guide](https://github.com/mintware-de/catalyst_builder/wiki/Quickstart-App) in the [wiki](https://github.com/mintware-de/catalyst_builder/wiki).
+
+Upgrading from 6.x to 7.x? Read the [upgrade guide](https://github.com/mintware-de/catalyst_builder/blob/main/packages/catalyst_builder/UPGRADE.md).

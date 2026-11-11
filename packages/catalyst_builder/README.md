@@ -32,6 +32,8 @@ will create a service container for you.
 
 You can find a quick start guide and further documentation for this package in the [wiki on GitHub](https://github.com/mintware-de/catalyst_builder/wiki).
 
+Upgrading from 6.x to 7.x? Read the [upgrade guide](UPGRADE.md).
+
 ## Build time validation
 
 The generator validates the service graph while it generates the plugin:
