@@ -37,11 +37,11 @@ jobs:
 
       - name: Run tests
         run: ./run_tests.sh
-  test_catalyst_builder_contracts:
+  test_catalyst_builder_runtime:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/catalyst_builder_contracts
+        working-directory: packages/catalyst_builder_runtime
 
     steps:
       - uses: actions/checkout@v4

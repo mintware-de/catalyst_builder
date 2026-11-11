@@ -8,19 +8,19 @@ environment:
   sdk: ">=3.5.0 <4.0.0"
 
 dependencies:
-  catalyst_builder_contracts:
-    path: ../../catalyst_builder_contracts
+  catalyst_builder_runtime:
+    path: ../../catalyst_builder_runtime
   third_party_dependency:
     path: ../test/third_party_dependency
-  catalyst_builder:
-    path: ../
 
 dev_dependencies:
   lints: ^6.0.0
   build_runner: any
+  catalyst_builder:
+    path: ../
 
 dependency_overrides:
   catalyst_builder:
     path: ../
-  catalyst_builder_contracts:
-    path: ../../catalyst_builder_contracts
+  catalyst_builder_runtime:
+    path: ../../catalyst_builder_runtime

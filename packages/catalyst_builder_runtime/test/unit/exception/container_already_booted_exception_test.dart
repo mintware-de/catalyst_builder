@@ -1,0 +1,10 @@
+import 'package:catalyst_builder_runtime/catalyst_builder_runtime.dart';
+import 'package:test/test.dart';
+
+void main() {
+  test('constructor', () {
+    var ex = const ContainerAlreadyBootedException();
+    expect(ex, const TypeMatcher<CatalystBuilderException>());
+    expect(ex.message, equals('The service container was already booted.'));
+  });
+}

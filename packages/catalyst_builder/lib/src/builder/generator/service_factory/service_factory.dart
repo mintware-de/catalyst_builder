@@ -1,4 +1,4 @@
-import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
+import 'package:catalyst_builder_runtime/catalyst_builder_runtime.dart';
 import 'package:code_builder/code_builder.dart' as cb;
 
 import '../../dto/dto.dart';
@@ -61,7 +61,7 @@ cb.Expression buildServiceFactory(
   return serviceDescriptorT.call([
     serviceT.constInstance([], {
       if (svc.lifetime != ServiceLifetime.singleton.toString())
-        'lifetime': cb.refer(svc.lifetime, contractsPackage),
+        'lifetime': cb.refer(svc.lifetime, runtimePackage),
       if (exposeAsReference != null) 'exposeAs': exposeAsReference
     }),
     constructor,

@@ -1,3 +1,23 @@
+## 7.0.0-beta.1
+
+### Breaking
+
+- This package is now a pure code generator and must be added as a dev dependency. The runtime
+  (annotations, interfaces and the `ServiceContainer`) moved to the new package
+  `catalyst_builder_runtime`, which is added as a regular dependency:
+
+  ```yaml
+  dependencies:
+    catalyst_builder_runtime: ^7.0.0
+  dev_dependencies:
+    build_runner: ^2.4.0
+    catalyst_builder: ^7.0.0
+  ```
+- `package:catalyst_builder/catalyst_builder.dart` no longer exports the `ServiceContainer`;
+  import it from `package:catalyst_builder_runtime/catalyst_builder_runtime.dart`.
+- The generated service container plugin now references `catalyst_builder_runtime` instead of
+  `catalyst_builder_contracts`. Regenerate with `dart run build_runner build`.
+
 ## 6.2.1
 
 ### Fixes
