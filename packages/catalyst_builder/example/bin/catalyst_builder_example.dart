@@ -42,6 +42,12 @@ void main(List<String> arguments) {
     // ignored
   }
 
+  // Required parameters of a nullable type must be resolved when the
+  // service is registered and must not throw when it is not.
+  var nullableService = container.resolve<NullableDependencyService>();
+  assert(nullableService.transport != null);
+  assert(nullableService.unregistered == null);
+
   // Facing problem 2026-05-01:
   // LazyServiceDescriptor services are not registering tags on enhance
 
