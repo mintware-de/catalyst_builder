@@ -9,12 +9,11 @@ This recipe is used for installing and set up the catalyst_builder dart package.
 
 ## Workflow
 
-1. Install the dependencies: `dart pub add dev:build_runner catalyst_builder catalyst_builder_contracts`
+1. Install the dependencies: `dart pub add catalyst_builder_runtime dev:catalyst_builder dev:build_runner`
 2. Ask the User for `~pluginName~`
 3. Find the file (`~entrypointFile~.dart`) that declares the entry point (`main()`)
 4. Add this imports to that file:
-    - `import 'package:catalyst_builder/catalyst_builder.dart';`
-    - `import 'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';`
+    - `import 'package:catalyst_builder_runtime/catalyst_builder_runtime.dart';`
     - `import '~entrypointFile~.catalyst_builder.plugin.g.dart';`
 5. Add to the main method the annotation `@GenerateServiceContainerPlugin(pluginClassName: '~pluginName~')`
 6. Add this code directly at the beginning of the method:

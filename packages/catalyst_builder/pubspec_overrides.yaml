@@ -1,0 +1,5 @@
+# Local development only — never published. Keeps the builder pinned to the
+# sibling runtime package instead of the published one.
+dependency_overrides:
+  catalyst_builder_runtime:
+    path: ../catalyst_builder_runtime

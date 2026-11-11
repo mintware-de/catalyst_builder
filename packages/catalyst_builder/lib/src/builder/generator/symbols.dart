@@ -1,23 +1,21 @@
 import 'package:code_builder/code_builder.dart' as cb;
 
-/// The catalyst_builder root package.
-const contractsPackage =
-    'package:catalyst_builder_contracts/catalyst_builder_contracts.dart';
-
-const builderPackage = 'package:catalyst_builder/catalyst_builder.dart';
+/// The catalyst_builder runtime package.
+const runtimePackage =
+    'package:catalyst_builder_runtime/catalyst_builder_runtime.dart';
 
 /// [Service]
-final serviceT = cb.refer('Service', contractsPackage);
+final serviceT = cb.refer('Service', runtimePackage);
 
 /// [ServiceDescriptor]
-final serviceDescriptorT = cb.refer('ServiceDescriptor', contractsPackage);
+final serviceDescriptorT = cb.refer('ServiceDescriptor', runtimePackage);
 
 /// [ServiceContainer]
-final serviceContainerT = cb.refer('ServiceContainer', builderPackage);
+final serviceContainerT = cb.refer('ServiceContainer', runtimePackage);
 
 /// [AbstractServiceContainer]
 final abstractServiceContainerT =
-    cb.refer('AbstractServiceContainer', contractsPackage);
+    cb.refer('AbstractServiceContainer', runtimePackage);
 
 /// [ServiceContainer.resolveByTag]
 final resolveByTag$ = cb.refer('resolveByTag');
@@ -53,7 +51,7 @@ final applyPlugin$ = cb.refer('applyPlugin');
 
 /// [ServiceContainerPlugin]
 final serviceContainerPluginT =
-    cb.refer('ServiceContainerPlugin', contractsPackage);
+    cb.refer('ServiceContainerPlugin', runtimePackage);
 
 /// provideKnownServices method
 final provideKnownServices$ = cb.refer('provideKnownServices');

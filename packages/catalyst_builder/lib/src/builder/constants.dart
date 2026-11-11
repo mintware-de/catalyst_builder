@@ -3,4 +3,4 @@ const String oldAnnotationsPrefix = 'package:catalyst_builder/src/annotation/';
 const String serviceContainerPluginExtension =
     '.catalyst_builder.plugin.g.dart';
 const String annotationsPrefix =
-    'package:catalyst_builder_contracts/src/annotation/';
+    'package:catalyst_builder_runtime/src/annotation/';
