@@ -18,6 +18,13 @@
 - The generated service container plugin now references `catalyst_builder_runtime` instead of
   `catalyst_builder_contracts`. Regenerate with `dart run build_runner build`.
 
+### Fixes
+
+- The preflight builder now falls back to `ServiceLifetime.singleton` (the annotation
+  default) instead of `transient` when the `lifetime` of a `@Service` annotation cannot
+  be read.
+- The preflight builder now awaits writing the preflight JSON file.
+
 ## 6.2.1
 
 ### Fixes
