@@ -1,5 +1,7 @@
 ## 7.0.0-beta.1
 
+See the [upgrade guide](https://github.com/mintware-de/catalyst_builder/blob/main/packages/catalyst_builder/UPGRADE.md) for the full migration instructions.
+
 ### Breaking
 
 - This package is now a pure code generator and must be added as a dev dependency. The runtime

@@ -26,3 +26,6 @@ dev_dependencies:
 ```
 
 For more details head over to the [wiki](https://github.com/mintware-de/catalyst_builder/wiki)
+
+Upgrading from 6.x to 7.x? Read the
+[upgrade guide](https://github.com/mintware-de/catalyst_builder/blob/main/packages/catalyst_builder/UPGRADE.md).
