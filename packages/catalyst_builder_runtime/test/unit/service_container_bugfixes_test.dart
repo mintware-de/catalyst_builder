@@ -57,7 +57,7 @@ void main() {
       c.boot();
       final e = c.enhance();
       expect(e.resolveByTag(#t), hasLength(1));
-    }, skip: 'fixed in task 04');
+    });
   });
 }
 

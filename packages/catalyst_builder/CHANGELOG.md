@@ -17,6 +17,9 @@
   import it from `package:catalyst_builder_runtime/catalyst_builder_runtime.dart`.
 - The generated service container plugin now references `catalyst_builder_runtime` instead of
   `catalyst_builder_contracts`. Regenerate with `dart run build_runner build`.
+- The generated plugin now implements `provideKnownServices()` without a container
+  parameter and emits `(c) => MyService(...)` factory lambdas that receive the resolving
+  container. Generated files must be regenerated with `dart run build_runner build`.
 
 ### Fixes
 

@@ -3,7 +3,7 @@ import '../catalyst_builder_runtime.dart';
 /// Defines a plugin for the [ServiceContainerPlugin]
 abstract interface class ServiceContainerPlugin {
   /// Returns all known services that should be registered.
-  Map<Type, ServiceDescriptor> provideKnownServices(AbstractServiceContainer p);
+  Map<Type, ServiceDescriptor> provideKnownServices();
 
   /// Returns a map for the exposing of services.
   Map<Type, Type> provideExposes();

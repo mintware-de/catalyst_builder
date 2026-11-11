@@ -194,7 +194,7 @@ void main() {
     expect(service.dependencies.length, equals(2));
   });
 
-  test('enhance should not override default descriptors', () {
+  test('root singleton cannot see child-only dependencies', () {
     expect(container.has<_ServiceThatDependOnEnhancedService>(), isTrue);
     expect(
       () => container.resolve<_ServiceThatDependOnEnhancedService>(),
@@ -210,10 +210,89 @@ void main() {
       ],
     );
 
+    // Singletons are built by the container that registered them. The
+    // descriptor lives in the root, so the child-only dependency stays
+    // invisible and resolution keeps throwing.
     expect(enhanced.has<_ServiceThatDependOnEnhancedService>(), isTrue);
+    expect(
+      () => enhanced.resolve<_ServiceThatDependOnEnhancedService>(),
+      throwsA(const TypeMatcher<DependencyNotFoundException>()),
+    );
+  });
+
+  test('transient built in the child sees child-only dependencies', () {
+    var enhanced = container.enhance(
+      services: [
+        LazyServiceDescriptor<_ServiceOnlyProvidedInEnhanced>(
+          (p) => _ServiceOnlyProvidedInEnhanced(),
+          const Service(exposeAs: _ServiceOnlyProvidedInEnhanced),
+        ),
+        LazyServiceDescriptor<_ServiceThatDependOnEnhancedService>(
+          (c) => _ServiceThatDependOnEnhancedService(
+            c.resolveOrGetParameter(
+                _ServiceThatDependOnEnhancedService, 'dependency'),
+          ),
+          const Service(lifetime: ServiceLifetime.transient),
+        ),
+      ],
+    );
+
     expect(
         enhanced.resolve<_ServiceThatDependOnEnhancedService>().dependency.foo,
         equals('bar'));
+  });
+
+  test('child override wins even if root already instantiated the type', () {
+    (container as ServiceRegistry).register<_Cfg>((_) => _Cfg('root'));
+    expect(container.resolve<_Cfg>().value, 'root');
+
+    var child = container.enhance(services: [
+      LazyServiceDescriptor<_Cfg>((_) => _Cfg('child')),
+    ]);
+
+    expect(child.resolve<_Cfg>().value, 'child');
+    expect(container.resolve<_Cfg>().value, 'root');
+  });
+
+  test('singleton registered only in child does not leak into root', () {
+    var child = container.enhance(services: [
+      LazyServiceDescriptor<_OnlyChild>((_) => _OnlyChild()),
+    ]);
+    child.resolve<_OnlyChild>();
+    expect(container.has<_OnlyChild>(), isFalse);
+    expect(container.tryResolve<_OnlyChild>(), isNull);
+  });
+
+  test('root singleton is built with root parameters, not child parameters',
+      () {
+    // _ServiceThatRequiresParameter is registered as singleton in the root
+    // and reads the 'paramOverride' parameter ('XYZ', set in resetContainer).
+    var child = container.enhance(parameters: {'paramOverride': 'CHILD'});
+    expect(
+      child.resolve<_ServiceThatRequiresParameter>().parameter,
+      'XYZ',
+    );
+  });
+
+  test('manual tagged registrations are visible in child', () {
+    (container as ServiceRegistry).register<_ManuallyTaggedService>(
+      (_) => _ManuallyTaggedService(),
+      const Service(tags: [#manualTag]),
+    );
+    var child = container.enhance();
+    expect(child.resolveByTag(#manualTag), hasLength(1));
+    expect(
+        child.resolveByTag(#manualTag).single, isA<_ManuallyTaggedService>());
+  });
+
+  test('creating a child does not call plugin methods again', () {
+    var c = ServiceContainer();
+    var plugin = _CountingPlugin();
+    c.applyPlugin(plugin);
+    c.boot();
+    c.resolve<_MySingleton>();
+    c.enhance().resolve<_MySingleton>();
+    expect(plugin.knownServicesCalls, 1);
   });
 
   test('enhance should register singletons in the root container', () {
@@ -287,6 +366,37 @@ class _ServiceWithTaggedDependencies {
   _ServiceWithTaggedDependencies(@Inject(tag: #tagToInject) this.dependencies);
 }
 
+class _Cfg {
+  final String value;
+
+  _Cfg(this.value);
+}
+
+class _OnlyChild {}
+
+class _ManuallyTaggedService {}
+
+class _CountingPlugin implements ServiceContainerPlugin {
+  final _inner = _TestPlugin();
+
+  int knownServicesCalls = 0;
+
+  @override
+  Map<Type, ServiceDescriptor> provideKnownServices() {
+    knownServicesCalls++;
+    return _inner.provideKnownServices();
+  }
+
+  @override
+  Map<Type, Type> provideExposes() => _inner.provideExposes();
+
+  @override
+  List<Type> providePreloadedTypes() => _inner.providePreloadedTypes();
+
+  @override
+  Map<Symbol, List<Type>> provideServiceTags() => _inner.provideServiceTags();
+}
+
 class _PreloadService {
   static bool shouldPreload = false;
   static bool wasPreloaded = false;
@@ -305,47 +415,46 @@ class _TestPlugin implements ServiceContainerPlugin {
   }
 
   @override
-  Map<Type, ServiceDescriptor> provideKnownServices(
-      AbstractServiceContainer p) {
+  Map<Type, ServiceDescriptor> provideKnownServices() {
     return {
       _ServiceThatRequiresParameter:
           ServiceDescriptor<_ServiceThatRequiresParameter>(
         Service(),
-        () => _ServiceThatRequiresParameter(p.resolveOrGetParameter(
+        (c) => _ServiceThatRequiresParameter(c.resolveOrGetParameter(
             _ServiceThatRequiresParameter, 'parameter', 'paramOverride')),
       ),
       _MarkerInterface: ServiceDescriptor<_ServiceThatRequiresParameter>(
         Service(exposeAs: _MarkerInterface),
-        () => _ServiceThatRequiresParameter(p.resolveOrGetParameter(
+        (c) => _ServiceThatRequiresParameter(c.resolveOrGetParameter(
             _ServiceThatRequiresParameter, 'parameter', 'paramOverride')),
       ),
       _MySingleton: ServiceDescriptor<_MySingleton>(
         Service(lifetime: ServiceLifetime.singleton),
-        () => _MySingleton(),
+        (c) => _MySingleton(),
       ),
       _MyTransient: ServiceDescriptor<_MyTransient>(
         Service(lifetime: ServiceLifetime.transient),
-        () => _MyTransient(),
+        (c) => _MyTransient(),
       ),
       _ServiceWithTaggedDependencies:
           ServiceDescriptor<_ServiceWithTaggedDependencies>(
               Service(lifetime: ServiceLifetime.singleton),
-              () => _ServiceWithTaggedDependencies(
-                  p.resolveByTag(#tagToInject).cast())),
+              (c) => _ServiceWithTaggedDependencies(
+                  c.resolveByTag(#tagToInject).cast())),
       _SingletonThatShouldBeRegisteredInRoot:
           ServiceDescriptor<_SingletonThatShouldBeRegisteredInRoot>(
         Service(lifetime: ServiceLifetime.singleton),
-        () => _SingletonThatShouldBeRegisteredInRoot(),
+        (c) => _SingletonThatShouldBeRegisteredInRoot(),
       ),
       _ServiceThatDependOnEnhancedService:
           ServiceDescriptor<_ServiceThatDependOnEnhancedService>(
         Service(lifetime: ServiceLifetime.singleton),
-        () => _ServiceThatDependOnEnhancedService(p.resolveOrGetParameter(
+        (c) => _ServiceThatDependOnEnhancedService(c.resolveOrGetParameter(
             _ServiceThatDependOnEnhancedService, 'dependency')),
       ),
       _PreloadService: ServiceDescriptor<_PreloadService>(
         Service(),
-        () => _PreloadService(),
+        (c) => _PreloadService(),
       )
     };
   }
