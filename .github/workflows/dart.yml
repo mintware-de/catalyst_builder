@@ -14,7 +14,7 @@ jobs:
         working-directory: packages/catalyst_builder
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - uses: dart-lang/setup-dart@v1
         with:
@@ -44,7 +44,7 @@ jobs:
         working-directory: packages/catalyst_builder_contracts
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - uses: dart-lang/setup-dart@v1
         with:
