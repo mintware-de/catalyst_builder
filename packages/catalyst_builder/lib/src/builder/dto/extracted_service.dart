@@ -1,9 +1,16 @@
+import 'package:catalyst_builder_runtime/catalyst_builder_runtime.dart';
+
 import 'dto.dart';
 
 /// Represents a class that was decorated with [Service].
 class ExtractedService {
   /// The lifetime of the service
   final String lifetime;
+
+  /// Returns the typed lifetime
+  ServiceLifetime get typedLifetime {
+    return ServiceLifetime.values.firstWhere((e) => e.toString() == lifetime);
+  }
 
   /// The reference to the class
   final SymbolReference service;

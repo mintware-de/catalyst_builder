@@ -31,3 +31,28 @@ will create a service container for you.
 ## Installation & Documentation
 
 You can find a quick start guide and further documentation for this package in the [wiki on GitHub](https://github.com/mintware-de/catalyst_builder/wiki).
+
+## Build time validation
+
+The generator validates the service graph while it generates the plugin:
+
+- **Errors** (abort the build): circular dependencies (`A -> B -> A`) and captive
+  dependencies (a `singleton` that depends on a `scoped` service).
+- **Warnings** (logged): required constructor parameters whose type is not a known service
+  in this plugin (it may come from `parameters`, `register()` or another plugin) and two
+  services that are exposed as the same type.
+
+Configure the behavior with the `validation` option of the builder in your `build.yaml`:
+
+```yaml
+targets:
+  $default:
+    builders:
+      catalyst_builder:buildServiceContainerPlugin:
+        options:
+          validation: strict   # strict | warn | off   (default: warn)
+```
+
+- `strict`: errors **and** warnings abort the build.
+- `warn` (default): errors abort the build, warnings are logged.
+- `off`: the service graph is not validated.
