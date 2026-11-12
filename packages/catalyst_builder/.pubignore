@@ -1,2 +1,3 @@
 run_tests.sh
 **/*.g.dart
+test/third_party_dependency/
