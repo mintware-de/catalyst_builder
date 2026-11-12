@@ -23,6 +23,11 @@
 
 ### Features
 
+- The service graph is now validated at build time. Circular dependencies and captive
+  dependencies (`singleton` depending on `scoped`) abort the build as errors; unknown
+  required dependency types and duplicate `exposeAs` are reported as warnings. The new
+  `validation` builder option (`strict` | `warn` | `off`, default `warn`) controls this.
+  See the README for configuration.
 - `@Service(lifetime: ServiceLifetime.scoped)` is passed through to the generated plugin.
   `@Preload` on a scoped service emits a build warning and is ignored.
 

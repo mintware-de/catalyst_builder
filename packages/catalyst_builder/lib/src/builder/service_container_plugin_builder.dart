@@ -11,10 +11,18 @@ import 'constants.dart';
 import 'dto/dto.dart';
 import 'generator/service_container/service_container_plugin.dart';
 import 'helpers.dart';
+import 'validation/service_graph_validator.dart';
 
 /// The ServiceContainerPluginBuilder creates a plugin from the resulting
 /// preflight .json files.
 class ServiceContainerPluginBuilder implements Builder {
+  /// How the collected messages of the service graph validation are
+  /// treated.
+  final ValidationMode validation;
+
+  /// Creates a new [ServiceContainerPluginBuilder].
+  ServiceContainerPluginBuilder({this.validation = ValidationMode.warn});
+
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     if (!await buildStep.resolver.isLibrary(buildStep.inputId)) {
@@ -50,6 +58,49 @@ class ServiceContainerPluginBuilder implements Builder {
     );
   }
 
+  /// Validates the service graph and reports the messages according to
+  /// [validation].
+  ///
+  /// In [ValidationMode.warn] (the default) errors abort the build and
+  /// warnings are logged. [ValidationMode.strict] aborts the build for
+  /// errors and warnings, [ValidationMode.off] does nothing.
+  void _validate(List<ExtractedService> services) {
+    if (validation == ValidationMode.off) {
+      return;
+    }
+
+    var messages = validateServiceGraph(services);
+    if (messages.isEmpty) {
+      return;
+    }
+
+    var errors =
+        messages.where((m) => m.severity == ValidationSeverity.error).toList();
+    var warnings = messages
+        .where((m) => m.severity == ValidationSeverity.warning)
+        .toList();
+
+    if (validation == ValidationMode.strict) {
+      if (messages.isNotEmpty) {
+        throw StateError(
+          'catalyst_builder found problems in the service graph:\n'
+          '${messages.map((m) => '  - $m').join('\n')}',
+        );
+      }
+      return;
+    }
+
+    for (var warning in warnings) {
+      log.warning(warning.message);
+    }
+    if (errors.isNotEmpty) {
+      throw StateError(
+        'catalyst_builder found problems in the service graph:\n'
+        '${errors.map((m) => '  - $m').join('\n')}',
+      );
+    }
+  }
+
   Future<String> _generateCode(
       BuildStep buildStep, String pluginClassName) async {
     final parts = <PreflightPart>[];
@@ -64,6 +115,8 @@ class ServiceContainerPluginBuilder implements Builder {
       parts.add(part);
       services.addAll(part.services);
     }
+
+    _validate(services);
 
     final emitter = DartEmitter.scoped(
       orderDirectives: true,
