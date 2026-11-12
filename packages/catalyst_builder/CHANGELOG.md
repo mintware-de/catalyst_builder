@@ -1,3 +1,7 @@
+## 7.0.0-beta.2
+
+Fix catalyst_builder_runtime version
+
 ## 7.0.0-beta.1
 
 See the [upgrade guide](https://github.com/mintware-de/catalyst_builder/blob/main/packages/catalyst_builder/UPGRADE.md) for the full migration instructions.
@@ -10,10 +14,10 @@ See the [upgrade guide](https://github.com/mintware-de/catalyst_builder/blob/mai
 
   ```yaml
   dependencies:
-    catalyst_builder_runtime: ^7.0.0
+    catalyst_builder_runtime: ^7.0.0-beta.2
   dev_dependencies:
     build_runner: ^2.4.0
-    catalyst_builder: ^7.0.0
+    catalyst_builder: ^7.0.0-beta.2
   ```
 - `package:catalyst_builder/catalyst_builder.dart` no longer exports the `ServiceContainer`;
   import it from `package:catalyst_builder_runtime/catalyst_builder_runtime.dart`.

@@ -13,7 +13,7 @@ Add it as a regular dependency to your app or plugin package:
 
 ```yaml
 dependencies:
-  catalyst_builder_runtime: ^7.0.0
+  catalyst_builder_runtime: ^7.0.0-beta.2
 ```
 
 The code generator lives in [catalyst_builder](https://pub.dev/packages/catalyst_builder) and is
@@ -22,7 +22,7 @@ added as a dev dependency:
 ```yaml
 dev_dependencies:
   build_runner: ^2.4.0
-  catalyst_builder: ^7.0.0
+  catalyst_builder: ^7.0.0-beta.2
 ```
 
 For more details head over to the [wiki](https://github.com/mintware-de/catalyst_builder/wiki)

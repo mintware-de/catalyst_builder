@@ -1,6 +1,6 @@
 name: catalyst_builder_runtime
 description: 'Runtime for catalyst_builder: the ServiceContainer, annotations and interfaces. Add this as a regular dependency.'
-version: 7.0.0-beta.1
+version: 7.0.0-beta.2
 homepage: 'https://github.com/mintware-de/catalyst_builder'
 repository: 'https://github.com/mintware-de/catalyst_builder/tree/main/packages/catalyst_builder_runtime'
 documentation: https://github.com/mintware-de/catalyst_builder/wiki

@@ -1,3 +1,7 @@
+## 7.0.0-beta.2
+
+Fix version strings
+
 ## 7.0.0-beta.1
 
 See the [upgrade guide](https://github.com/mintware-de/catalyst_builder/blob/main/packages/catalyst_builder/UPGRADE.md) for the full migration instructions.
@@ -10,7 +14,7 @@ See the [upgrade guide](https://github.com/mintware-de/catalyst_builder/blob/mai
 
   ```yaml
   dependencies:
-    catalyst_builder_runtime: ^7.0.0
+    catalyst_builder_runtime: ^7.0.0-beta.2
   ```
 - The `ServiceContainer` has been moved from `catalyst_builder` into this package. Import it from
   `catalyst_builder_runtime` instead of `catalyst_builder`.
